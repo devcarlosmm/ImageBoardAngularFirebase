@@ -15,17 +15,32 @@ export class NavbarComponent implements OnInit {
     this.items = [
       {
         label: 'Japanese Culture',
-        items: [{ label: 'Manga' }],
+        items: [
+          { 
+            label: 'Manga',
+            routerLink: "categories/jm"
+          }
+        ],
       },
       {
         label: 'Tecnology',
 
-        items: [{ label: 'Gadgets' }],
+        items: [
+          { 
+            label: 'Gadgets',
+            routerLink: "categories/tg" 
+          }
+        ],
       },
       {
         label: 'Video Games',
 
-        items: [{ label: "Nintendon't" }],
+        items: [
+          { 
+            label: "Nintendon't",
+            routerLink: "categories/vn"  
+          }
+        ],
       },
     ];
   }

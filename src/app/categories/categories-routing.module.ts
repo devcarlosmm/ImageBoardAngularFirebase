@@ -22,12 +22,12 @@ const routes: Routes = [
         component: ReplyPostComponent,
       },
       {
-        path: 'categories',
+        path: '',
         component: CategoryPageComponent,
       },
       {
         path: '**',
-        redirectTo: 'categories',
+        redirectTo: '',
       },
     ],
   },
