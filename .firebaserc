@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "imageboard-b8351": {
+      "hosting": {
+        "imageBoardApp": [
+          "imageboard-b8351"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "imageboard-b8351"
+  }
+}

@@ -111,6 +111,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "imageBoardApp:build:production",
+            "firebaseProject": "imageboard-b8351",
+            "firebaseHostingSite": "imageboard-b8351"
+          }
         }
       }
     }
