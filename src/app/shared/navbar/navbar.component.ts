@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
         items: [
           { 
             label: 'Manga',
-            routerLink: "categories/jm"
+            routerLink: "categories/j-m"
           }
         ],
       },
@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
         items: [
           { 
             label: 'Gadgets',
-            routerLink: "categories/tg" 
+            routerLink: "categories/t-g" 
           }
         ],
       },
@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
         items: [
           { 
             label: "Nintendon't",
-            routerLink: "categories/vn"  
+            routerLink: "categories/v-n"  
           }
         ],
       },
