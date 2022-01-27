@@ -7,18 +7,14 @@ import { CategoryPageComponent } from './pages/category-page/category-page.compo
 import { ReplyPostComponent } from './components/reply-post/reply-post.component';
 import { DetailPostComponent } from './components/detail-post/detail-post.component';
 import { FormPostComponent } from './components/form-post/form-post.component';
-
+import { ButtonModule } from 'primeng/button';
 @NgModule({
   declarations: [
     CategoryPageComponent,
     ReplyPostComponent,
     DetailPostComponent,
-    FormPostComponent
+    FormPostComponent,
   ],
-  imports: [
-    CommonModule, 
-    CategoriesRoutingModule,
-    CardModule
-  ],
+  imports: [CommonModule, CategoriesRoutingModule, CardModule, ButtonModule],
 })
 export class CategoriesModule {}
