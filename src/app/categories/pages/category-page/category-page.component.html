@@ -1,1 +1,12 @@
-<p>category-page works!</p>
+<div class="grid">
+    <div class="col-3 pt-3 pb-3" *ngFor="let post of posts">
+        <p-card [header]="post.title">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center justify-content-center p-2">
+                    <img alt="Card" src="assets/showcase/images/card.png" style="max-width: 175px;">
+                </div>
+            </ng-template>
+            <p [innerHTML]="post.content"></p>
+        </p-card>
+    </div>
+</div>
