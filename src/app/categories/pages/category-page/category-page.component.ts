@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoryService } from 'src/app/services/category.service';
+import { Post } from '../../../interfaces/post.interface';
 
 @Component({
   selector: 'app-category-page',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryPageComponent implements OnInit {
 
-  constructor() { }
+  posts:Post[] = [];
+
+  constructor(categoryService:CategoryService) { 
+    categoryService.getPosts().then(data => {
+      this.posts = data;
+    });
+  }
 
   ngOnInit(): void {
   }
+
+
 
 }
