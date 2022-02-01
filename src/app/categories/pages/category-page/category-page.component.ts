@@ -25,6 +25,7 @@ export class CategoryPageComponent implements OnInit{
         }
         if(event instanceof NavigationEnd){
           if(event.url.split("/")[2] != this.currentCategory){
+            this.posts = [];
             this.retrievePosts();
           }
         }
@@ -36,13 +37,14 @@ export class CategoryPageComponent implements OnInit{
     window.onbeforeunload = () => this.unsubscribeOnChange();
   }
 
-  retrievePosts():void{
-    this.posts = [];
+  retrievePosts(){
     this.category = this.router.url.split("/")[2];
     this.currentCategory = this.category;
     this.categoryService.getPosts(this.category).then((data) => {
-      this.posts = data;
-      this.loading = false;
+      setTimeout(() => {
+        this.posts = data;
+        this.loading = false;
+      }, 1000);
     });
   }
 
