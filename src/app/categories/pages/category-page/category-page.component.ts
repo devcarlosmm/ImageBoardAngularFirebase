@@ -14,18 +14,15 @@ export class CategoryPageComponent implements OnInit{
   category:string = "";
   currentCategory:string = "";
   subscription:Subscription;
-  loading:boolean = false;
+  loading:boolean = true;
   
   constructor(private categoryService: CategoryService, private router:Router) {
     this.subscription = this.router.events.subscribe({
       next: (event) => {
-        if(event instanceof NavigationStart){
-          this.loading = true;
-          this.posts = [];
-        }
+        this.posts = [];
+        this.loading = true;
         if(event instanceof NavigationEnd){
           if(event.url.split("/")[2] != this.currentCategory){
-            this.posts = [];
             this.retrievePosts();
           }
         }
