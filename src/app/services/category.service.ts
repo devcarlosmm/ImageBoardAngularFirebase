@@ -31,15 +31,13 @@ export class CategoryService {
     return postsList as Post[];
   }
 
-  async getDetailPost(pIdPost: any) {
+  async getDetailPost(pIdPost: string): Promise<Post> {
     const docRef = doc(this.db, 'post', pIdPost);
     const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log('No such document!');
+    if (!docSnap.exists()) {
+      throw new Error('No existeerrr');
     }
+    console.log('Document data:', docSnap.data());
+    return docSnap.data() as Post;
   }
 }

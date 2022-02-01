@@ -2,12 +2,12 @@
     <div class="col-12 md:col-8 md:col-offset-2 detail-post-background">
         <div class="grid">
             <div class="col-12 md:col-4">
-                <img class="imagen-post" src="../../../../assets/showcase/images/card.png" alt="" />
+                <img class="imagen-post" [src]="detailPost.img" alt="" />
             </div>
             <div class="col-12 md:col-8">
-                <h2>Titulo</h2>
+                <p [innerHTML]="detailPost.title"></p>
                 <p class="capitalize">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis cum soluta nam eos consectetur atque ipsa quas architecto, eum dolore, nulla recusandae eligendi amet, ab illum provident assumenda dolor. Maxime.
+                    {{ detailPost.content }}
                 </p>
             </div>
         </div>
