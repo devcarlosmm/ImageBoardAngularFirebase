@@ -1,4 +1,5 @@
-<div class="grid">
+<div class="grid" id="postGrid">
+    <p-progressSpinner class="col-12 text-center" *ngIf="loading"></p-progressSpinner>
     <div
     *ngFor="let post of posts" 
     class="col-12 xl:col-3 lg:col-4 md:col-6 sm:col-12">
