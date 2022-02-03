@@ -37,11 +37,15 @@ export class CategoryPageComponent implements OnInit{
   retrievePosts(){
     this.category = this.router.url.split("/")[2];
     this.currentCategory = this.category;
-    this.categoryService.getPosts(this.category).then((data) => {
+    this.categoryService.getPostsByCategory(this.category).then((data) => {
       setTimeout(() => {
         this.posts = data;
+        console.log(this.posts);
         this.loading = false;
       }, 1000);
+    }).catch((err) => {
+      console.log("error", err);
+      this.router.navigateByUrl("404");
     });
   }
 
