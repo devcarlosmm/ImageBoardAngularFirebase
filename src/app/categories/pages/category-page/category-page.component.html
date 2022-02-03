@@ -8,11 +8,10 @@
                 <div class="flex align-items-center justify-content-center pt-2">
                     <img alt="Card" src="assets/showcase/images/card.png" style="max-width: 175px" />                </div>
             </ng-template>
-                <div class="p-card-title" style="cursor: pointer;" [routerLink]='["/", post.id]'>
+                <div class="p-card-title" style="cursor: pointer;" [routerLink]="post.id">
                     {{post.title | shortContent:10}}
                 </div>
                 <p class="h-10rem text-justify" [innerHTML]="post.content | shortContent: 250"></p>
-                <p>BRUH {{post.id}}</p>
         </p-card>
     </div>
 </div>

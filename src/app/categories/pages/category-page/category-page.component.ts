@@ -40,11 +40,9 @@ export class CategoryPageComponent implements OnInit{
     this.categoryService.getPostsByCategory(this.category).then((data) => {
       setTimeout(() => {
         this.posts = data;
-        console.log(this.posts);
         this.loading = false;
       }, 1000);
     }).catch((err) => {
-      console.log("error", err);
       this.router.navigateByUrl("404");
     });
   }
