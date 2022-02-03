@@ -42,8 +42,9 @@ export class CategoryPageComponent implements OnInit{
         this.posts = data;
         this.loading = false;
       }, 1000);
-    }).catch((err) => {
-      this.router.navigateByUrl("404");
+    }).catch(() => {
+      let error = "This category has no content"
+      this.router.navigate(["404"], {queryParams: {err: error}});
     });
   }
 
