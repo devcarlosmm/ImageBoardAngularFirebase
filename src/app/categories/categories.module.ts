@@ -5,6 +5,7 @@ import { CategoriesRoutingModule } from './categories-routing.module';
 //PrimeNG
 import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DialogModule } from 'primeng/dialog';
 
 import { CategoryPageComponent } from './pages/category-page/category-page.component';
 import { ReplyPostComponent } from './components/reply-post/reply-post.component';
@@ -21,11 +22,12 @@ import { ShortContentPipe } from './pipes/short-content.pipe';
     ShortContentPipe,
   ],
   imports: [
-    CommonModule, 
-    CategoriesRoutingModule, 
-    CardModule, 
+    CommonModule,
+    CategoriesRoutingModule,
+    CardModule,
     ButtonModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    DialogModule,
   ],
 })
 export class CategoriesModule {}

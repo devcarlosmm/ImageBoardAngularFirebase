@@ -14,7 +14,7 @@ const routes: Routes = [
         component: DetailPostComponent,
       },
       {
-        path: 'formPost',
+        path: 'create/form',
         component: FormPostComponent,
       },
       {
