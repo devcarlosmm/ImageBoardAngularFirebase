@@ -42,8 +42,18 @@ export class ReplyService {
     const postsCollection = collection(this.db, 'reply');
     const q = query(postsCollection, where('idPost', '==', pIdPostReplies));
     const querySnapshot = await getDocs(q);
-    const postsList = querySnapshot.docs.map((doc) => doc.data());
+    let replyList: Reply[] = [];
+    querySnapshot.docs.forEach((doc) => {
+      const reply: Reply = {
+        idReply: doc.id,
+        idPost: doc.data()['category'] as Reply['idPost'],
+        content: doc.data()['content'] as Reply['content'],
+        img: doc.data()['img'] as Reply['img'],
+        entries: doc.data()['title'] as Reply['entries'],
+      };
+      replyList.push(reply);
+    });
 
-    return postsList as Reply[];
+    return replyList as Reply[];
   }
 }
