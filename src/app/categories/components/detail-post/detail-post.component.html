@@ -5,7 +5,7 @@
                 <img class="imagen-post" [src]="detailPost.img" alt="" />
             </div>
             <div class="col-12 md:col-8">
-                <p [innerHTML]="detailPost.title"></p>
+                <p>{{ detailPost.title }}</p>
                 <p class="capitalize">
                     {{ detailPost.content }}
                 </p>
@@ -27,6 +27,5 @@
             </div>
         </div>
     </div>
-
-    <app-reply-post [repliesData]="repliesPost"></app-reply-post>
 </div>
+<app-reply-post [repliesData]="repliesPost"></app-reply-post>
