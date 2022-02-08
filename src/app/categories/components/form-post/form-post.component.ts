@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-form-post',
@@ -6,11 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./form-post.component.scss'],
 })
 export class FormPostComponent implements OnInit {
-  display: boolean = false;
+  @Input() visible: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {}
-  showDialog() {
-    this.display = true;
-  }
+
 }

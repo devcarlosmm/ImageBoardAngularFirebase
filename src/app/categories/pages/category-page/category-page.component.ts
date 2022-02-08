@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
 import { Post } from '../../../interfaces/post.interface';
@@ -15,6 +15,7 @@ export class CategoryPageComponent implements OnInit{
   currentCategory:string = "";
   subscription:Subscription;
   loading:boolean = true;
+  modalVisible:boolean = false;
   
   constructor(private categoryService: CategoryService, private router:Router) {
     this.subscription = this.router.events.subscribe({
@@ -46,6 +47,10 @@ export class CategoryPageComponent implements OnInit{
       let error = "This category has no content"
       this.router.navigate(["404"], {queryParams: {err: error}});
     });
+  }
+
+  createPost(){
+    this.modalVisible = !this.modalVisible;
   }
 
   unsubscribeOnChange():void{

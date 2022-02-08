@@ -1,5 +1,21 @@
 <div class="grid" id="postGrid">
     <p-progressSpinner class="col-12 text-center" strokeWidth="4" *ngIf="loading"></p-progressSpinner>
+    <app-form-post [visible]="modalVisible"></app-form-post>
+    <div class="col-12 xl:col-3 lg:col-4 md:col-6 sm:col-12" *ngIf="!loading">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center justify-content-center pt-2">
+                    <img alt="Card" src="assets/showcase/images/card.png" style="max-width: 175px" />                </div>
+            </ng-template>
+                <div class="p-card-title text-center" style="cursor: pointer;" (click)="createPost()">
+                    CREATE POST
+                </div>
+                <p class="h-10rem text-justify">
+                    Share your own thoughts with the community!
+                    <button pButton type="button" label="Secondary" class="p-button-raised p-button-secondary" (click)="createPost()"></button>
+                </p>
+        </p-card>
+    </div>
     <div
     *ngFor="let post of posts" 
     class="col-12 xl:col-3 lg:col-4 md:col-6 sm:col-12">
