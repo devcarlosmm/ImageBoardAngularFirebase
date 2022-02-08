@@ -13,6 +13,7 @@ import { DetailPostComponent } from './components/detail-post/detail-post.compon
 import { FormPostComponent } from './components/form-post/form-post.component';
 import { ButtonModule } from 'primeng/button';
 import { ShortContentPipe } from './pipes/short-content.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     CategoryPageComponent,
@@ -28,6 +29,8 @@ import { ShortContentPipe } from './pipes/short-content.pipe';
     ButtonModule,
     ProgressSpinnerModule,
     DialogModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
 })
 export class CategoriesModule {}

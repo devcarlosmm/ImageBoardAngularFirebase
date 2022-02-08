@@ -1,6 +1,19 @@
 <p-dialog header="Title" [(visible)]="visible" 
 [breakpoints]="{'960px': '75vw', '640px': '100vw'}" 
 [style]="{width: '50vw'}"
-position="left">
-  Content
+position="left"
+[draggable]="false"
+[modal]="true"
+header="Post Form">
+  <div class="field">
+    <label for="firstname1">Firstname</label>
+    <input id="firstname1" type="text" class="inputfield w-full">
+  </div>
+  <div class="field">
+    <label for="lastname1">Lastname</label>
+    <input id="lastname1" type="text" class="inputfield w-full">
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="visible=false" label="Ok" styleClass="p-button-rounded p-button-secondary p-button-outlined"></p-button>
+  </ng-template>
 </p-dialog>

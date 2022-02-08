@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form-post',
@@ -7,8 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class FormPostComponent implements OnInit {
   @Input() visible: boolean = false;
+  postForm:FormGroup;
 
-  constructor() {}
+  constructor(private fb:FormBuilder) {
+    this.postForm = this.fb.group({
+      category: [], 
+      content: [], 
+      img: [], 
+      title: [], 
+    })
+  }
 
   ngOnInit(): void {}
 
