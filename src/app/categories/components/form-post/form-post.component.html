@@ -5,15 +5,73 @@ position="left"
 [draggable]="false"
 [modal]="true"
 header="Post Form">
-  <div class="field">
-    <label for="firstname1">Firstname</label>
-    <input id="firstname1" type="text" class="inputfield w-full">
-  </div>
-  <div class="field">
-    <label for="lastname1">Lastname</label>
-    <input id="lastname1" type="text" class="inputfield w-full">
-  </div>
+  <form [formGroup]="postForm" (ngSubmit)="submitPost(postForm.value)">
+    <div class="field">
+      <label for="title">Post Title</label>
+      <br>
+      <input id="title" 
+      type="text" 
+      class="inputfield w-11"
+      formControlName="title">
+      <p-button 
+      icon="pi pi-times" 
+      type="button"
+      [disabled]="!postForm.get('title')?.dirty"
+      (click)="clearTitle()"
+      styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+      </p-button> 
+    </div>
+    <div class="field">
+      <label for="content">Post content</label>
+      <br>
+      <textarea id="content" 
+      name="content" 
+      rows="4"
+      cols="50"
+      class="inputfield w-11"
+      formControlName="content">
+      </textarea>  
+      <p-button 
+      icon="pi pi-times" 
+      type="button"
+      [disabled]="!postForm.get('content')?.dirty"
+      (click)="clearContent()"
+      styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+      </p-button>     
+    </div>
+    <div class="field">
+      <label for="img">Post image</label>
+      <br>
+      <input id="img" 
+      type="file" 
+      class="inputfield w-11"
+      accept="image/png"
+      formControlName="img"> 
+      <p-button 
+      icon="pi pi-times" 
+      type="button"
+      [disabled]="!postForm.get('img')?.dirty"
+      (click)="clearImg()"
+      styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+      </p-button>   
+    </div>
+    <p-button 
+    icon="pi pi-check" 
+    type="submit"
+    [disabled]="!postForm.valid"
+    label="Ok" 
+    styleClass="p-button-rounded p-button-secondary p-button-outlined">
+    </p-button>
+  </form>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="visible=false" label="Ok" styleClass="p-button-rounded p-button-secondary p-button-outlined"></p-button>
+    <h3>Form Status</h3>
+    <b>valid : </b>{{postForm.valid}}
+    <b>invalid : </b>{{postForm.invalid}}
+    <b>touched : </b>{{postForm.touched}}
+    <b>untouched : </b>{{postForm.untouched}}
+    <b>pristine : </b>{{postForm.pristine}}
+    <b>dirty : </b>{{postForm.dirty}}
+    <b>disabled : </b>{{postForm.disabled}}
+    <b>enabled : </b>{{postForm.enabled}}
   </ng-template>
 </p-dialog>

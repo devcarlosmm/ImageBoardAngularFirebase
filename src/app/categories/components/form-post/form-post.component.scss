@@ -1,9 +1,13 @@
 .inputfield{
     font-size: 1rem;
-        color: #fff;
-        background: #1e1e1e;
-        padding: 0.5rem 0.5rem;
-        border: 1px solid #383838;
-        appearance: none;
-        border-radius: 3px;
+    color: #fff;
+    background: #1e1e1e;
+    padding: 0.5rem 0.5rem;
+    border: 1px solid #383838;
+    appearance: none;
+    border-radius: 3px;
+}
+
+textarea {
+    resize: none;
 }

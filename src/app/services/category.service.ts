@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 
+import { Post } from '../interfaces/post.interface';
+
 //FIREBASE
 import {
+  addDoc,
   collection,
   Firestore,
   getDocs,
   getFirestore,
   query,
+  setDoc,
   where,
 } from '@angular/fire/firestore';
 import { initializeApp } from '@angular/fire/app';
-import { Post } from '../interfaces/post.interface';
 import { doc, getDoc } from "@angular/fire/firestore";
-
 @Injectable({
   providedIn: 'root',
 })
@@ -55,5 +57,15 @@ export class CategoryService {
     }
     console.log('Document data:', docSnap.data());
     return docSnap.data() as Post;
+  }
+
+  async submitPost(post:Post) {
+    const docRef = await addDoc(collection(this.db, "post"), {
+      uid: post.uid,
+      category: post.category,
+      content: post.content,
+      title: post.title,
+      img: post.img
+    });
   }
 }

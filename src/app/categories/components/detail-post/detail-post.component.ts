@@ -13,6 +13,7 @@ import { ReplyService } from '../../../services/reply.service';
 export class DetailPostComponent implements OnInit {
   detailPost: Post = {
     id: '',
+    uid: '',
     category: '',
     content: '',
     img: '',
