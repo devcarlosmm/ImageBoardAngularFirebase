@@ -6,6 +6,7 @@ import { CategoriesRoutingModule } from './categories-routing.module';
 import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogModule } from 'primeng/dialog';
+import { CaptchaModule } from 'primeng/captcha';
 
 import { CategoryPageComponent } from './pages/category-page/category-page.component';
 import { ReplyPostComponent } from './components/reply-post/reply-post.component';
@@ -30,7 +31,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProgressSpinnerModule,
     DialogModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    CaptchaModule
   ],
 })
 export class CategoriesModule {}

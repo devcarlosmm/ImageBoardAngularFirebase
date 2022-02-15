@@ -10,10 +10,11 @@ import { CategoryService } from '../../../services/category.service';
   templateUrl: './form-post.component.html',
   styleUrls: ['./form-post.component.scss'],
 })
-export class FormPostComponent {
+export class FormPostComponent{
   @Input() visible: boolean = false;
   @Output() newPostSubmitted = new EventEmitter<boolean>();
   postForm:FormGroup;
+  captcha:boolean = false;
   subscription:Subscription;
 
   constructor(private fb:FormBuilder, private router:Router, private categoryService:CategoryService) {
@@ -38,6 +39,7 @@ export class FormPostComponent {
 
   submitPost(data:Post) {
     this.visible = false;
+    this.captcha = false;
     this.postForm.reset();
     const post:Post = {
       category: data.category,
@@ -49,6 +51,14 @@ export class FormPostComponent {
     this.categoryService.submitPost(post).then(() =>{
       this.newPostSubmitted.emit(true);
     });
+  }
+
+  correctCaptcha(event:any){
+    this.captcha = true;
+  }
+
+  resetForm(){
+    this.postForm.reset();
   }
 
   clearImg() {

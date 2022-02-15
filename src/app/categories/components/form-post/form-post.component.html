@@ -4,6 +4,7 @@
 position="left"
 [draggable]="false"
 [modal]="true"
+(onHide)="resetForm()"
 header="Post Form">
   <form [formGroup]="postForm" (ngSubmit)="submitPost(postForm.value)">
     <div class="field">
@@ -55,13 +56,14 @@ header="Post Form">
       styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
       </p-button>   
     </div>
-    <p-button 
+    <p-button class="mb-5"
     icon="pi pi-check" 
     type="submit"
-    [disabled]="!postForm.valid"
+    [disabled]="postForm.invalid || !captcha"
     label="Ok" 
     styleClass="p-button-rounded p-button-secondary p-button-outlined">
-    </p-button>
+  </p-button>
+  <p-captcha id="captcha" siteKey="6Lf7YH0eAAAAAPWIVZ7VMeAJfOPNcZMPiyT-DdzA" (onResponse)="correctCaptcha($event)"></p-captcha>
   </form>
   <ng-template pTemplate="footer">
     <h3>Form Status</h3>
