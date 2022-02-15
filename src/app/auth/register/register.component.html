@@ -4,11 +4,30 @@
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email</label>
                 <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                <p class="error" *ngIf="
+                form.controls['email'].errors?.['pattern'] &&
+                form.controls['email'].touched
+              ">
+                    Email valido requerido
+                </p>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" />
+                <p class="error" *ngIf="
+                form.controls['password'].errors?.['required'] &&
+                form.controls['password'].touched
+              ">
+                    Password requerida
+                </p>
+                <p class="error" *ngIf="
+                form.controls['password'].errors?.['minlength'] &&
+                form.controls['password'].touched
+              ">
+                    Password minimo de 6 caracteres
+                </p>
             </div>
+
             <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
     </div>

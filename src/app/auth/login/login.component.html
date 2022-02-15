@@ -21,6 +21,12 @@
         ">
                 Password requerida
             </p>
+            <p class="error" *ngIf="
+            form.controls['password'].errors?.['minlength'] &&
+            form.controls['password'].touched
+          ">
+                Password minimo de 6 caracteres
+            </p>
             <p class="error" *ngIf="!logueado">
                 Error, contraseña o email incorrectos
             </p>

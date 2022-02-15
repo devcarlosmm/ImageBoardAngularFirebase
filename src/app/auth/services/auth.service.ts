@@ -19,37 +19,11 @@ export class AuthService {
   constructor() {}
 
   async registerUser(pEmail: string, pPassword: string) {
-    let mensaje;
-    return await createUserWithEmailAndPassword(this.auth, pEmail, pPassword)
-      .then((userCredential) => {
-        // Signed in
-        console.log('Aqui llega?');
-        const user = userCredential.user;
-        // ...
-        mensaje = user.email;
-      })
-      .catch((error: any) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        mensaje = {
-          ErrorCode: errorCode,
-          Message: errorMessage,
-        };
-      });
+    return await createUserWithEmailAndPassword(this.auth, pEmail, pPassword);
   }
 
-  loginUser(pEmail: string, pPassword: string) {
-    signInWithEmailAndPassword(this.auth, pEmail, pPassword)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
+  async loginUser(pEmail: string, pPassword: string) {
+    return await signInWithEmailAndPassword(this.auth, pEmail, pPassword);
   }
 
   userLogged() {
