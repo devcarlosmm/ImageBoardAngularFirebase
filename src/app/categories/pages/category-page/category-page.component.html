@@ -1,6 +1,6 @@
 <div class="grid" id="postGrid">
     <p-progressSpinner class="col-12 text-center" strokeWidth="4" *ngIf="loading"></p-progressSpinner>
-    <app-form-post [visible]="modalVisible"></app-form-post>
+    <app-form-post [visible]="modalVisible" (newPostSubmitted)="reloadPosts($event)"></app-form-post>
     <div class="col-12 xl:col-3 lg:col-4 md:col-6 sm:col-12" *ngIf="!loading">
         <p-card>
             <ng-template pTemplate="header">

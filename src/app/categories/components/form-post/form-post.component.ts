@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,6 +12,7 @@ import { CategoryService } from '../../../services/category.service';
 })
 export class FormPostComponent {
   @Input() visible: boolean = false;
+  @Output() newPostSubmitted = new EventEmitter<boolean>();
   postForm:FormGroup;
   subscription:Subscription;
 
@@ -45,7 +46,9 @@ export class FormPostComponent {
       title: data.title,
       uid: (data.uid) ? data.uid : "Anon"
     }
-    this.categoryService.submitPost(post);
+    this.categoryService.submitPost(post).then(() =>{
+      this.newPostSubmitted.emit(true);
+    });
   }
 
   clearImg() {
