@@ -36,6 +36,8 @@ export class CategoryPageComponent implements OnInit{
   }
 
   retrievePosts(){
+    this.posts = [];
+    this.loading = true;
     this.category = this.router.url.split("/")[2];
     this.currentCategory = this.category;
     this.categoryService.getPostsByCategory(this.category).then((data) => {
@@ -51,6 +53,12 @@ export class CategoryPageComponent implements OnInit{
 
   createPost(){
     this.modalVisible = !this.modalVisible;
+  }
+
+  reloadPosts(reload:boolean){
+    if(reload){
+      this.retrievePosts();
+    }
   }
 
   unsubscribeOnChange():void{
