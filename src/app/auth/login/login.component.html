@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="row justify-content-center">
+    <div class="col-10 col-md-4 login">
+        <form [formGroup]="form" (ngSubmit)="login()">
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" />
+            </div>
+            <p class="error" *ngIf="
+          form.controls['email'].errors?.['pattern'] &&
+          form.controls['email'].touched
+        ">
+                Email valido requerido
+            </p>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" />
+            </div>
+            <p class="error" *ngIf="
+          form.controls['password'].errors?.['required'] &&
+          form.controls['password'].touched
+        ">
+                Password requerida
+            </p>
+            <p class="error" *ngIf="!logueado">
+                Error, contraseña o email incorrectos
+            </p>
+
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        Login
+      </button>
+        </form>
+    </div>
+    <div class="col-10 col-md-2 register">
+        <h1>No estas registrado?</h1>
+        <a class="btn btn-primary" [routerLink]="['/auth/register']" routerLinkActive="router-link-active">Registrarse</a
+    >
+  </div>
+</div>
