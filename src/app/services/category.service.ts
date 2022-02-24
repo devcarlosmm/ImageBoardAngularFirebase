@@ -11,17 +11,18 @@ import {
   getDocs,
   getFirestore,
   query,
-  setDoc,
   where,
 } from '@angular/fire/firestore';
 import { initializeApp } from '@angular/fire/app';
 import { doc, getDoc } from "@angular/fire/firestore";
+import { getStorage, ref, StorageReference, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
   firebaseApp = initializeApp(environment.firebase);
   db = getFirestore(this.firebaseApp);
+  storage = getStorage();
 
   constructor(private fs: Firestore) {}
 
@@ -59,13 +60,23 @@ export class CategoryService {
     return docSnap.data() as Post;
   }
 
-  async submitPost(post:Post) {
-    const docRef = await addDoc(collection(this.db, "post"), {
-      uid: post.uid,
-      category: post.category,
-      content: post.content,
-      title: post.title,
-      img: post.img
+  async submitPost(post:Post, img:any) {
+    let url:string = "";
+    const metadata = {
+      contentType: "image/png"
+    }
+    const storageRef = ref(this.storage, `img/${post.category}/${post.img}`);
+    await uploadBytes(storageRef, img.file, metadata).then(async (snapshot) =>  {
+      await getDownloadURL(snapshot.ref).then((value) =>{
+        post.img = value.split("&token")[0];
+        const docRef = addDoc(collection(this.db, "post"), {
+          uid: post.uid,
+          category: post.category,
+          content: post.content,
+          title: post.title,
+          img: post.img
+        });
+      });
     });
   }
 }

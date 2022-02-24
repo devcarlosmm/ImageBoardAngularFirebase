@@ -18,11 +18,11 @@
         <div class="field">
             <label for="img">Post image</label>
             <br />
-            <input id="img" type="file" class="inputfield w-11" accept="image/png" formControlName="img" />
+            <input type="file" class="inputfield w-11" accept="image/png" formControlName="img" (change)="processIMG($event)"/>
             <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('img')?.dirty" (click)="clearImg()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
             </p-button>
         </div>
-        <p-button class="mb-5" icon="pi pi-check" type="submit" [disabled]="postForm.invalid || !captcha" label="Ok" styleClass="p-button-rounded p-button-secondary p-button-outlined">
+        <p-button class="mb-5" icon="pi pi-check" type="submit" [disabled]="postForm.invalid || captcha == false" label="Ok" styleClass="p-button-rounded p-button-secondary p-button-outlined">
         </p-button>
         <p-captcha id="captcha" siteKey="6Lf7YH0eAAAAAPWIVZ7VMeAJfOPNcZMPiyT-DdzA" (onResponse)="correctCaptcha($event)"></p-captcha>
     </form>

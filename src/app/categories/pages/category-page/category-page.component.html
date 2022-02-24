@@ -23,7 +23,7 @@
         <p-card>
             <ng-template pTemplate="header">
                 <div class="flex align-items-center justify-content-center pt-2">
-                    <img alt="Card" src="assets/showcase/images/card.png" style="max-width: 175px" />
+                    <img alt="Card" [src]="(post.img)? post.img:'assets/showcase/images/card.png'" style="max-width: 175px" />
                 </div>
             </ng-template>
             <div class="p-card-title" style="cursor: pointer" [routerLink]="post.id">

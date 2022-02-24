@@ -16,7 +16,7 @@ export class DetailPostComponent implements OnInit {
     uid: '',
     category: '',
     content: '',
-    img: '',
+    img: "",
     title: '',
   };
   repliesPost: Reply[] = [];

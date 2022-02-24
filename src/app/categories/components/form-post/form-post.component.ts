@@ -14,6 +14,7 @@ export class FormPostComponent{
   @Input() visible: boolean = false;
   @Output() newPostSubmitted = new EventEmitter<boolean>();
   postForm:FormGroup;
+  imgData!:any;
   captcha:boolean = false;
   subscription:Subscription;
 
@@ -40,17 +41,25 @@ export class FormPostComponent{
   submitPost(data:Post) {
     this.visible = false;
     this.captcha = false;
-    this.postForm.reset();
     const post:Post = {
       category: data.category,
       content:  data.content,
-      img: data.img,
+      img: this.imgData.name,
       title: data.title,
       uid: (data.uid) ? data.uid : "Anon"
     }
-    this.categoryService.submitPost(post).then(() =>{
+    this.categoryService.submitPost(post, this.imgData).then(() =>{
       this.newPostSubmitted.emit(true);
     });
+    this.postForm.reset();
+  }
+
+  processIMG(event:Event){
+    let imgFile = (event.target as HTMLInputElement)!.files![0];
+    this.imgData = {
+      file: imgFile,
+      name: imgFile.name
+    }
   }
 
   correctCaptcha(event:any){
