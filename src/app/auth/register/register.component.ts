@@ -4,6 +4,10 @@ import { AuthService } from '../services/auth.service';
 
 import { Register } from '../../interfaces/register.interface';
 import { Router } from '@angular/router';
+
+import { animales, adjetivos } from '../animales-adjetivos';
+import { Firestore } from '@angular/fire/firestore';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -21,7 +25,11 @@ export class RegisterComponent implements OnInit {
     ]),
   });
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private fs: Firestore
+  ) {}
 
   ngOnInit(): void {}
 
@@ -34,7 +42,7 @@ export class RegisterComponent implements OnInit {
     console.log(this.form.value.email, this.form.value.password);
     this.auth
       .registerUser(this.form.value.email, this.form.value.password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user;
         // ...
@@ -46,6 +54,13 @@ export class RegisterComponent implements OnInit {
         alert(
           `<h1 class="${mensaje.status}">Usuario "${mensaje.message}" registrado con exito</h1>`
         );
+        await this.comprobarNombreGenerado().then(async (data) => {
+          let nombreUsuario = data;
+          console.log('nombre usuario', nombreUsuario);
+          await this.auth.actualizarPerfil(nombreUsuario);
+          await this.auth.actualizarNombreUsuarioDB(nombreUsuario);
+        });
+
         this.navegar();
       })
       .catch((error: any) => {
@@ -66,5 +81,48 @@ export class RegisterComponent implements OnInit {
 
   navegar() {
     this.router.navigateByUrl('/');
+  }
+
+  generarNombreRandom() {
+    let animal: any = Math.floor(Math.random() * animales.length);
+    animal = animales[animal];
+    animal = animal.charAt(0).toUpperCase() + animal.slice(1);
+
+    let adjetivo: any = Math.floor(Math.random() * adjetivos.length);
+    adjetivo = adjetivos[adjetivo];
+    adjetivo = adjetivo.charAt(0).toUpperCase() + adjetivo.slice(1);
+
+    if (animal.endsWith('a') && adjetivo.endsWith('o')) {
+      adjetivo = adjetivo.replace(/o$/, 'a');
+    }
+
+    let numero = Math.floor(Math.random() * (999 + 1));
+    let nombreUsuario = animal + adjetivo + numero;
+    console.log(nombreUsuario);
+    return nombreUsuario;
+  }
+
+  async comprobarNombreGenerado(): Promise<string> {
+    let usuarioExiste: boolean = false;
+    let nombreUsuario: string = this.generarNombreRandom();
+    do {
+      if (usuarioExiste != false) {
+        let nombreUsuario: string = this.generarNombreRandom();
+      }
+      console.log(nombreUsuario);
+      await this.auth
+        .getUsuarioNombre(nombreUsuario)
+        .then((data) => {
+          console.log('Data recibida', data);
+          if (data == true) {
+            usuarioExiste = true;
+          } else {
+            usuarioExiste = false;
+          }
+        })
+        .catch((error) => console.log('Error recibido', error));
+      usuarioExiste = false;
+    } while (usuarioExiste != false);
+    return nombreUsuario;
   }
 }
