@@ -61,8 +61,27 @@ export class CategoryService {
     if (!docSnap.exists()) {
       throw new Error('No existeerrr');
     }
-    console.log('Document data:', docSnap.data());
-    return docSnap.data() as Post;
+
+    const userCollection = collection(this.db, 'nombreUsuario');
+    const q = query(userCollection, where('uid', '==', docSnap.data()['uid']));
+    const querySnapshot = await getDocs(q); 
+    let userName:string = "";
+
+    if(!querySnapshot.empty){
+      userName = querySnapshot.docs[0].data()['nombreDeUsuario'];
+    }
+
+    const post:Post = {
+        id: docSnap.id,
+        uid: userName,
+        category: docSnap.data()["category"] as Post["category"],
+        content: docSnap.data()["content"] as Post["content"],
+        img: docSnap.data()["img"] as Post["img"],
+        title: docSnap.data()["title"] as Post["title"],
+        date: docSnap.data()["date"] as Post["date"]
+    }
+
+    return post;
   }
 
   async submitPost(post:Post, img:any) {
