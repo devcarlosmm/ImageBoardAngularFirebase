@@ -10,10 +10,14 @@
         <div class="field">
             <label for="content">Post content</label>
             <br />
-            <textarea id="content" name="content" rows="4" cols="50" class="inputfield w-11" formControlName="content">
-      </textarea>
-            <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('content')?.dirty" (click)="clearContent()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
-            </p-button>
+            <div class="toolbar w-11">
+                <i class="fa-solid fa-bold" (click)="formatText('bold')"></i>
+                <i class="fa-solid fa-italic" (click)="formatText('italic')"></i>
+            </div>
+            <div id="content" name="content" class="inputfield w-11" contenteditable="true" (keyup)="copyContent($event)"></div>
+            <textarea style="display: hidden;" formControlName="content"></textarea>
+            <!-- <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('content')?.dirty" (click)="clearContent()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+            </p-button> -->
         </div>
         <div class="field">
             <label for="img">Post image</label>
@@ -22,7 +26,7 @@
             <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('img')?.dirty" (click)="clearImg()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
             </p-button>
         </div>
-        <p-button class="mb-5" icon="pi pi-check" type="submit" [disabled]="postForm.invalid || captcha == false" label="Ok" styleClass="p-button-rounded p-button-secondary p-button-outlined">
+        <p-button class="mb-5" icon="pi pi-check" type="submit" [disabled]="postForm.invalid" label="Ok" styleClass="p-button-rounded p-button-secondary p-button-outlined">
         </p-button>
         <p-captcha id="captcha" siteKey="6Lf7YH0eAAAAAPWIVZ7VMeAJfOPNcZMPiyT-DdzA" (onResponse)="correctCaptcha($event)"></p-captcha>
     </form>

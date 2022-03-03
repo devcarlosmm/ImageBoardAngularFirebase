@@ -17,6 +17,7 @@ export class FormPostComponent{
   imgData!:any;
   captcha:boolean = false;
   subscription:Subscription;
+  textAreaDiv?:any;
 
   constructor(private fb:FormBuilder, private router:Router, private categoryService:CategoryService) {
     this.subscription = this.router.events.subscribe({
@@ -30,12 +31,12 @@ export class FormPostComponent{
 
     this.postForm = this.fb.group({
       category: ["", [Validators.required]], 
-      content: ["", [Validators.required, Validators.minLength(250)]], 
+      content: ["", [Validators.required]], 
       img: ["", [Validators.required]], 
       title: ["", [Validators.required]], 
       uid: [""],
       id: [""]
-    })
+    });
   }
 
   submitPost(data:Post) {
@@ -43,10 +44,11 @@ export class FormPostComponent{
     this.captcha = false;
     const post:Post = {
       category: data.category,
-      content:  data.content,
+      content:  this.textAreaDiv!.innerHTML,
       img: this.imgData.name,
       title: data.title,
-      uid: (data.uid) ? data.uid : "Anon"
+      uid: (data.uid) ? data.uid : "Anon",
+      date: new Date()
     }
     this.categoryService.submitPost(post, this.imgData).then(() =>{
       this.newPostSubmitted.emit(true);
@@ -82,4 +84,15 @@ export class FormPostComponent{
     this.postForm.get("content")?.reset();
   }
 
+  formatText(command:any, value:any=""){
+    document.execCommand(command, false, value);
+  }
+
+  copyContent(event:Event){
+    this.textAreaDiv = document.getElementById("content");
+    if(this.textAreaDiv.innerText.length >= 250){
+      this.postForm.controls["content"].markAsTouched();
+      this.postForm.controls["content"].setErrors(null);
+    }
+  }
 }

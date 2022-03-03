@@ -6,9 +6,7 @@
             </div>
             <div class="col-12 md:col-8">
                 <p>{{ detailPost.title }}</p>
-                <p class="capitalize">
-                    {{ detailPost.content }}
-                </p>
+                <p class="capitalize" [innerHTML]="detailPost.content"></p>
             </div>
         </div>
         <div class="grid">

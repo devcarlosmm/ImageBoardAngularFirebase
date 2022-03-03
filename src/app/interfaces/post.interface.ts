@@ -5,4 +5,5 @@ export interface Post {
   content: string;
   img: string;
   title: string;
+  date: Date;
 }

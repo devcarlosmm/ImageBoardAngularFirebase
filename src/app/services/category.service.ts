@@ -15,7 +15,7 @@ import {
 } from '@angular/fire/firestore';
 import { initializeApp } from '@angular/fire/app';
 import { doc, getDoc } from "@angular/fire/firestore";
-import { getStorage, ref, StorageReference, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 @Injectable({
   providedIn: 'root',
 })
@@ -38,7 +38,8 @@ export class CategoryService {
         category: doc.data()["category"] as Post["category"],
         content: doc.data()["content"] as Post["content"],
         img: doc.data()["img"] as Post["img"],
-        title: doc.data()["title"] as Post["title"]
+        title: doc.data()["title"] as Post["title"],
+        date: doc.data()["date"] as Post["date"]
       };
       postList.push(post);
     });
@@ -46,6 +47,10 @@ export class CategoryService {
     if(postList.length === 0){
       throw new Error("Category doesn't have any posts");
     }
+    
+    postList.sort((a,b) => {
+      return b.date.valueOf() - a.date.valueOf();
+    });
 
     return postList;
   }
@@ -61,7 +66,6 @@ export class CategoryService {
   }
 
   async submitPost(post:Post, img:any) {
-    let url:string = "";
     const metadata = {
       contentType: "image/png"
     }
@@ -74,7 +78,8 @@ export class CategoryService {
           category: post.category,
           content: post.content,
           title: post.title,
-          img: post.img
+          img: post.img,
+          date: post.date
         });
       });
     });

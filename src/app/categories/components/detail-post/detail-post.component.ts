@@ -18,6 +18,7 @@ export class DetailPostComponent implements OnInit {
     content: '',
     img: "",
     title: '',
+    date: new Date(2022,1,1)
   };
   repliesPost: Reply[] = [];
   postId: string = '';
