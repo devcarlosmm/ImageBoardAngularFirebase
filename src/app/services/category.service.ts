@@ -65,15 +65,15 @@ export class CategoryService {
     const userCollection = collection(this.db, 'nombreUsuario');
     const q = query(userCollection, where('uid', '==', docSnap.data()['uid']));
     const querySnapshot = await getDocs(q); 
-    let userName:string = "";
+    let username:string = "";
 
     if(!querySnapshot.empty){
-      userName = querySnapshot.docs[0].data()['nombreDeUsuario'];
+      username = querySnapshot.docs[0].data()['nombreDeUsuario'];
     }
 
     const post:Post = {
         id: docSnap.id,
-        uid: userName,
+        uid: username,
         category: docSnap.data()["category"] as Post["category"],
         content: docSnap.data()["content"] as Post["content"],
         img: docSnap.data()["img"] as Post["img"],
