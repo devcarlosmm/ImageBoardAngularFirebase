@@ -59,7 +59,7 @@ export class ReplyService {
         idPost: doc.data()['category'] as Reply['idPost'],
         content: doc.data()['content'] as Reply['content'],
         img: doc.data()['img'] as Reply['img'],
-        entries: doc.data()['title'] as Reply['entries'],
+        entries: doc.data()['entries'] as Reply['entries'],
       };
       replyList.push(reply);
       username = "";

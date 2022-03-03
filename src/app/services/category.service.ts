@@ -26,7 +26,7 @@ export class CategoryService {
 
   constructor(private fs: Firestore) {}
 
-  async getPostsByCategory(category: string): Promise<any> {
+  async getPostsByCategory(category: string): Promise<Post[]> {
     const postsCollection = collection(this.db, 'post');
     const q = query(postsCollection, where('category', '==', category));
     const querySnapshot = await getDocs(q); 
