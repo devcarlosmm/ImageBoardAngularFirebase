@@ -8,6 +8,7 @@ import {
   onAuthStateChanged,
   updateProfile,
   signOut,
+  User,
 } from '@angular/fire/auth';
 import {
   addDoc,
@@ -20,6 +21,8 @@ import {
   setDoc,
   where,
 } from '@angular/fire/firestore';
+import { authState } from 'rxfire/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -30,8 +33,14 @@ export class AuthService {
   firebaseApp = initializeApp(environment.firebase);
   db = getFirestore(this.firebaseApp);
   auth = getAuth();
-
-  constructor(private fs: Firestore) {}
+  userLoged: Observable<User | null> | undefined;
+  informacionUsuario: BehaviorSubject<any> = new BehaviorSubject([
+    'Datos de inicio',
+  ]);
+  constructor(private fs: Firestore) {
+    this.userLoged = authState(this.auth);
+    console.log('userLoged', this.userLoged);
+  }
 
   async registerUser(pEmail: string, pPassword: string) {
     return await createUserWithEmailAndPassword(this.auth, pEmail, pPassword);
@@ -39,20 +48,6 @@ export class AuthService {
 
   async loginUser(pEmail: string, pPassword: string) {
     return await signInWithEmailAndPassword(this.auth, pEmail, pPassword);
-  }
-
-  async userLogged() {
-    let userR: string = '';
-    await onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        console.log('user', user);
-        const uid = user.uid;
-        userR = user.uid;
-      } else {
-        userR = 'No estas logueado';
-      }
-    });
-    return userR;
   }
 
   // Comprobar si el usuario existe ya
@@ -101,6 +96,31 @@ export class AuthService {
     console.log(docRef);
   }
 
+  // USER LOGGED
+  userLogged() {
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.setState(user);
+        this.setInformacion(user);
+        console.log('Habemus papam', this.userLoged);
+      } else {
+        this.setState({ user: null });
+        console.log('No papam', this.userLoged);
+      }
+    });
+  }
+
+  // Obtener el observador del usuario actual
+  get currentUser(): Observable<User | null> | undefined {
+    /* console.log('getter', this.userLoged); */
+    return this.userLoged;
+  }
+
+  //SET STATE
+  setState(pUser: any) {
+    this.userLoged = pUser;
+  }
+
   //LOG OUT
   logOut() {
     signOut(this.auth)
@@ -110,5 +130,14 @@ export class AuthService {
       .catch((error) => {
         alert('Error al cerrar sesion');
       });
+  }
+
+  // prueba con Behavior
+  getInformacion() {
+    return this.informacionUsuario.asObservable();
+  }
+
+  setInformacion(informacion: any) {
+    this.informacionUsuario.next(informacion);
   }
 }

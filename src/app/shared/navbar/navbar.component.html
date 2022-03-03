@@ -1,1 +1,2 @@
 <p-menubar [model]="items"> </p-menubar>
+<p *ngIf="subject$ | async as result">{{ result }}</p>

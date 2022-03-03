@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../auth/services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -9,32 +10,53 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  usuario: string = '';
+  usuario: any = '';
   items: MenuItem[] = [];
   abierto: boolean = false;
+
+  // intento con subject
+  subject$: any;
   constructor(private auth: AuthService, private route: Router) {
-    this.verPerfil();
-    console.log('consusa', this.usuario);
+    this.auth.userLogged();
+    /*     this.subject$ = this.auth.getInformacion().pipe(
+      map(({ uid, displayName }) => {
+        console.log('mapeao', uid, displayName);
+      })
+    ); */
+    this.auth.getInformacion().pipe(
+      map(({ uid, displayName }) => {
+        console.log('mapeao', uid, displayName);
+        this.subject$ = { uid, displayName };
+      })
+    );
+
+    console.log(this.subject$);
+
+    /* this.verPerfil(); */
+    console.log('contructor', this.usuario, this.subject$);
     this.route.events.subscribe({
       next: (event) => {
         if (event instanceof NavigationEnd) {
-          this.reloadMenuItems('');
+          this.reloadMenuItems('Constructor');
         }
       },
     });
   }
 
   ngOnInit(): void {
-    console.log('on inisa', this.usuario);
-    this.reloadMenuItems('');
+    console.log('on init', this.usuario);
+    this.reloadMenuItems('On init');
   }
 
+  // LOG OUT
   logOut() {
     this.auth.logOut();
+    this.route.navigateByUrl('auth/login');
   }
 
-  reloadMenuItems(usuario: string) {
-    console.log('relousa', usuario);
+  // RELOAD MENU ITEMS
+  reloadMenuItems(asd: string) {
+    console.log('reload ', asd, this.subject$);
     this.items = [
       {
         label: 'Japanese Culture',
@@ -67,7 +89,7 @@ export class NavbarComponent implements OnInit {
       },
       {
         label: 'this.usuario',
-        visible: usuario != '',
+        visible: asd != '',
         items: [
           {
             label: 'Perfil',
@@ -80,25 +102,16 @@ export class NavbarComponent implements OnInit {
       },
     ];
   }
+  // VER USUARIO
+  /*  async verPerfil() {
+    this.auth.currentUser?.subscribe((data) => {
+      console.log('ptm', data);
+      this.asignarUsuario(data);
+    });
+  } */
 
-  //togle el contenido
-  cambiar() {
-    if (this.abierto == true) {
-      this.abierto = false;
-    } else {
-      this.abierto = true;
-    }
-  }
-
-  async verPerfil() {
-    await this.auth
-      .userLogged()
-      .then((data) => {
-        this.usuario = data;
-        console.log(this.usuario, data);
-        this.reloadMenuItems(data);
-      })
-      .catch((error) => console.log(error));
-    console.log('perfisa', this.usuario);
+  asignarUsuario(data: any) {
+    this.usuario = data;
+    console.log('perfil recuperado', this.usuario);
   }
 }
