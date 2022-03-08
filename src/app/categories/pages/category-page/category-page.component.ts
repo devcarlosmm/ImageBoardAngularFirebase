@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { getDownloadURL, getStorage, ref } from '@angular/fire/storage';
+import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
@@ -44,9 +43,6 @@ export class CategoryPageComponent implements OnInit{
     this.categoryService.getPostsByCategory(this.category).then((data) => {
       this.posts = data;
       this.loading = false;
-    }).catch(() => {
-      let error = "This category has no content"
-      this.router.navigate(["404"], {queryParams: {err: error}});
     });
   }
 

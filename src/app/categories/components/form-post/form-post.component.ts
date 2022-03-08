@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Modal } from "bootstrap";
 import { Post } from 'src/app/interfaces/post.interface';
 import { CategoryService } from '../../../services/category.service';
 
@@ -10,9 +11,10 @@ import { CategoryService } from '../../../services/category.service';
   templateUrl: './form-post.component.html',
   styleUrls: ['./form-post.component.scss'],
 })
-export class FormPostComponent{
-  @Input() visible: boolean = false;
+export class FormPostComponent implements OnChanges{
+  @Input("visible") visible: boolean = false;
   @Output() newPostSubmitted = new EventEmitter<boolean>();
+  @Output() closedModal = new EventEmitter<boolean>();
   postForm:FormGroup;
   imgData!:any;
   captcha:boolean = false;
@@ -37,6 +39,13 @@ export class FormPostComponent{
       uid: [""],
       id: [""]
     });
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.visible){
+      let modal:HTMLElement = document.getElementById("exampleModal")!;
+      const fullOnModal = new Modal(modal);
+      fullOnModal.toggle();
+    }
   }
 
   submitPost(data:Post) {
@@ -66,6 +75,10 @@ export class FormPostComponent{
 
   correctCaptcha(event:any){
     this.captcha = true;
+  }
+
+  closeModal(){
+    this.closedModal.emit(true);
   }
 
   resetForm(){

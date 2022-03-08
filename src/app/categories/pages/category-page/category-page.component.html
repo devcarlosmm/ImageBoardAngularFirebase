@@ -1,6 +1,6 @@
 <div class="grid" id="postGrid">
     <p-progressSpinner class="col-12 text-center" strokeWidth="4" *ngIf="loading"></p-progressSpinner>
-    <app-form-post [visible]="modalVisible" (newPostSubmitted)="reloadPosts($event)"></app-form-post>
+    <app-form-post [visible]="modalVisible" (newPostSubmitted)="reloadPosts($event)" (closedModal)="createPost()"></app-form-post>
     <div class="col-12 xl:col-3 lg:col-4 md:col-6 sm:col-12" *ngIf="!loading">
         <p-card>
             <ng-template pTemplate="header">
@@ -29,7 +29,7 @@
             <div class="p-card-title" style="cursor: pointer" [routerLink]="post.id">
                 {{ post.title | shortContent: 10 }}
             </div>
-            <p class="h-10rem text-justify" [innerHTML]="post.content | shortContent: 250"></p>
+            <p class="h-10rem" [innerHTML]="post.content | shortContent: 250"></p>
         </p-card>
     </div>
 </div>

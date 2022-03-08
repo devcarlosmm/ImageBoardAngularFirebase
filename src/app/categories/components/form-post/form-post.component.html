@@ -1,33 +1,52 @@
-<p-dialog header="Title" [(visible)]="visible" [breakpoints]="{ '960px': '75vw', '640px': '100vw' }" [style]="{ width: '50vw' }" position="left" [draggable]="false" [modal]="true" (onHide)="resetForm()" header="Post Form">
-    <form [formGroup]="postForm" (ngSubmit)="submitPost(postForm.value)">
-        <div class="field">
-            <label for="title">Post Title</label>
-            <br />
-            <input id="title" type="text" class="inputfield w-11" formControlName="title" />
-            <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('title')?.dirty" (click)="clearTitle()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
-            </p-button>
-        </div>
-        <div class="field">
-            <label for="content">Post content</label>
-            <br />
-            <div class="toolbar w-11">
-                <i class="fa-solid fa-bold" (click)="formatText('bold')"></i>
-                <i class="fa-solid fa-italic" (click)="formatText('italic')"></i>
+<div class="modal fade" id="exampleModal" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-primary">
+            <div class="modal-header">
+                <h5 class="modal-title">Post Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
             </div>
-            <div id="content" name="content" class="inputfield w-11" contenteditable="true" (keyup)="copyContent($event)"></div>
-            <textarea style="display: hidden;" formControlName="content"></textarea>
-            <!-- <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('content')?.dirty" (click)="clearContent()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+            <div class="modal-body">
+                <form [formGroup]="postForm" (ngSubmit)="submitPost(postForm.value)">
+                    <div class="field">
+                        <label for="title">Post Title</label>
+                        <br />
+                        <input id="title" type="text" class="inputfield w-11" formControlName="title" />
+                        <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('title')?.dirty"
+                            (click)="clearTitle()"
+                            styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+                        </p-button>
+                    </div>
+                    <div class="field">
+                        <label for="content">Post content</label>
+                        <br />
+                        <div class="toolbar w-11">
+                            <i class="fa-solid fa-bold" (click)="formatText('bold')"></i>
+                            <i class="fa-solid fa-italic" (click)="formatText('italic')"></i>
+                        </div>
+                        <div id="content" name="content" class="inputfield w-11" contenteditable="true"
+                            (keyup)="copyContent($event)"></div>
+                        <textarea style="display: none;" formControlName="content"></textarea>
+                        <!-- <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('content')?.dirty" (click)="clearContent()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
             </p-button> -->
+                    </div>
+                    <div class="field">
+                        <label for="img">Post image</label>
+                        <br />
+                        <input type="file" class="inputfield w-11" accept="image/png" formControlName="img"
+                            (change)="processIMG($event)" />
+                        <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('img')?.dirty"
+                            (click)="clearImg()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+                        </p-button>
+                    </div>
+                    <div class="modal-footer">
+                        <p-button class="mb-5" icon="pi pi-check" type="submit" [disabled]="postForm.invalid" label="Ok"
+                            styleClass="p-button-rounded p-button-secondary p-button-outlined">
+                        </p-button>
+                        <p-captcha id="captcha" siteKey="6Lf7YH0eAAAAAPWIVZ7VMeAJfOPNcZMPiyT-DdzA"
+                            (onResponse)="correctCaptcha($event)"></p-captcha>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="field">
-            <label for="img">Post image</label>
-            <br />
-            <input type="file" class="inputfield w-11" accept="image/png" formControlName="img" (change)="processIMG($event)"/>
-            <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('img')?.dirty" (click)="clearImg()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
-            </p-button>
-        </div>
-        <p-button class="mb-5" icon="pi pi-check" type="submit" [disabled]="postForm.invalid" label="Ok" styleClass="p-button-rounded p-button-secondary p-button-outlined">
-        </p-button>
-        <p-captcha id="captcha" siteKey="6Lf7YH0eAAAAAPWIVZ7VMeAJfOPNcZMPiyT-DdzA" (onResponse)="correctCaptcha($event)"></p-captcha>
-    </form>
-</p-dialog>
+    </div>
+</div>
