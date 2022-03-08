@@ -3,6 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../auth/services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { map } from 'rxjs';
+import { navbarInfo } from '../../interfaces/register.interface';
 
 @Component({
   selector: 'app-navbar',
@@ -15,22 +16,23 @@ export class NavbarComponent implements OnInit {
   abierto: boolean = false;
 
   // intento con subject
-  subject$: any;
+  subject$: navbarInfo = {
+    uid: '',
+    displayName: '',
+  };
   constructor(private auth: AuthService, private route: Router) {
     this.auth.userLogged();
-    /*     this.subject$ = this.auth.getInformacion().pipe(
-      map(({ uid, displayName }) => {
-        console.log('mapeao', uid, displayName);
-      })
-    ); */
-    this.auth.getInformacion().pipe(
-      map(({ uid, displayName }) => {
-        console.log('mapeao', uid, displayName);
-        this.subject$ = { uid, displayName };
-      })
-    );
-
-    console.log(this.subject$);
+    this.auth
+      .getInformacion()
+      .pipe(
+        map(({ uid, displayName }) => {
+          console.log('data recibida', uid, displayName);
+          return { displayName, uid };
+        })
+      )
+      .subscribe((data) => {
+        this.subject$ = data;
+      });
 
     /* this.verPerfil(); */
     console.log('contructor', this.usuario, this.subject$);
@@ -56,7 +58,7 @@ export class NavbarComponent implements OnInit {
 
   // RELOAD MENU ITEMS
   reloadMenuItems(asd: string) {
-    console.log('reload ', asd, this.subject$);
+    console.log('reload ', asd, this.subject$?.displayName);
     this.items = [
       {
         label: 'Japanese Culture',
@@ -88,7 +90,7 @@ export class NavbarComponent implements OnInit {
         ],
       },
       {
-        label: 'this.usuario',
+        label: this.subject$?.displayName,
         visible: asd != '',
         items: [
           {

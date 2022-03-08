@@ -3,3 +3,7 @@ export interface Register {
   status: string;
   codigo: number;
 }
+export interface navbarInfo {
+  uid: string;
+  displayName: string;
+}
