@@ -20,6 +20,7 @@ export class FormPostComponent implements OnChanges{
   captcha:boolean = false;
   subscription:Subscription;
   textAreaDiv?:any;
+  fullOnModal!:Modal;
 
   constructor(private fb:FormBuilder, private router:Router, private categoryService:CategoryService) {
     this.subscription = this.router.events.subscribe({
@@ -43,8 +44,8 @@ export class FormPostComponent implements OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     if(this.visible){
       let modal:HTMLElement = document.getElementById("exampleModal")!;
-      const fullOnModal = new Modal(modal);
-      fullOnModal.toggle();
+      this.fullOnModal = new Modal(modal, {backdrop:"static", keyboard:false});
+      this.fullOnModal.toggle();
     }
   }
 
@@ -78,6 +79,7 @@ export class FormPostComponent implements OnChanges{
   }
 
   closeModal(){
+    this.fullOnModal.hide();
     this.closedModal.emit(true);
   }
 
