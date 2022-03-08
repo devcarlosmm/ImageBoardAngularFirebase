@@ -34,6 +34,9 @@ export class AuthService {
   db = getFirestore(this.firebaseApp);
   auth = getAuth();
   userLoged: Observable<User | null> | undefined;
+
+  isLoggin$ = new BehaviorSubject<boolean>(false);
+
   informacionUsuario: BehaviorSubject<any> = new BehaviorSubject([
     'Datos de inicio',
   ]);
@@ -100,11 +103,10 @@ export class AuthService {
   userLogged() {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
-        this.setState(user);
+        this.setState(true);
         this.setInformacion(user);
         console.log('Habemus papam', this.userLoged);
       } else {
-        this.setState({ user: null });
         console.log('No papam', this.userLoged);
       }
     });
@@ -116,15 +118,20 @@ export class AuthService {
     return this.userLoged;
   }
 
-  //SET STATE
-  setState(pUser: any) {
-    this.userLoged = pUser;
+  //SET STATE LOGIN
+  setState(pStado: boolean) {
+    this.isLoggin$.next(pStado);
+  }
+  // GET STATE LOGIN
+  getState() {
+    return this.isLoggin$.asObservable();
   }
 
   //LOG OUT
   logOut() {
     signOut(this.auth)
       .then(() => {
+        this.setState(false);
         alert('cerraste sesion con exito');
       })
       .catch((error) => {
@@ -132,12 +139,12 @@ export class AuthService {
       });
   }
 
-  // prueba con Behavior
-  getInformacion() {
-    return this.informacionUsuario.asObservable();
-  }
-
+  // SET INFORMACION USUARIO
   setInformacion(informacion: any) {
     this.informacionUsuario.next(informacion);
+  }
+  // GET INFORMACION USUARIO
+  getInformacion() {
+    return this.informacionUsuario.asObservable();
   }
 }

@@ -42,7 +42,7 @@
           </ul>
         </li>
       </ul>
-      <div class="d-flex" *ngIf="subject$.uid">
+      <div class="d-flex" *ngIf="isLoggedin; else elseBlock">
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -60,6 +60,10 @@
                             </ul>
                         </li>
         </div>
+
+        <ng-template #elseBlock><a class="btn btn-primary" [routerLink]="['/auth/login']">Loguearse</a
+        ></ng-template
+      >
     </div>
-    </div>
+  </div>
 </nav>
