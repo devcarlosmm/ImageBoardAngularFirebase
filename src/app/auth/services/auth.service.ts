@@ -92,9 +92,10 @@ export class AuthService {
     }
   }
 
-  async actualizarNombreUsuarioDB(pNombreUsuario: string) {
+  async actualizarNombreUsuarioDB(pNombreUsuario: string, pUid: string) {
     const docRef = await addDoc(collection(this.db, 'nombreUsuario'), {
       nombreDeUsuario: pNombreUsuario,
+      uid: pUid,
     });
     console.log(docRef);
   }

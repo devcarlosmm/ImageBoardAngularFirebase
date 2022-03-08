@@ -45,6 +45,7 @@ export class RegisterComponent implements OnInit {
       .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user;
+        const userUid = user.uid;
         // ...
         mensaje = {
           message: user.email!,
@@ -56,9 +57,9 @@ export class RegisterComponent implements OnInit {
         );
         await this.comprobarNombreGenerado().then(async (data) => {
           let nombreUsuario = data;
-          console.log('nombre usuario', nombreUsuario);
+          console.log('nombre usuario', nombreUsuario, userUid);
           await this.auth.actualizarPerfil(nombreUsuario);
-          await this.auth.actualizarNombreUsuarioDB(nombreUsuario);
+          await this.auth.actualizarNombreUsuarioDB(nombreUsuario, userUid);
         });
 
         this.navegar();
@@ -80,7 +81,9 @@ export class RegisterComponent implements OnInit {
   }
 
   navegar() {
-    this.router.navigateByUrl('/');
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
 
   generarNombreRandom() {

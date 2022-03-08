@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
     // Recuperamos el estado del loggin (true/false)
     this.auth.getState().subscribe((data) => {
       this.isLoggedin = data;
+      console.log(this.isLoggedin);
     });
 
     // Recuperamos los datos que necesitamos para el navegador
