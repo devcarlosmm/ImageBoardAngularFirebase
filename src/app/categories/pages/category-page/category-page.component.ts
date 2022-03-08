@@ -42,10 +42,8 @@ export class CategoryPageComponent implements OnInit{
     this.category = this.router.url.split("/")[2];
     this.currentCategory = this.category;
     this.categoryService.getPostsByCategory(this.category).then((data) => {
-      setTimeout(() => {
-        this.posts = data;
-        this.loading = false;
-      }, 1000);
+      this.posts = data;
+      this.loading = false;
     }).catch(() => {
       let error = "This category has no content"
       this.router.navigate(["404"], {queryParams: {err: error}});
