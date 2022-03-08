@@ -2,7 +2,7 @@
     <div class="col-12 md:col-8 md:col-offset-2 detail-post-background">
         <div class="grid">
             <div class="col-12 md:col-4">
-                <img class="imagen-post" [src]="detailPost.img" alt="" />
+                <img class="imagen-post" [src]="(detailPost.img)?detailPost.img:'assets/showcase/images/card.png'" alt="" />
             </div>
             <div class="col-12 md:col-8">
                 <p>{{ detailPost.title }}</p>
@@ -16,7 +16,7 @@
             <div class="col-12 md:col-8">
                 <div class="grid">
                     <div class="col-6">
-                        <h5>Replies: <span>Xnumero</span></h5>
+                        <h5>Replies: <span>{{(repliesPost.length > 0) ? repliesPost.length : 'No one has replied to this post yet'}}</span></h5>
                     </div>
                     <div class="col-6 flex justify-content-center">
                         <button pButton pRipple type="button" label="Responder" class="p-button-secondary flex align-items-center justify-content-center"></button>

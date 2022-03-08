@@ -22,6 +22,7 @@ export class DetailPostComponent implements OnInit {
   };
   repliesPost: Reply[] = [];
   postId: string = '';
+  username:string = "";
 
   constructor(
     private categoryService: CategoryService,

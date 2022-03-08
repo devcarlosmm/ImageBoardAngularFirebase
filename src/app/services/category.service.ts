@@ -26,7 +26,7 @@ export class CategoryService {
 
   constructor(private fs: Firestore) {}
 
-  async getPostsByCategory(category: string): Promise<any> {
+  async getPostsByCategory(category: string): Promise<Post[]> {
     const postsCollection = collection(this.db, 'post');
     const q = query(postsCollection, where('category', '==', category));
     const querySnapshot = await getDocs(q); 
@@ -61,8 +61,27 @@ export class CategoryService {
     if (!docSnap.exists()) {
       throw new Error('No existeerrr');
     }
-    console.log('Document data:', docSnap.data());
-    return docSnap.data() as Post;
+
+    const userCollection = collection(this.db, 'nombreUsuario');
+    const q = query(userCollection, where('uid', '==', docSnap.data()['uid']));
+    const querySnapshot = await getDocs(q); 
+    let username:string = "";
+
+    if(!querySnapshot.empty){
+      username = querySnapshot.docs[0].data()['nombreDeUsuario'];
+    }
+
+    const post:Post = {
+        id: docSnap.id,
+        uid: username,
+        category: docSnap.data()["category"] as Post["category"],
+        content: docSnap.data()["content"] as Post["content"],
+        img: docSnap.data()["img"] as Post["img"],
+        title: docSnap.data()["title"] as Post["title"],
+        date: docSnap.data()["date"] as Post["date"]
+    }
+
+    return post;
   }
 
   async submitPost(post:Post, img:any) {

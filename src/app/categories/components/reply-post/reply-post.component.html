@@ -11,18 +11,14 @@
         </div>
         <div class="grid">
             <div class="col-12 md:col-4">
-                <h4>Usuario o Anonimio</h4>
+                <h4>{{(item.uid) ? item.uid:"Anon"}}</h4>
             </div>
             <div class="col-12 md:col-8">
                 <div class="grid">
                     <div class="col-6">
                         <h5>
                             Replies:
-                            <span>{{
-                item.entries == undefined
-                  ? "Todavia no hay respuestas"
-                  : item.entries.length
-              }}</span>
+                            <span>{{(item.entries.length >0) ? item.entries.length : 'No one has replied to this post yet'}}</span>
                         </h5>
                     </div>
                     <div class="col-6 flex justify-content-center">

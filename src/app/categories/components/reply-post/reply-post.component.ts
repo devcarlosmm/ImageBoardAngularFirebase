@@ -10,6 +10,6 @@ export class ReplyPostComponent implements OnChanges {
   @Input() repliesData!: Reply[];
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.repliesData);
+    console.log("Reply data",this.repliesData);
   }
 }
