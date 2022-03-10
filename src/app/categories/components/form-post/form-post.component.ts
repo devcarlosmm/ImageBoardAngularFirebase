@@ -31,7 +31,7 @@ export class FormPostComponent implements OnChanges {
   fullOnModal!: Modal;
   user: string = '';
   userObj: any = {};
-
+  isLoggedin: boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -73,25 +73,36 @@ export class FormPostComponent implements OnChanges {
   submitPost(data: Post) {
     this.visible = false;
     this.captcha = false;
+    //
+    // Recuperamos el estado del loggin (true/false)
+    this.authService.getState().subscribe((data) => {
+      this.isLoggedin = data;
+      console.log(this.isLoggedin);
+    });
+    if (this.isLoggedin) {
+      this.authService
+        .getInformacion()
+        .pipe(
+          map(({ uid, displayName }) => {
+            console.log('data recibida', uid, displayName);
+            return { displayName, uid };
+          })
+        )
+        .subscribe((data) => {
+          this.userObj = data;
+        });
+    } else {
+      this.userObj.uid = 'Anon';
+    }
 
-    this.authService
-      .getInformacion()
-      .pipe(
-        map(({ uid, displayName }) => {
-          console.log('data recibida', uid, displayName);
-          return { displayName, uid };
-        })
-      )
-      .subscribe((data) => {
-        this.userObj = data;
-      });
+    //
 
     const post: Post = {
       category: data.category,
       content: this.textAreaDiv!.innerHTML,
       img: this.imgData.name,
       title: data.title,
-      uid: this.userObj ? this.userObj.uid : 'Anon',
+      uid: this.userObj.uid,
       date: new Date(),
     };
     this.categoryService.submitPost(post, this.imgData).then(() => {
