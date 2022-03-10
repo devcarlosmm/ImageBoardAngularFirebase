@@ -133,6 +133,7 @@ export class AuthService {
     signOut(this.auth)
       .then(() => {
         this.setState(false);
+        this.setInformacion(undefined);
         alert('cerraste sesion con exito');
       })
       .catch((error) => {
