@@ -3,17 +3,14 @@
         <div class="modal-content bg-dark text-primary">
             <div class="modal-header">
                 <h5 class="modal-title">Post Form</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    (click)="closeModal()"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
             </div>
             <div class="modal-body">
                 <form [formGroup]="postForm" (ngSubmit)="submitPost(postForm.value)">
                     <div class="field">
                         <label for="title">Post Title</label>
                         <input id="title" type="text" class="inputfield w-11" formControlName="title" />
-                        <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('title')?.dirty"
-                            (click)="clearTitle()"
-                            styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+                        <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('title')?.dirty" (click)="clearTitle()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
                         </p-button>
                     </div>
                     <div class="field">
@@ -22,29 +19,27 @@
                             <i class="fa-solid fa-bold" (click)="formatText('bold')"></i>
                             <i class="fa-solid fa-italic" (click)="formatText('italic')"></i>
                         </div>
-                        <div id="content" name="content" class="inputfield w-11" contenteditable="true"
-                            (keyup)="copyContent($event)"></div>
-                        <textarea style="display: none;" formControlName="content"></textarea>
+                        <div id="content" name="content" class="inputfield w-11" contenteditable="true" (keyup)="copyContent($event)"></div>
+                        <textarea style="display: none" formControlName="content"></textarea>
                         <!-- <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('content')?.dirty" (click)="clearContent()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
             </p-button> -->
                     </div>
                     <div class="field">
                         <label for="img">Post image</label>
-                        <input type="file" class="inputfield w-11" accept="image/png" formControlName="img"
-                            (change)="processIMG($event)" />
-                        <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('img')?.dirty"
-                            (click)="clearImg()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
+                        <!-- TODO cambiar image a image/png o similar -->
+                        <input type="file" class="inputfield w-11" accept="image" formControlName="img" (change)="processIMG($event)" />
+                        <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('img')?.dirty" (click)="clearImg()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
                         </p-button>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">
-                            <i class="fa-solid fa-upload"></i>
-                            Submit
-                        </button>
+              <i class="fa-solid fa-upload"></i>
+              Submit
+            </button>
                         <button type="button" class="btn btn-danger" (click)="closeModal()">
-                            <i class="fa-solid fa-xmark"></i>
-                            Close form
-                        </button>
+              <i class="fa-solid fa-xmark"></i>
+              Close form
+            </button>
                         <!-- <p-captcha id="captcha" siteKey="6Lf7YH0eAAAAAPWIVZ7VMeAJfOPNcZMPiyT-DdzA"
                                 (onResponse)="correctCaptcha($event)"></p-captcha> -->
                     </div>
