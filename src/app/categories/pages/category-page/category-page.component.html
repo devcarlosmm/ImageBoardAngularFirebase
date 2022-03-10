@@ -1,5 +1,9 @@
 <div class="container" id="postGrid">
-    <p-progressSpinner class="col-12 text-center" strokeWidth="4" *ngIf="loading"></p-progressSpinner>
+    <div class="text-center" *ngIf="loading">
+        <div class="spinner-border text-warning" role="status" style="width: 10rem; height: 10rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     <app-form-post [visible]="modalVisible" (newPostSubmitted)="reloadPosts($event)" (closedModal)="createPost()"></app-form-post>
     <div class="row">
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 card-group my-1">
