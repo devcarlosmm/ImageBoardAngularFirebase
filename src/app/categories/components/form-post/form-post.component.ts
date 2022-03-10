@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { Modal } from "bootstrap";
 import { Post } from 'src/app/interfaces/post.interface';
 import { CategoryService } from '../../../services/category.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-form-post',
@@ -21,8 +22,10 @@ export class FormPostComponent implements OnChanges{
   subscription:Subscription;
   textAreaDiv?:any;
   fullOnModal!:Modal;
+  user:string = "";
+  userObj:any = {};
 
-  constructor(private fb:FormBuilder, private router:Router, private categoryService:CategoryService) {
+  constructor(private fb:FormBuilder, private router:Router, private categoryService:CategoryService, private authService:AuthService) {
     this.subscription = this.router.events.subscribe({
       next: (event) => {
         this.postForm.reset();
@@ -41,6 +44,8 @@ export class FormPostComponent implements OnChanges{
       id: [""]
     });
   }
+
+
   ngOnChanges(changes: SimpleChanges): void {
     if(this.visible){
       let modal:HTMLElement = document.getElementById("exampleModal")!;
@@ -52,12 +57,25 @@ export class FormPostComponent implements OnChanges{
   submitPost(data:Post) {
     this.visible = false;
     this.captcha = false;
+
+    this.authService
+      .getInformacion()
+      .pipe(
+        map(({ uid, displayName }) => {
+          console.log('data recibida', uid, displayName);
+          return { displayName, uid };
+        })
+      )
+      .subscribe((data) => {
+        this.userObj = data;
+      });
+
     const post:Post = {
       category: data.category,
       content:  this.textAreaDiv!.innerHTML,
       img: this.imgData.name,
       title: data.title,
-      uid: (data.uid) ? data.uid : "Anon",
+      uid: (this.userObj) ? this.userObj.uid : "Anon",
       date: new Date()
     }
     this.categoryService.submitPost(post, this.imgData).then(() =>{

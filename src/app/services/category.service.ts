@@ -39,7 +39,7 @@ export class CategoryService {
         content: doc.data()["content"] as Post["content"],
         img: doc.data()["img"] as Post["img"],
         title: doc.data()["title"] as Post["title"],
-        date: doc.data()["date"] as Post["date"]
+        date: (doc.data()["date"]).toDate() as Post["date"]
       };
       postList.push(post);
     });

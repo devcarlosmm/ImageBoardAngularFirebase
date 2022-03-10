@@ -1,35 +1,30 @@
-<div class="grid" id="postGrid">
+<div class="container" id="postGrid">
     <p-progressSpinner class="col-12 text-center" strokeWidth="4" *ngIf="loading"></p-progressSpinner>
     <app-form-post [visible]="modalVisible" (newPostSubmitted)="reloadPosts($event)" (closedModal)="createPost()"></app-form-post>
-    <div class="col-12 xl:col-3 lg:col-4 md:col-6 sm:col-12" *ngIf="!loading">
-        <p-card>
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center justify-content-center pt-2">
-                    <img alt="Card" src="assets/showcase/images/card.png" style="max-width: 175px" />
+    <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 card-group my-1">
+            <div class="card text-white bg-dark" *ngIf="!loading">
+                <img src="assets/showcase/images/card.png" class="card-img-top" alt="Base image for creating post" style="cursor: default;">
+                <div class="card-body">
+                  <h5 class="card-title" (click)="createPost()">CREATE POST</h5>
+                  <p class="card-text">Share your own thoughts with the community!</p>
                 </div>
-            </ng-template>
-            <div class="p-card-title text-center" style="cursor: pointer" (click)="createPost()">
-                CREATE POST
-            </div>
-            <p class="text-justify texto-especial">
-                Share your own thoughts with the community!
-            </p>
-            <div class="text-center">
-                <button pButton type="button" label="Create Post" class="p-button-raised p-button-secondary" (click)="createPost()"></button>
-            </div>
-        </p-card>
-    </div>
-    <div *ngFor="let post of posts" class="col-12 xl:col-3 lg:col-4 md:col-6 sm:col-12">
-        <p-card>
-            <ng-template pTemplate="header">
-                <div class="flex align-items-center justify-content-center pt-2">
-                    <img alt="Card" [src]="(post.img)? post.img:'assets/showcase/images/card.png'" style="max-width: 175px" />
+                <div class="card-footer text-center">
+                    <button type="button" class="btn btn-warning btn-lg" (click)="createPost()">Create Post</button>
                 </div>
-            </ng-template>
-            <div class="p-card-title" style="cursor: pointer" [routerLink]="post.id">
-                {{ post.title | shortContent: 10 }}
             </div>
-            <p class="h-10rem" [innerHTML]="post.content | shortContent: 250"></p>
-        </p-card>
+        </div>
+        <div *ngFor="let post of posts" class="col-xl-3 col-lg-4 col-md-6 col-sm-12 card-group my-1">
+            <div class="card text-white bg-dark">
+                <img [src]="(post.img)? post.img:'assets/showcase/images/card.png'" class="card-img-top" alt="Post image" [routerLink]="post.id">
+                <div class="card-body">
+                  <h5 class="card-title" [routerLink]="post.id">{{ post.title | shortContent: 10 }}</h5>
+                  <p class="card-text" [innerHTML]="post.content | shortContent: 250"></p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">{{post.date | date}}</small>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
