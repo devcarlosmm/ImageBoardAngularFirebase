@@ -18,8 +18,8 @@
             <div class="card text-white bg-dark">
                 <img [src]="(post.img)? post.img:'assets/showcase/images/card.png'" class="card-img-top" alt="Post image" [routerLink]="post.id">
                 <div class="card-body">
-                  <h5 class="card-title" [routerLink]="post.id">{{ post.title | shortContent: 10 }}</h5>
-                  <p class="card-text" [innerHTML]="post.content | shortContent: 250"></p>
+                  <h5 class="card-title" [routerLink]="post.id">{{ post.title | shortContent: 15 }}</h5>
+                  <p class="card-text" [innerHTML]="post.content | shortContent: 200"></p>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">{{post.date | date}}</small>

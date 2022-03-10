@@ -82,6 +82,7 @@ export class FormPostComponent implements OnChanges{
       this.newPostSubmitted.emit(true);
     });
     this.postForm.reset();
+    this.closeModal();
   }
 
   processIMG(event:Event){
