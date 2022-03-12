@@ -9,6 +9,8 @@ import {
   updateProfile,
   signOut,
   User,
+  deleteUser,
+  updatePassword,
 } from '@angular/fire/auth';
 import {
   addDoc,
@@ -45,10 +47,30 @@ export class AuthService {
     console.log('userLoged', this.userLoged);
   }
 
+  // CREAR USUARIO
   async registerUser(pEmail: string, pPassword: string) {
     return await createUserWithEmailAndPassword(this.auth, pEmail, pPassword);
   }
 
+  // BORRAR USUARIO
+  borrarUsuario() {
+    const user = this.auth.currentUser;
+    deleteUser(user!)
+      .then(() => {
+        // User deleted.
+        console.log('Cuenta borrada');
+        this.setState(false);
+        this.setInformacion(undefined);
+        alert('Cuenta borrada con exito. Bye bye!!');
+      })
+      .catch((error) => {
+        // An error ocurred
+        // ...
+        console.log('Error: Cuenta no borrada');
+      });
+  }
+
+  // LOGUEAR USUARIO
   async loginUser(pEmail: string, pPassword: string) {
     return await signInWithEmailAndPassword(this.auth, pEmail, pPassword);
   }
@@ -117,6 +139,22 @@ export class AuthService {
   get currentUser(): Observable<User | null> | undefined {
     /* console.log('getter', this.userLoged); */
     return this.userLoged;
+  }
+
+  // CAMBIAR CONTRASEÑA
+  cambiarContraseña(pContraseña: string) {
+    const user = this.auth.currentUser;
+    console.log('Pues probamos', user);
+    updatePassword(user!, pContraseña)
+      .then(() => {
+        // Update successful.
+        console.log('Contraseña cambiada correctamente');
+      })
+      .catch((error) => {
+        // An error ocurred
+        // ...
+        console.log('Error al cambiar contraseña');
+      });
   }
 
   //SET STATE LOGIN

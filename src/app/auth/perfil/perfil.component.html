@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Perfil del usuario</h1>
+            <p>Aqui podras cambiar tu contraseña en caso de que sea necesario.</p>
+            <form [formGroup]="passwordForm" (ngSubmit)="submitPassword()">
+                <div class="row mb-3">
+                    <input class="form-control" formControlName="password" type="text" placeholder="Introduce tu aburrida contraseña" />
+                </div>
+                <div class="row mb-3">
+                    <input class="form-control" formControlName="confPassword" type="text" placeholder="Introduce tu aburrida contraseña de nuevo" />
+                </div>
+                <button class="btn btn-primary">Guardar Cambios</button>
+            </form>
+        </div>
+        <div class="col">
+            <h3>Borrar cuenta</h3>
+            <p>Si pulsas el boton de borrar, eliminaras tu cuenta.</p>
+            <button class="btn btn-danger" (click)="borrarCuenta()">Borrar?</button>
+        </div>
+    </div>
+</div>
