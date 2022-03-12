@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Reply } from 'src/app/interfaces/reply.interface';
 
 @Component({
@@ -6,10 +6,21 @@ import { Reply } from 'src/app/interfaces/reply.interface';
   templateUrl: './reply-post.component.html',
   styleUrls: ['./reply-post.component.scss'],
 })
-export class ReplyPostComponent implements OnChanges {
+export class ReplyPostComponent {
   @Input() repliesData!: Reply[];
+  @Input('visible') visible: boolean = false;
+  @Output() newReplySubmitted = new EventEmitter<boolean>();
+  @Output() closedModal = new EventEmitter<boolean>();
+
+  modalVisible:boolean = false;
+
   constructor() {}
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("Reply data",this.repliesData);
+
+  createReply(){
+    this.modalVisible = !this.modalVisible;
+  }
+
+  reloadReplies(){
+    this.newReplySubmitted.emit(true);
   }
 }

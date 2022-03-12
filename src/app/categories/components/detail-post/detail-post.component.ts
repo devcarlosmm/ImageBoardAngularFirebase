@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/interfaces/post.interface';
 import { Reply } from 'src/app/interfaces/reply.interface';
@@ -10,7 +10,7 @@ import { ReplyService } from '../../../services/reply.service';
   templateUrl: './detail-post.component.html',
   styleUrls: ['./detail-post.component.scss'],
 })
-export class DetailPostComponent implements OnInit {
+export class DetailPostComponent{
   detailPost: Post = {
     id: '',
     uid: '',
@@ -23,14 +23,22 @@ export class DetailPostComponent implements OnInit {
   repliesPost: Reply[] = [];
   postId: string = '';
   username:string = "";
+  modalVisible:boolean = false;
 
   constructor(
     private categoryService: CategoryService,
-    route: ActivatedRoute,
+    private route: ActivatedRoute,
     private replyService: ReplyService
   ) {
     this.postId = route.snapshot.params['id'];
+    this.retrieveData();
+  }
 
+  createReply(){
+    this.modalVisible = !this.modalVisible;
+  }
+
+  retrieveData(){
     this.categoryService
       .getDetailPost(this.postId)
       .then((data) => {
@@ -51,5 +59,9 @@ export class DetailPostComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  reloadPost(reload:boolean){
+    if(reload){
+      this.retrieveData();
+    }
+  }
 }

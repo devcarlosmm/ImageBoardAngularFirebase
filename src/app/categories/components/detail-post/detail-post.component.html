@@ -1,4 +1,5 @@
 <div class="grid">
+    <app-form-reply [visible]="modalVisible" (newReplySubmitted)="reloadPost(true)" (closedModal)="createReply()"></app-form-reply>
     <div class="col-12 md:col-8 md:col-offset-2 detail-post-background">
         <div class="grid">
             <div class="col-12 md:col-4">
@@ -19,11 +20,10 @@
                         <h5>Replies: <span>{{(repliesPost.length > 0) ? repliesPost.length : 'No one has replied to this post yet'}}</span></h5>
                     </div>
                     <div class="col-6 flex justify-content-center">
-                        <button pButton pRipple type="button" label="Responder" class="p-button-secondary flex align-items-center justify-content-center"></button>
+                        <button type="button" class="btn btn-primary btn-lg" (click)="createReply()">Reply</button>                    </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-<app-reply-post [repliesData]="repliesPost"></app-reply-post>
+<app-reply-post [repliesData]="repliesPost" [visible]="modalVisible" (newReplySubmitted)="reloadPost(true)" (closedModal)="createReply()"></app-reply-post>

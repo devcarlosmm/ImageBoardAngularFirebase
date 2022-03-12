@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 
 //FIREBASE
 import {
+  addDoc,
   collection,
+  doc,
   Firestore,
   getDocs,
   getFirestore,
@@ -12,6 +14,8 @@ import {
 import { initializeApp } from '@angular/fire/app';
 import { Reply } from '../interfaces/reply.interface';
 import { environment } from 'src/environments/environment';
+import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
+import { arrayUnion, DocumentData, DocumentReference, updateDoc } from '@firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +25,7 @@ export class ReplyService {
   firebaseApp = initializeApp(environment.firebase);
   //Inicializamos la base de datos
   db = getFirestore(this.firebaseApp);
+  storage = getStorage();
 
   constructor(private fs: Firestore) {}
 
@@ -33,6 +38,10 @@ export class ReplyService {
 
     //Pillamos los documentos y los metemos en una lista mapeando los datos
     const RepliesList = RepliesSnapshot.docs.map((doc) => doc.data());
+
+    RepliesList.sort((a,b) => {
+      return b['date'].toDate().valueOf() - a['date'].toDate().valueOf();
+    })
 
     //Retornamos la lista como tipo Reply[]
     return RepliesList as Reply[];
@@ -60,11 +69,59 @@ export class ReplyService {
         content: doc.data()['content'] as Reply['content'],
         img: doc.data()['img'] as Reply['img'],
         entries: doc.data()['entries'] as Reply['entries'],
+        date: doc.data()['date'] as Reply['date'],
       };
       replyList.push(reply);
       username = "";
     });
 
     return replyList as Reply[];
+  }
+
+  async submitReply(reply:Reply, img?:any) {
+    let docRef: DocumentReference<DocumentData> | Promise<DocumentReference<DocumentData>>;
+    if(img){
+      const metadata = {
+        contentType: "image/png"
+      }
+      const storageRef = ref(this.storage, `img/${reply.idPost}/${reply.img}`);
+      await uploadBytes(storageRef, img.file, metadata).then(async (snapshot) =>  {
+        await getDownloadURL(snapshot.ref).then((value) =>{
+          reply.img = value.split("&token")[0];
+          docRef = addDoc(collection(this.db, "reply"), {
+            uid: reply.uid,
+            idPost: reply.idPost,
+            content: reply.content,
+            img: reply.img,
+            entries: reply.entries,
+            date: reply.date
+          });
+        });
+      });
+    }else{
+      docRef = await addDoc(collection(this.db, "reply"), {
+        uid: reply.uid,
+            idPost: reply.idPost,
+            content: reply.content,
+            img: "",
+            entries: reply.entries,
+            date: reply.date
+      })
+    }
+
+    if(reply.idReply){
+      const replyCollection = collection(this.db, 'reply');
+      const querySnapshot = await getDocs(replyCollection); 
+
+      if(!querySnapshot.empty){
+        querySnapshot.forEach((doc) => {
+          if(doc.id == reply.idReply){
+            updateDoc(doc.ref, {
+              entries: arrayUnion((docRef as DocumentReference<DocumentData>).id)
+            })
+          }
+        })
+      }
+    }
   }
 }

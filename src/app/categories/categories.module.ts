@@ -15,6 +15,7 @@ import { FormPostComponent } from './components/form-post/form-post.component';
 import { ButtonModule } from 'primeng/button';
 import { ShortContentPipe } from './pipes/short-content.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormReplyComponent } from './components/form-reply/form-reply.component';
 @NgModule({
   declarations: [
     CategoryPageComponent,
@@ -22,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DetailPostComponent,
     FormPostComponent,
     ShortContentPipe,
+    FormReplyComponent,
   ],
   imports: [
     CommonModule,

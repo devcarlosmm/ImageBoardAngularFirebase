@@ -6,7 +6,7 @@
             </div>
             <div class="col-12 md:col-8 lg:col-9">
                 <h2>Titulo</h2>
-                <p>{{ item.content }}</p>
+                <p [innerHTML]="item.content"></p>
             </div>
         </div>
         <div class="grid">
@@ -22,10 +22,11 @@
                         </h5>
                     </div>
                     <div class="col-6 flex justify-content-center">
-                        <button pButton pRipple type="button" label="Responder" class="p-button-secondary flex align-items-center justify-content-center"></button>
+                        <button type="button" class="btn btn-primary btn-lg" (click)="createReply()">Reply</button> 
                     </div>
                 </div>
             </div>
         </div>
+        <app-form-reply [visible]="modalVisible" (newReplySubmitted)="reloadReplies()" (closedModal)="createReply()" [replyID]="item.idReply"></app-form-reply>
     </div>
 </div>

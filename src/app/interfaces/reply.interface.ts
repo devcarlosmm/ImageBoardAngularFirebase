@@ -5,4 +5,5 @@ export interface Reply {
   content: string;
   img?: string;
   entries: string[];
+  date: Date;
 }
