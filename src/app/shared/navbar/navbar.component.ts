@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../auth/services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { catchError, map } from 'rxjs';
 import { navbarInfo } from '../../interfaces/register.interface';
 
 @Component({
@@ -30,17 +30,18 @@ export class NavbarComponent implements OnInit {
     });
 
     // Recuperamos los datos que necesitamos para el navegador
-    this.auth
-      .getInformacion()
-      .pipe(
-        map(({ uid, displayName }) => {
-          console.log('data recibida', uid, displayName);
-          return { displayName, uid };
-        })
-      )
-      .subscribe((data) => {
-        this.subject$ = data;
-      });
+      this.auth
+        .getInformacion()
+        .pipe(
+          map(({ uid, displayName }) => {
+            console.log('data recibida', uid, displayName);
+            return { displayName, uid };
+          }),
+          catchError((err) => err)
+        )
+        .subscribe((data) => {
+          this.subject$ = data as navbarInfo;
+        });
   }
 
   ngOnInit(): void {}

@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+//Bootstrap
+import * as bootstrap  from "bootstrap";
+
 //Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
@@ -20,7 +23,6 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
 
 //PrimeNG
 import { ButtonModule } from 'primeng/button';
-import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,6 @@ import { MenubarModule } from 'primeng/menubar';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MenubarModule,
     ButtonModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

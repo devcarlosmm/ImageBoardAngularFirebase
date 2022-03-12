@@ -15,6 +15,7 @@ import {
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   Firestore,
   getDocs,
@@ -53,20 +54,27 @@ export class AuthService {
   }
 
   // BORRAR USUARIO
-  borrarUsuario() {
+  async borrarUsuario() {
     const user = this.auth.currentUser;
+    const userCollection = collection(this.db, 'nombreUsuario');
+    const q = query(userCollection, where('uid', '==', user!.uid));
+    const querySnapshot = await getDocs(q); 
+
+    await deleteDoc(querySnapshot.docs[0].ref);
+
     deleteUser(user!)
       .then(() => {
         // User deleted.
         console.log('Cuenta borrada');
         this.setState(false);
         this.setInformacion(undefined);
+
         alert('Cuenta borrada con exito. Bye bye!!');
       })
       .catch((error) => {
         // An error ocurred
         // ...
-        console.log('Error: Cuenta no borrada');
+        console.log('Error: Cuenta no borrada', error);
       });
   }
 

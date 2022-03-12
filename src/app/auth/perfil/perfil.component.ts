@@ -28,7 +28,7 @@ export class PerfilComponent implements OnInit {
   }
   borrarCuenta() {
     if (confirm('Estas seguro de querer borrar la cuenta?? ')) {
-      /*  this.auth.borrarUsuario(); */
+      this.auth.borrarUsuario();
       this.router.navigateByUrl('auth/register');
     }
   }
