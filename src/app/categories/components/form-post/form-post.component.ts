@@ -3,51 +3,37 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnChanges,
-  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
-import { map, Subscription } from 'rxjs';
-/* import { Modal } from 'bootstrap'; */
+import { Router } from '@angular/router';
+import { map } from 'rxjs';
 import { Post } from 'src/app/interfaces/post.interface';
 import { CategoryService } from '../../../services/category.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
-  selector: 'app-form-post',
+  selector: 'dialog-post',
   templateUrl: './form-post.component.html',
   styleUrls: ['./form-post.component.scss'],
 })
-export class FormPostComponent implements OnChanges {
+export class FormPostComponent{
   @Input('visible') visible: boolean = false;
   @Output() newPostSubmitted = new EventEmitter<boolean>();
   @Output() closedModal = new EventEmitter<boolean>();
   postForm: FormGroup;
   imgData!: any;
   captcha: boolean = false;
-  subscription: Subscription;
-  textAreaDiv?: any;
-  /*   fullOnModal!: Modal; */
+  textAreaDiv?: HTMLElement;
   user: string = '';
   userObj: any = {};
   isLoggedin: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private categoryService: CategoryService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
-    this.subscription = this.router.events.subscribe({
-      next: (event) => {
-        this.postForm.reset();
-        if (event instanceof NavigationEnd) {
-          this.postForm
-            .get('category')
-            ?.setValue(this.router.url.split('/')[2]);
-        }
-      },
-    });
 
     this.postForm = this.fb.group({
       category: ['', [Validators.required]],
@@ -57,23 +43,13 @@ export class FormPostComponent implements OnChanges {
       uid: [''],
       id: [''],
     });
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.visible) {
-      let modal: HTMLElement = document.getElementById('exampleModal')!;
-      /*       this.fullOnModal = new Modal(modal, {
-        backdrop: 'static',
-        keyboard: false,
-      });
-      this.fullOnModal.toggle(); */
-    }
+    this.postForm.get("category")?.setValue(this.router.url.split("/")[2]);
   }
 
   submitPost(data: Post) {
     this.visible = false;
     this.captcha = false;
-    //
     // Recuperamos el estado del loggin (true/false)
     this.authService.getState().subscribe((data) => {
       this.isLoggedin = data;
@@ -95,8 +71,6 @@ export class FormPostComponent implements OnChanges {
       this.userObj.uid = 'Anon';
     }
 
-    //
-
     const post: Post = {
       category: data.category,
       content: this.textAreaDiv!.innerHTML,
@@ -108,8 +82,7 @@ export class FormPostComponent implements OnChanges {
     this.categoryService.submitPost(post, this.imgData).then(() => {
       this.newPostSubmitted.emit(true);
     });
-    this.postForm.reset();
-    this.closeModal();
+    this.resetForm();
   }
 
   processIMG(event: Event) {
@@ -124,13 +97,9 @@ export class FormPostComponent implements OnChanges {
     this.captcha = true;
   }
 
-  closeModal() {
-    /*     this.fullOnModal.hide(); */
-    this.closedModal.emit(true);
-  }
-
   resetForm() {
     this.postForm.reset();
+    this.textAreaDiv!.innerHTML = "";
   }
 
   clearImg() {
@@ -150,9 +119,9 @@ export class FormPostComponent implements OnChanges {
   }
 
   copyContent(event: Event) {
-    this.textAreaDiv = document.getElementById('content');
+    this.textAreaDiv = document.getElementById('content')!;
     //TODO Cambiar la long a 250 cuando funcione
-    if (this.textAreaDiv.innerText.length >= 1) {
+    if (this.textAreaDiv!.innerText.length >= 1) {
       this.postForm.controls['content'].markAsTouched();
       this.postForm.controls['content'].setErrors(null);
     }

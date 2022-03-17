@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
 import { Post } from '../../../interfaces/post.interface';
+import { FormPostComponent } from '../../components/form-post/form-post.component';
 
 @Component({
   selector: 'app-category-page',
@@ -19,7 +21,8 @@ export class CategoryPageComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    public dialog:MatDialog
   ) {
     this.subscription = this.router.events.subscribe({
       next: (event) => {
@@ -50,7 +53,7 @@ export class CategoryPageComponent implements OnInit {
   }
 
   createPost() {
-    this.modalVisible = !this.modalVisible;
+    const dialogRef = this.dialog.open(FormPostComponent);
   }
 
   reloadPosts(reload: boolean) {

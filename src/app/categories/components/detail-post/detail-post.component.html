@@ -1,5 +1,4 @@
 <div class="grid">
-    <app-form-reply [visible]="modalVisible" (newReplySubmitted)="reloadPost(true)" (closedModal)="createReply()"></app-form-reply>
     <div class="col-12 md:col-8 md:col-offset-2 detail-post-background">
         <div class="grid">
             <div class="col-12 md:col-4">
@@ -17,13 +16,19 @@
             <div class="col-12 md:col-8">
                 <div class="grid">
                     <div class="col-6">
-                        <h5>Replies: <span>{{(repliesPost.length > 0) ? repliesPost.length : 'No one has replied to this post yet'}}</span></h5>
+                        <h5>Replies: 
+                            <span>{{(repliesPost.length > 0) ? repliesPost.length : 'No one has replied to this post yet'}}</span>
+                            <br>
+                            <a *ngFor="let entry of repliesPost; let i = index" (click)="scrollToReply(entry.idReply)">
+                                {{entry.idReply}} | 
+                            </a>
+                        </h5>
                     </div>
                     <div class="col-6 flex justify-content-center">
-                        <button type="button" class="btn btn-primary btn-lg" (click)="createReply()">Reply</button>                    </div>
+                        <button type="button" class="btn btn-primary btn-lg" (click)="createReply()" [id]="">Reply</button>                    </div>
                     </div>
             </div>
         </div>
     </div>
 </div>
-<app-reply-post [repliesData]="repliesPost" [visible]="modalVisible" (newReplySubmitted)="reloadPost(true)" (closedModal)="createReply()"></app-reply-post>
+<app-reply-post [repliesData]="repliesPost" (newReplySubmitted)="reloadPost(true)" (closedModal)="createReply()"></app-reply-post>

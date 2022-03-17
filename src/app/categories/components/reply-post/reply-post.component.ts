@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Reply } from 'src/app/interfaces/reply.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { FormReplyComponent } from '../form-reply/form-reply.component';
 
 @Component({
   selector: 'app-reply-post',
@@ -8,19 +10,27 @@ import { Reply } from 'src/app/interfaces/reply.interface';
 })
 export class ReplyPostComponent {
   @Input() repliesData!: Reply[];
-  @Input('visible') visible: boolean = false;
   @Output() newReplySubmitted = new EventEmitter<boolean>();
   @Output() closedModal = new EventEmitter<boolean>();
+  replyID:string = "";
 
-  modalVisible:boolean = false;
+  constructor(public dialog:MatDialog) {}
 
-  constructor() {}
-
-  createReply(){
-    this.modalVisible = !this.modalVisible;
+  createReply(event:Event){
+    console.log(event);
+    const dialogRef = this.dialog.open(FormReplyComponent, {
+      data: {
+        id: ((<HTMLElement>event.target).id !== null) ? (<HTMLElement>event.target).id : ""
+      }
+    });
   }
 
   reloadReplies(){
     this.newReplySubmitted.emit(true);
+  }
+
+  scrollToReply(replyID:string){
+    let reply = document.getElementById(replyID);
+    reply!.scrollIntoView({behavior: "smooth"}); 
   }
 }
