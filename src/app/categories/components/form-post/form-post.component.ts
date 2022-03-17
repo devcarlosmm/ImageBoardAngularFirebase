@@ -9,7 +9,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { map, Subscription } from 'rxjs';
-import { Modal } from 'bootstrap';
+/* import { Modal } from 'bootstrap'; */
 import { Post } from 'src/app/interfaces/post.interface';
 import { CategoryService } from '../../../services/category.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -28,7 +28,7 @@ export class FormPostComponent implements OnChanges {
   captcha: boolean = false;
   subscription: Subscription;
   textAreaDiv?: any;
-  fullOnModal!: Modal;
+  /*   fullOnModal!: Modal; */
   user: string = '';
   userObj: any = {};
   isLoggedin: boolean = false;
@@ -62,11 +62,11 @@ export class FormPostComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.visible) {
       let modal: HTMLElement = document.getElementById('exampleModal')!;
-      this.fullOnModal = new Modal(modal, {
+      /*       this.fullOnModal = new Modal(modal, {
         backdrop: 'static',
         keyboard: false,
       });
-      this.fullOnModal.toggle();
+      this.fullOnModal.toggle(); */
     }
   }
 
@@ -125,7 +125,7 @@ export class FormPostComponent implements OnChanges {
   }
 
   closeModal() {
-    this.fullOnModal.hide();
+    /*     this.fullOnModal.hide(); */
     this.closedModal.emit(true);
   }
 

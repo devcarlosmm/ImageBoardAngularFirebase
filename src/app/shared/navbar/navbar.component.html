@@ -1,18 +1,30 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">IMAGEBOARD</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
-    </button>
+    </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            id="japanese"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Japanese Culture
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu" aria-labelledby="japanese">
             <li class="font-blanca">
               <a class="dropdown-item" routerLink="categories/j-m">Manga</a>
             </li>
@@ -23,37 +35,58 @@
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="tecnology"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Tecnology
           </a>
-          <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu bg-dark" aria-labelledby="tecnology">
             <li>
               <a class="dropdown-item" routerLink="categories/t-g">Gadgets</a>
             </li>
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="videogames"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             Video Games
           </a>
-          <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu bg-dark" aria-labelledby="videogames">
             <li>
-              <a class="dropdown-item" routerLink="categories/v-n">Nintendon't</a>
+              <a class="dropdown-item" routerLink="categories/v-n"
+                >Nintendon't</a
+              >
             </li>
           </ul>
         </li>
       </ul>
       <div class="d-flex" *ngIf="isLoggedin; else elseBlock">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             {{ subject$.displayName }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li>
-              <a class="dropdown-item" [routerLink]="['/auth/perfil']">Perfil</a>
+              <a class="dropdown-item" [routerLink]="['/auth/perfil']"
+                >Perfil</a
+              >
             </li>
             <li>
               <a class="dropdown-item" (click)="logOut()">Log Out</a>
@@ -62,7 +95,11 @@
         </li>
       </div>
 
-      <ng-template #elseBlock><a class="btn btn-primary" [routerLink]="['/auth/login']">Loguearse</a></ng-template>
+      <ng-template #elseBlock
+        ><a class="btn btn-primary" [routerLink]="['/auth/login']"
+          >Loguearse</a
+        ></ng-template
+      >
     </div>
   </div>
 </nav>

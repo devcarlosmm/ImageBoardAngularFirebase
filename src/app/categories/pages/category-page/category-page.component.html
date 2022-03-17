@@ -1,34 +1,67 @@
 <div class="container" id="postGrid">
-    <div class="text-center" *ngIf="loading">
-        <div class="spinner-border text-warning" role="status" style="width: 10rem; height: 10rem;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+  <div class="text-center" *ngIf="loading">
+    <div
+      class="spinner-border text-warning"
+      role="status"
+      style="width: 10rem; height: 10rem"
+    >
+      <span class="visually-hidden">Loading...</span>
     </div>
-    <app-form-post [visible]="modalVisible" (newPostSubmitted)="reloadPosts($event)" (closedModal)="createPost()"></app-form-post>
-    <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 card-group my-1">
-            <div class="card text-white bg-dark" *ngIf="!loading">
-                <img src="assets/showcase/images/card.png" class="card-img-top" alt="Base image for creating post" style="cursor: default;">
-                <div class="card-body">
-                  <h5 class="card-title" (click)="createPost()">CREATE POST</h5>
-                  <p class="card-text">Share your own thoughts with the community!</p>
-                </div>
-                <div class="card-footer text-center">
-                    <button type="button" class="btn btn-warning btn-lg" (click)="createPost()">Create Post</button>
-                </div>
-            </div>
+  </div>
+  <app-form-post
+    [visible]="modalVisible"
+    (newPostSubmitted)="reloadPosts($event)"
+    (closedModal)="createPost()"
+  ></app-form-post>
+  <div class="row">
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 card-group my-1">
+      <div class="card text-white bg-dark" *ngIf="!loading">
+        <img
+          src="assets/showcase/images/card.png"
+          class="card-img-top"
+          alt="Base image for creating post"
+          style="cursor: default"
+        />
+        <div class="card-body">
+          <h5 class="card-title" (click)="createPost()">CREATE POST</h5>
+          <p class="card-text">Share your own thoughts with the community!</p>
         </div>
-        <div *ngFor="let post of posts" class="col-xl-3 col-lg-4 col-md-6 col-sm-12 card-group my-1">
-            <div class="card text-white bg-dark">
-                <img [src]="(post.img)? post.img:'assets/showcase/images/card.png'" class="card-img-top" alt="Post image" [routerLink]="post.id">
-                <div class="card-body">
-                  <h5 class="card-title" [routerLink]="post.id">{{ post.title | shortContent: 15 }}</h5>
-                  <p class="card-text" [innerHTML]="post.content | shortContent: 200"></p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">{{post.date | date}}</small>
-                </div>
-            </div>
+        <div class="card-footer text-center">
+          <button
+            type="button"
+            class="btn btn-warning btn-lg"
+            (click)="createPost()"
+          >
+            Create Post
+          </button>
+          <button [routerLink]="['/auth/perfil']">button</button>
         </div>
+      </div>
     </div>
+    <div
+      *ngFor="let post of posts"
+      class="col-xl-3 col-lg-4 col-md-6 col-sm-12 card-group my-1"
+    >
+      <div class="card text-white bg-dark">
+        <img
+          [src]="post.img ? post.img : 'assets/showcase/images/card.png'"
+          class="card-img-top"
+          alt="Post image"
+          [routerLink]="post.id"
+        />
+        <div class="card-body">
+          <h5 class="card-title" [routerLink]="post.id">
+            {{ post.title | shortContent: 15 }}
+          </h5>
+          <p
+            class="card-text"
+            [innerHTML]="post.content | shortContent: 200"
+          ></p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">{{ post.date | date }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

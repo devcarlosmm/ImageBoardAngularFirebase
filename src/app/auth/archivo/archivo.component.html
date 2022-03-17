@@ -1,7 +1,55 @@
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h1>Estos son tus posts y replys</h1>
-        </div>
+  <div class="row">
+    <div class="col-12">
+      <h2>
+        <span class="alert alert-primary me-2">{{ subject$.displayName }} </span
+        >estos son tus posts y replys
+      </h2>
     </div>
+    <!-- POSTS -->
+    <div class="col">
+      <h3>Posts</h3>
+      <div class="row" *ngFor="let item of postsLits$; let i; as: index">
+        <form [formGroup]="form">
+          <div class="col">
+            <div class="card m-2 p-2">
+              <p>
+                Titulo:
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="title"
+                />
+              </p>
+              <p>
+                Contenido:
+                <textarea
+                  class="form-control"
+                  name=""
+                  id=""
+                  cols="30"
+                  rows="10"
+                  formControlName="content"
+                ></textarea>
+              </p>
+              <div class="row text-center">
+                <div class="col">
+                  <button class="btn btn-primary" (click)="editarPost(item)">
+                    Editar
+                  </button>
+                </div>
+                <div class="col">
+                  <button class="btn btn-danger">Borrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- REPLIES -->
+    <div class="col">
+      <h3>Replies</h3>
+    </div>
+  </div>
 </div>

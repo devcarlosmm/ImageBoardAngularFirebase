@@ -4,7 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //Bootstrap
-import * as bootstrap  from "bootstrap";
+/* import * as bootstrap from 'bootstrap'; */
+
+// SweetAlert2
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 //Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -21,9 +24,6 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 
-//PrimeNG
-import { ButtonModule } from 'primeng/button';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +36,7 @@ import { ButtonModule } from 'primeng/button';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    ButtonModule,
+    SweetAlert2Module,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

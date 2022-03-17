@@ -9,36 +9,39 @@ import { Post } from '../../../interfaces/post.interface';
   templateUrl: './category-page.component.html',
   styleUrls: ['./category-page.component.scss'],
 })
-export class CategoryPageComponent implements OnInit{
+export class CategoryPageComponent implements OnInit {
   posts: Post[] = [];
-  category:string = "";
-  currentCategory:string = "";
-  subscription:Subscription;
-  loading:boolean = true;
-  modalVisible:boolean = false;
-  
-  constructor(private categoryService: CategoryService, private router:Router) {
+  category: string = '';
+  currentCategory: string = '';
+  subscription: Subscription;
+  loading: boolean = true;
+  modalVisible: boolean = false;
+
+  constructor(
+    private categoryService: CategoryService,
+    private router: Router
+  ) {
     this.subscription = this.router.events.subscribe({
       next: (event) => {
         this.posts = [];
         this.loading = true;
-        if(event instanceof NavigationEnd){
-          if(event.url.split("/")[2] != this.currentCategory){
+        if (event instanceof NavigationEnd) {
+          if (event.url.split('/')[2] != this.currentCategory) {
             this.retrievePosts();
           }
         }
-      }
-    })
+      },
+    });
   }
 
   ngOnInit(): void {
     window.onbeforeunload = () => this.unsubscribeOnChange();
   }
 
-  retrievePosts(){
+  retrievePosts() {
     this.posts = [];
     this.loading = true;
-    this.category = this.router.url.split("/")[2];
+    this.category = this.router.url.split('/')[2];
     this.currentCategory = this.category;
     this.categoryService.getPostsByCategory(this.category).then((data) => {
       this.posts = data;
@@ -46,17 +49,17 @@ export class CategoryPageComponent implements OnInit{
     });
   }
 
-  createPost(){
+  createPost() {
     this.modalVisible = !this.modalVisible;
   }
 
-  reloadPosts(reload:boolean){
-    if(reload){
+  reloadPosts(reload: boolean) {
+    if (reload) {
       this.retrievePosts();
     }
   }
 
-  unsubscribeOnChange():void{
+  unsubscribeOnChange(): void {
     this.subscription.unsubscribe();
   }
 }

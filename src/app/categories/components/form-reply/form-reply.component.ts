@@ -1,6 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Modal } from 'bootstrap';
+/* import { Modal } from 'bootstrap'; */
 import { map } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Reply } from 'src/app/interfaces/reply.interface';
@@ -10,31 +17,34 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-form-reply',
   templateUrl: './form-reply.component.html',
-  styleUrls: ['./form-reply.component.scss']
+  styleUrls: ['./form-reply.component.scss'],
 })
-export class FormReplyComponent implements OnInit{
+export class FormReplyComponent implements OnInit {
   @Input('visible') visible: boolean = false;
-  @Input("replyID") 
-  get replyId(): string {return this.replyID}
-  set replyId(id:string) {this.replyID = id}
+  @Input('replyID')
+  get replyId(): string {
+    return this.replyID;
+  }
+  set replyId(id: string) {
+    this.replyID = id;
+  }
   @Output() newReplySubmitted = new EventEmitter<boolean>();
   @Output() closedModal = new EventEmitter<boolean>();
   replyForm: FormGroup;
   imgData!: any;
   textAreaDiv?: any;
-  fullOnModal!: Modal;
+  /*   fullOnModal!: Modal; */
   userObj: any = {};
   isLoggedin: boolean = false;
-  postId:string = "";
-  replyID:string = "";
+  postId: string = '';
+  replyID: string = '';
 
   constructor(
     private fb: FormBuilder,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     private replyService: ReplyService,
     private authService: AuthService
-  ) 
-  {
+  ) {
     this.postId = route.snapshot.params['id'];
     this.replyForm = this.fb.group({
       postID: [this.postId, [Validators.required]],
@@ -48,27 +58,27 @@ export class FormReplyComponent implements OnInit{
 
   ngOnInit(): void {
     let modal: HTMLElement = document.getElementById('exampleModal')!;
-    this.fullOnModal = new Modal(modal, {
+    /*     this.fullOnModal = new Modal(modal, {
       backdrop: 'static',
       keyboard: false,
-    });
+    }); */
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.visible) {
       let modal: HTMLElement = document.getElementById('exampleModal')!;
-      this.fullOnModal = new Modal(modal, {
+      /*       this.fullOnModal = new Modal(modal, {
         backdrop: 'static',
         keyboard: false,
       });
-      this.fullOnModal.toggle();
+      this.fullOnModal.toggle(); */
     }
     this.replyID = this.replyId;
-    console.log("REPLY ID CHANGES", this.replyID);
+    console.log('REPLY ID CHANGES', this.replyID);
   }
 
   submitReply(data: Reply) {
-    console.log("REPLY ID SUBMIT", this.replyID, this.replyId);
+    console.log('REPLY ID SUBMIT', this.replyID, this.replyId);
     this.visible = false;
     // Recuperamos el estado del loggin (true/false)
     this.authService.getState().subscribe((data) => {
@@ -95,14 +105,14 @@ export class FormReplyComponent implements OnInit{
 
     const reply: Reply = {
       content: this.textAreaDiv!.innerHTML,
-      img: (this.imgData) ? this.imgData.name:"",
+      img: this.imgData ? this.imgData.name : '',
       uid: this.userObj.uid,
       entries: [],
       idPost: this.postId,
-      idReply: "906Fn456Wlr8bxJGIGBb",
+      idReply: '906Fn456Wlr8bxJGIGBb',
       date: new Date(),
     };
-    console.log("Reply obj",reply);
+    console.log('Reply obj', reply);
     this.replyService.submitReply(reply, this.imgData).then(() => {
       this.newReplySubmitted.emit(true);
     });
@@ -119,7 +129,7 @@ export class FormReplyComponent implements OnInit{
   }
 
   closeModal() {
-    this.fullOnModal.hide();
+    /*  this.fullOnModal.hide(); */
     this.closedModal.emit(true);
   }
 

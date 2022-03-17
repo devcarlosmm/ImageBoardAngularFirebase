@@ -1,52 +1,90 @@
 <div class="modal fade" id="exampleModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content bg-dark text-primary">
-            <div class="modal-header">
-                <h5 class="modal-title">Post Form</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    (click)="closeModal()"></button>
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-primary">
+      <div class="modal-header">
+        <h5 class="modal-title">Post Form</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          [formGroup]="postForm"
+          (ngSubmit)="submitPost(postForm.value)"
+          class="form-group"
+        >
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="title"
+              id="floatingTitleInput"
+              placeholder="Post Title"
+            />
+            <label for="floatingTitleInput">Post Title</label>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              (click)="clearTitle()"
+              [disabled]="!postForm.get('title')?.dirty"
+            >
+              <i class="fa-solid fa-square-xmark"></i>
+            </button>
+          </div>
+          <div class="field">
+            <label for="content">Post content</label>
+            <div class="toolbar w-11">
+              <i class="fa-solid fa-bold" (click)="formatText('bold')"></i>
+              <i class="fa-solid fa-italic" (click)="formatText('italic')"></i>
             </div>
-            <div class="modal-body">
-                <form [formGroup]="postForm" (ngSubmit)="submitPost(postForm.value)" class="form-group">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" formControlName="title" id="floatingTitleInput"
-                            placeholder="Post Title">
-                        <label for="floatingTitleInput">Post Title</label>
-                        <button type="button" class="btn btn-danger btn-sm" (click)="clearTitle()"
-                        [disabled]="!postForm.get('title')?.dirty">
-                        <i class="fa-solid fa-square-xmark"></i>
-                    </button>
-                    </div>
-                    <div class="field">
-                        <label for="content">Post content</label>
-                        <div class="toolbar w-11">
-                            <i class="fa-solid fa-bold" (click)="formatText('bold')"></i>
-                            <i class="fa-solid fa-italic" (click)="formatText('italic')"></i>
-                        </div>
-                        <div id="content" name="content" class="inputfield w-11" contenteditable="true"
-                            (keyup)="copyContent($event)"></div>
-                        <textarea style="display: none" formControlName="content"></textarea>
-                    </div>
-                    <div class="field">
-                        <label for="img">Post image</label>
-                        <input type="file" class="inputfield w-11" accept="image/*" formControlName="img"
-                            (change)="processIMG($event)" />
-                        <p-button icon="pi pi-times" type="button" [disabled]="!postForm.get('img')?.dirty"
-                            (click)="clearImg()" styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger">
-                        </p-button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">
-                            <i class="fa-solid fa-upload"></i>
-                            Submit
-                        </button>
-                        <button type="button" class="btn btn-danger" (click)="closeModal()">
-                            <i class="fa-solid fa-xmark"></i>
-                            Close form
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+            <div
+              id="content"
+              name="content"
+              class="inputfield w-11"
+              contenteditable="true"
+              (keyup)="copyContent($event)"
+            ></div>
+            <textarea
+              style="display: none"
+              formControlName="content"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label for="img">Post image</label>
+            <input
+              type="file"
+              class="inputfield w-11"
+              accept="image/*"
+              formControlName="img"
+              (change)="processIMG($event)"
+            />
+            <button
+              type="button"
+              [disabled]="!postForm.get('img')?.dirty"
+              (click)="clearImg()"
+              styleClass="ml-1 p-button-rounded p-button-secondary p-button-danger"
+            ></button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="postForm.invalid"
+            >
+              <i class="fa-solid fa-upload"></i>
+              Submit
+            </button>
+            <button type="button" class="btn btn-danger" (click)="closeModal()">
+              <i class="fa-solid fa-xmark"></i>
+              Close form
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
