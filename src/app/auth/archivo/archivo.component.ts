@@ -63,7 +63,8 @@ export class ArchivoComponent implements OnInit {
     console.log(pPost, this.form.value);
   }
 
-  async pruebaFormulario(pItem: Post) {
+  // Editar POST
+  async postFormulario(pItem: Post) {
     const { value: formValues } = await Swal.fire({
       title: 'Editar Post',
       width: 600,
@@ -92,12 +93,38 @@ export class ArchivoComponent implements OnInit {
     });
     if (formValues) {
       Swal.fire(JSON.stringify(formValues));
-      this.setForm(pItem, formValues);
+      this.setFormPost(pItem, formValues);
     }
   }
 
-  // Set datos FORMVALUE
-  setForm(pItem: Post, pFormValues: string[]) {
+  // Editar REPLY
+  async replyFormulario(pItem: Reply) {
+    const { value: formValues } = await Swal.fire({
+      title: 'Editar Reply',
+      width: 600,
+      html:
+        '<input id="swal-input1" class="swal2-input" value="' +
+        pItem.content +
+        '">',
+      showCancelButton: true,
+      focusConfirm: false,
+      preConfirm: () => {
+        const inputElement = document.getElementById(
+          'swal-input1'
+        ) as HTMLInputElement;
+
+        const inputValue = inputElement.value;
+        return [inputValue];
+      },
+    });
+    if (formValues) {
+      Swal.fire(JSON.stringify(formValues));
+      this.setFormReply(pItem, formValues);
+    }
+  }
+
+  // Set datos FORMVALUE POST
+  setFormPost(pItem: Post, pFormValues: string[]) {
     //TODO mirar si el contenido es igual al POST con if else
 
     //TODO si es diferente mandar datos para actualizar
@@ -105,5 +132,50 @@ export class ArchivoComponent implements OnInit {
     this.form.controls['content'].setValue(pFormValues[1]);
     this.form.controls['id'].setValue(pItem.id);
     this.categoryService.updatePost(this.form.value);
+  }
+  // Set datos FORMVALUE REPLY
+  setFormReply(pItem: Reply, pFormValues: string[]) {
+    //TODO mirar si el contenido es igual al REPLY con if else
+
+    //TODO si es diferente mandar datos para actualizar
+    this.form.controls['content'].setValue(pFormValues[0]);
+    this.form.controls['id'].setValue(pItem.idReply);
+    this.categoryService.updateReply(this.form.value);
+  }
+
+  //TODO borrar POST
+  borrarPost(post: Post) {
+    Swal.fire({
+      title: '¿Estas seguro de borrar el post?',
+      text: 'Si lo borras desaparecera el post y las respuestas',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borralo!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoryService.borrarPost(post.id!);
+        Swal.fire('Borrado!', 'Tu post ha sido borrado.');
+      }
+    });
+  }
+
+  //TODO borrar Reply
+  borrarReply(reply: Reply) {
+    Swal.fire({
+      title: '¿Estas seguro de borrar el comentario?',
+      text: 'Si lo borras desaparecera tanto el comentario como su imagen',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borralo!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoryService.borrarReply(reply.idReply);
+        Swal.fire('Borrado!', 'Tu comentario ha sido borrado.');
+      }
+    });
   }
 }

@@ -7,6 +7,7 @@ import { Post } from '../interfaces/post.interface';
 import {
   addDoc,
   collection,
+  deleteDoc,
   Firestore,
   getDocs,
   getFirestore,
@@ -195,6 +196,17 @@ export class CategoryService {
     });
   }
 
+  // UPDATEAR REPLY DE USER
+  async updateReply(data: any) {
+    console.log('tenemos data', data);
+
+    const postRef = doc(this.db, 'reply', data.id);
+
+    await updateDoc(postRef, {
+      content: data.content,
+    });
+  }
+
   // SET USER POSTS
   setUserPost(informacion: any) {
     this.postUserList.next(informacion);
@@ -211,5 +223,23 @@ export class CategoryService {
   // GET USER REPLY
   getUserReply() {
     return this.replyUserList.asObservable();
+  }
+
+  //TODO BORRAR POST
+  async borrarPost(pUid: string) {
+    await deleteDoc(doc(this.db, 'post', pUid));
+    const replyRef = collection(this.db, 'reply');
+    const q = query(replyRef, where('idPost', '==', pUid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+      //TODO borrar tambien las imagenes asignadas tanto a post como reply
+    });
+  }
+
+  //TODO BORRAR REPLY
+  async borrarReply(pUid: string) {
+    await deleteDoc(doc(this.db, 'reply', pUid));
+    //TODO Borrar tambien la imagen
   }
 }

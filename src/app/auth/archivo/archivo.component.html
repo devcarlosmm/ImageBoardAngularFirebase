@@ -19,15 +19,14 @@
             <p>Contenido:{{ item.content }}</p>
             <div class="row text-center">
               <div class="col">
-                <button
-                  class="btn btn-primary"
-                  (click)="pruebaFormulario(item)"
-                >
+                <button class="btn btn-primary" (click)="postFormulario(item)">
                   Editar
                 </button>
               </div>
               <div class="col">
-                <button class="btn btn-danger">Borrar</button>
+                <button class="btn btn-danger" (click)="borrarPost(item)">
+                  Borrar
+                </button>
               </div>
             </div>
           </div>
@@ -47,10 +46,14 @@
             <p>Contenido:{{ item.content }}</p>
             <div class="row text-center">
               <div class="col">
-                <button class="btn btn-primary">Editar</button>
+                <button class="btn btn-primary" (click)="replyFormulario(item)">
+                  Editar
+                </button>
               </div>
               <div class="col">
-                <button class="btn btn-danger">Borrar</button>
+                <button class="btn btn-danger" (click)="borrarReply(item)">
+                  Borrar
+                </button>
               </div>
             </div>
           </div>
