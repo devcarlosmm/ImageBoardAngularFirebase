@@ -25,6 +25,7 @@ export class DetailPostComponent{
   repliesPost: Reply[] = [];
   postId: string = '';
   username:string = "";
+  loading: boolean = true;
 
   constructor(
     private categoryService: CategoryService,
@@ -51,6 +52,7 @@ export class DetailPostComponent{
           .then((data) => {
             this.repliesPost = data;
             console.log('RP', this.repliesPost);
+            this.loading = false;
           })
           .catch((error) => {
             console.log('Error al recibir replies:', error);
