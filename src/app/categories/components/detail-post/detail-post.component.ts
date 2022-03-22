@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/interfaces/post.interface';
 import { Reply } from 'src/app/interfaces/reply.interface';
 import { CategoryService } from '../../../services/category.service';
 import { ReplyService } from '../../../services/reply.service';
+import { FormReplyComponent } from '../form-reply/form-reply.component';
 
 @Component({
   selector: 'app-detail-post',
@@ -23,19 +25,19 @@ export class DetailPostComponent{
   repliesPost: Reply[] = [];
   postId: string = '';
   username:string = "";
-  modalVisible:boolean = false;
 
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
-    private replyService: ReplyService
+    private replyService: ReplyService,
+    public dialog:MatDialog
   ) {
     this.postId = route.snapshot.params['id'];
     this.retrieveData();
   }
 
   createReply(){
-    this.modalVisible = !this.modalVisible;
+    const dialogRef = this.dialog.open(FormReplyComponent);
   }
 
   retrieveData(){
@@ -63,5 +65,10 @@ export class DetailPostComponent{
     if(reload){
       this.retrieveData();
     }
+  }
+
+  scrollToReply(replyID:string){
+    let reply = document.getElementById(replyID);
+    reply!.scrollIntoView({behavior: "smooth"}); 
   }
 }

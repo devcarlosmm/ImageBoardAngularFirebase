@@ -2,6 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoriesRoutingModule } from './categories-routing.module';
 
+//Angular Material
+import { MatDialogModule } from '@angular/material/dialog';
+
+// SweetAlert2
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 import { CategoryPageComponent } from './pages/category-page/category-page.component';
 import { ReplyPostComponent } from './components/reply-post/reply-post.component';
 import { DetailPostComponent } from './components/detail-post/detail-post.component';
@@ -23,6 +29,7 @@ import { FormReplyComponent } from './components/form-reply/form-reply.component
     CategoriesRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    MatDialogModule
   ],
 })
 export class CategoriesModule {}

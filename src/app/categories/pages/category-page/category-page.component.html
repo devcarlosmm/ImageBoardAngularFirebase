@@ -8,11 +8,11 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-  <app-form-post
-    [visible]="modalVisible"
+  <!-- <app-form-post
+    [visible]=false
     (newPostSubmitted)="reloadPosts($event)"
     (closedModal)="createPost()"
-  ></app-form-post>
+  ></app-form-post> -->
   <div class="row">
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 card-group my-1">
       <div class="card text-white bg-dark" *ngIf="!loading">
@@ -30,11 +30,9 @@
           <button
             type="button"
             class="btn btn-warning btn-lg"
-            (click)="createPost()"
-          >
+            (click)="createPost()">
             Create Post
           </button>
-          <button [routerLink]="['/auth/perfil']">button</button>
         </div>
       </div>
     </div>

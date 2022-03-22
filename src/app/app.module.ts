@@ -3,12 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-//Bootstrap
-/* import * as bootstrap from 'bootstrap'; */
-
-// SweetAlert2
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
 //Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
@@ -36,7 +30,6 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    SweetAlert2Module.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
