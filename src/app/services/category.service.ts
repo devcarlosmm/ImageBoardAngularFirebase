@@ -11,6 +11,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { initializeApp } from '@angular/fire/app';
@@ -22,6 +23,7 @@ import {
   getDownloadURL,
 } from '@angular/fire/storage';
 import { BehaviorSubject } from 'rxjs';
+import { Reply } from '../interfaces/reply.interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -32,6 +34,7 @@ export class CategoryService {
 
   //
   postUserList: BehaviorSubject<Post[]> = new BehaviorSubject<Post[]>([]);
+  replyUserList: BehaviorSubject<Reply[]> = new BehaviorSubject<Reply[]>([]);
   //
   constructor(private fs: Firestore) {}
 
@@ -122,6 +125,7 @@ export class CategoryService {
     let postList: Post[] = [];
 
     querySnapshot.docs.forEach((doc) => {
+      console.log('Esto es docs', doc);
       const post: Post = {
         id: doc.id,
         category: doc.data()['category'] as Post['category'],
@@ -130,6 +134,7 @@ export class CategoryService {
         title: doc.data()['title'] as Post['title'],
         date: doc.data()['date'].toDate() as Post['date'],
       };
+      console.log(post, doc);
       postList.push(post);
     });
 
@@ -144,6 +149,52 @@ export class CategoryService {
     this.setUserPost(postList);
   }
 
+  // Recuperar REPLIES PERFIL USUARIO
+  async recuperarReplyUser(pUid: string) {
+    console.log('Mandao', pUid);
+    const postsCollection = collection(this.db, 'reply');
+    const q = query(postsCollection, where('uid', '==', pUid));
+    const querySnapshot = await getDocs(q);
+    let replyList: Reply[] = [];
+
+    querySnapshot.docs.forEach((doc) => {
+      console.log('Esto es docs', doc);
+      const reply: Reply = {
+        idReply: doc.id,
+        content: doc.data()['content'] as Reply['content'],
+        img: doc.data()['img'] as Reply['img'],
+        date: doc.data()['date'].toDate() as Reply['date'],
+        uid: doc.data()['uid'] as Reply['uid'],
+        idPost: doc.data()['idPost'] as Reply['idPost'],
+        entries: doc.data()['entries'] as Reply['entries'],
+      };
+      console.log(reply, doc);
+      replyList.push(reply);
+    });
+
+    if (replyList.length === 0) {
+      throw new Error("Category doesn't have any posts");
+    }
+
+    replyList.sort((a, b) => {
+      return b.date.valueOf() - a.date.valueOf();
+    });
+
+    this.setUserReply(replyList);
+  }
+
+  // UPDATEAR POST DE USER
+  async updatePost(data: any) {
+    console.log('tenemos data', data);
+
+    const postRef = doc(this.db, 'post', data.id);
+
+    await updateDoc(postRef, {
+      title: data.title,
+      content: data.content,
+    });
+  }
+
   // SET USER POSTS
   setUserPost(informacion: any) {
     this.postUserList.next(informacion);
@@ -151,5 +202,14 @@ export class CategoryService {
   // GET USER POSTS
   getUserPost() {
     return this.postUserList.asObservable();
+  }
+
+  // SET USER REPLY
+  setUserReply(informacion: any) {
+    this.replyUserList.next(informacion);
+  }
+  // GET USER REPLY
+  getUserReply() {
+    return this.replyUserList.asObservable();
   }
 }

@@ -36,7 +36,7 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    SweetAlert2Module,
+    SweetAlert2Module.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

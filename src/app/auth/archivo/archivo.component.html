@@ -7,49 +7,56 @@
       </h2>
     </div>
     <!-- POSTS -->
-    <div class="col">
+    <div class="col-6" *ngIf="postsList$.length > 0; else elsePostBlock">
       <h3>Posts</h3>
-      <div class="row" *ngFor="let item of postsLits$; let i; as: index">
-        <form [formGroup]="form">
-          <div class="col">
-            <div class="card m-2 p-2">
-              <p>
-                Titulo:
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="title"
-                />
-              </p>
-              <p>
-                Contenido:
-                <textarea
-                  class="form-control"
-                  name=""
-                  id=""
-                  cols="30"
-                  rows="10"
-                  formControlName="content"
-                ></textarea>
-              </p>
-              <div class="row text-center">
-                <div class="col">
-                  <button class="btn btn-primary" (click)="editarPost(item)">
-                    Editar
-                  </button>
-                </div>
-                <div class="col">
-                  <button class="btn btn-danger">Borrar</button>
-                </div>
+      <div class="row" *ngFor="let item of postsList$; let i; as: index">
+        <div class="col">
+          <div class="card m-2 p-2">
+            <p>
+              Titulo:
+              {{ item.title }}
+            </p>
+            <p>Contenido:{{ item.content }}</p>
+            <div class="row text-center">
+              <div class="col">
+                <button
+                  class="btn btn-primary"
+                  (click)="pruebaFormulario(item)"
+                >
+                  Editar
+                </button>
+              </div>
+              <div class="col">
+                <button class="btn btn-danger">Borrar</button>
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
+
+    <!--  -->
+    <ng-template #elsePostBlock> No tienes Posts </ng-template>
+    <!--  -->
     <!-- REPLIES -->
-    <div class="col">
+    <div class="col-6" *ngIf="replyList$.length > 0; else elseReplyBlock">
       <h3>Replies</h3>
+      <div class="row" *ngFor="let item of replyList$; let i; as: index">
+        <div class="col">
+          <div class="card m-2 p-2">
+            <p>Contenido:{{ item.content }}</p>
+            <div class="row text-center">
+              <div class="col">
+                <button class="btn btn-primary">Editar</button>
+              </div>
+              <div class="col">
+                <button class="btn btn-danger">Borrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <ng-template #elseReplyBlock> No tienes Posts </ng-template>
   </div>
 </div>
