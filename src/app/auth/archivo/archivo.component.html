@@ -1,65 +1,78 @@
 <div class="container">
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-12">
       <h2>
         <span class="alert alert-primary me-2">{{ subject$.displayName }} </span
         >estos son tus posts y replys
       </h2>
     </div>
+  </div>
+  <div class="row">
     <!-- POSTS -->
-    <div class="col-6" *ngIf="postsList$.length > 0; else elsePostBlock">
+    <div class="col-6">
       <h3>Posts</h3>
-      <div class="row" *ngFor="let item of postsList$; let i; as: index">
-        <div class="col">
-          <div class="card m-2 p-2">
-            <p>
-              Titulo:
-              {{ item.title }}
-            </p>
-            <p>Contenido:{{ item.content }}</p>
-            <div class="row text-center">
-              <div class="col">
-                <button class="btn btn-primary" (click)="postFormulario(item)">
-                  Editar
-                </button>
-              </div>
-              <div class="col">
-                <button class="btn btn-danger" (click)="borrarPost(item)">
-                  Borrar
-                </button>
+      <div *ngIf="postsList$.length > 0; else elsePostBlock">
+        <div class="row" *ngFor="let item of postsList$">
+          <div class="col">
+            <div class="card m-2 p-2">
+              <p>
+                Titulo:
+                {{ item.title }}
+              </p>
+              <p>Contenido:{{ item.content }}</p>
+              <div class="row text-center">
+                <div class="col">
+                  <button
+                    class="btn btn-primary"
+                    (click)="postFormulario(item)"
+                  >
+                    Editar
+                  </button>
+                </div>
+                <div class="col">
+                  <button class="btn btn-danger" (click)="borrarPost(item)">
+                    Borrar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <ng-template #elsePostBlock> No tienes Posts </ng-template>
     </div>
 
     <!--  -->
-    <ng-template #elsePostBlock> No tienes Posts </ng-template>
+
     <!--  -->
     <!-- REPLIES -->
-    <div class="col-6" *ngIf="replyList$.length > 0; else elseReplyBlock">
+    <div class="col-6">
       <h3>Replies</h3>
-      <div class="row" *ngFor="let item of replyList$; let i; as: index">
-        <div class="col">
-          <div class="card m-2 p-2">
-            <p>Contenido:{{ item.content }}</p>
-            <div class="row text-center">
-              <div class="col">
-                <button class="btn btn-primary" (click)="replyFormulario(item)">
-                  Editar
-                </button>
-              </div>
-              <div class="col">
-                <button class="btn btn-danger" (click)="borrarReply(item)">
-                  Borrar
-                </button>
+      <div *ngIf="replyList$.length > 0; else elseReplyBlock">
+        <div class="row" *ngFor="let item of replyList$">
+          <div class="col">
+            <div class="card m-2 p-2">
+              <p>Contenido:{{ item.content }}</p>
+              <div class="row text-center">
+                <div class="col">
+                  <button
+                    class="btn btn-primary"
+                    (click)="replyFormulario(item)"
+                  >
+                    Editar
+                  </button>
+                </div>
+                <div class="col">
+                  <button class="btn btn-danger" (click)="borrarReply(item)">
+                    Borrar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <ng-template #elseReplyBlock> No tienes Replies </ng-template>
     </div>
-    <ng-template #elseReplyBlock> No tienes Posts </ng-template>
   </div>
 </div>
