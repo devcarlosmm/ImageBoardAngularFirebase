@@ -29,6 +29,10 @@ export class ReplyService {
 
   constructor(private fs: Firestore) {}
 
+  randomIntegerID(min:number, max:number){
+    return Math.floor(Math.random() * (max-min) + min);
+  }
+
   async getReplies(): Promise<Reply[]> {
     //Seleccionamos la coleccion a la que queremos acceder
     const RepliesCollection = collection(this.db, 'reply');
@@ -84,7 +88,7 @@ export class ReplyService {
       const metadata = {
         contentType: "image/png"
       }
-      const storageRef = ref(this.storage, `img/${reply.idPost}/${reply.img}`);
+      const storageRef = ref(this.storage, `img/${reply.idPost}/${new Date().valueOf() + this.randomIntegerID(1,100)}/${reply.img}`);
       await uploadBytes(storageRef, img.file, metadata).then(async (snapshot) =>  {
         await getDownloadURL(snapshot.ref).then((value) =>{
           reply.img = value.split("&token")[0];

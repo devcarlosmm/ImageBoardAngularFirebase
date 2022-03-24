@@ -22,6 +22,7 @@ import {
   ref,
   uploadBytes,
   getDownloadURL,
+  deleteObject,
 } from '@angular/fire/storage';
 import { BehaviorSubject } from 'rxjs';
 import { Reply } from '../interfaces/reply.interface';
@@ -38,6 +39,10 @@ export class CategoryService {
   replyUserList: BehaviorSubject<Reply[]> = new BehaviorSubject<Reply[]>([]);
   //
   constructor(private fs: Firestore) {}
+
+  randomIntegerID(min:number, max:number){
+    return Math.floor(Math.random() * (max-min) + min);
+  }
 
   async getPostsByCategory(category: string): Promise<Post[]> {
     const postsCollection = collection(this.db, 'post');
@@ -58,7 +63,8 @@ export class CategoryService {
     });
 
     if (postList.length === 0) {
-      throw new Error("Category doesn't have any posts");
+      return postList;
+      //throw new Error("Category doesn't have any posts");
     }
 
     postList.sort((a, b) => {
@@ -101,7 +107,7 @@ export class CategoryService {
     const metadata = {
       contentType: 'image/png',
     };
-    const storageRef = ref(this.storage, `img/${post.category}/${post.img}`);
+    const storageRef = ref(this.storage, `img/${post.category}/${new Date().valueOf() + this.randomIntegerID(1,100)}/${post.img}`);
     await uploadBytes(storageRef, img.file, metadata).then(async (snapshot) => {
       await getDownloadURL(snapshot.ref).then((value) => {
         post.img = value.split('&token')[0];
@@ -140,7 +146,7 @@ export class CategoryService {
     });
 
     if (postList.length === 0) {
-      throw new Error("Category doesn't have any posts");
+      //throw new Error("Category doesn't have any posts");
     }
 
     postList.sort((a, b) => {
@@ -174,7 +180,7 @@ export class CategoryService {
     });
 
     if (replyList.length === 0) {
-      throw new Error("Category doesn't have any posts");
+      //throw new Error("Category doesn't have any posts");
     }
 
     replyList.sort((a, b) => {
@@ -225,21 +231,46 @@ export class CategoryService {
     return this.replyUserList.asObservable();
   }
 
-  //TODO BORRAR POST
   async borrarPost(pUid: string) {
-    await deleteDoc(doc(this.db, 'post', pUid));
+    const post = doc(this.db, 'post', pUid);
+    const postSnap = await getDoc(post);
+    const postImage = postSnap.get("img");
+    const postImageRef = ref(this.storage, postImage);
+
+    await deleteObject(postImageRef).then(() => {
+      console.log("Deleted post image");
+    }).catch((err) => {
+      console.log("Error in deleting image post",err);
+    });
+    await deleteDoc(post);
+
     const replyRef = collection(this.db, 'reply');
     const q = query(replyRef, where('idPost', '==', pUid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(async (doc) => {
+      if(doc.get("img")){
+        let replyImageRef = ref(this.storage, doc.get("img"));
+        deleteObject(replyImageRef).then(() => {
+          console.log("Deleted image!");
+        }).catch(err => {
+          console.log("Image error",err);
+        })
+      }
       await deleteDoc(doc.ref);
-      //TODO borrar tambien las imagenes asignadas tanto a post como reply
     });
   }
 
-  //TODO BORRAR REPLY
-  async borrarReply(pUid: string) {
-    await deleteDoc(doc(this.db, 'reply', pUid));
-    //TODO Borrar tambien la imagen
+  async borrarReply(rUid: string) {
+    const reply = doc(this.db, 'reply', rUid);
+    const replySnap = await getDoc(reply);
+    const replyImage = replySnap.get("img");
+    const replyImageRef = ref(this.storage, replyImage);
+
+    await deleteObject(replyImageRef).then(() => {
+      console.log("Deleted post image");
+    }).catch((err) => {
+      console.log("Error in deleting image post",err);
+    });
+    await deleteDoc(reply);
   }
 }
