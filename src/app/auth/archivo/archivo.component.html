@@ -1,16 +1,16 @@
 <div class="container">
   <div class="row mt-3">
-    <div class="col-12">
+    <div class="col-12 fondo">
       <h2>
-        <span class="alert alert-primary me-2">{{ subject$.displayName }} </span
-        >estos son tus posts y replys
+        <span class="user-resalto me-2">{{ subject$.displayName }} </span>estos
+        son tus posts y replys
       </h2>
     </div>
   </div>
-  <div class="row">
+  <div class="row mt-3">
     <!-- POSTS -->
     <div class="col-6">
-      <h3>Posts</h3>
+      <h3 class="post-label">Posts</h3>
       <div *ngIf="postsList$.length > 0; else elsePostBlock">
         <div class="row" *ngFor="let item of postsList$">
           <div class="col">
