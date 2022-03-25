@@ -1,34 +1,26 @@
-<div class="grid">
-    <div class="col-12 md:col-8 md:col-offset-2 detail-reply-background" *ngFor="let item of repliesData">
-        <div class="grid" [id]="item.idReply">
-            <div class="col-12 md:col-4 lg:col-3">
-                <img class="imagen-reply" [src]="item.img" alt="" />
-            </div>
-            <div class="col-12 md:col-8 lg:col-9">
-                <p [innerHTML]="item.content"></p>
-            </div>
-        </div>
-        <div class="grid">
-            <div class="col-12 md:col-4">
-                <h4>{{(item.uid) ? item.uid:"Anon"}}</h4>
-            </div>
-            <div class="col-12 md:col-8">
-                <div class="grid">
-                    <div class="col-6">
-                        <h5>
-                            Replies:
-                            <span>{{(item.entries.length >0) ? item.entries.length : 'No one has replied to this post yet'}}</span>
-                            <br>
-                            <a *ngFor="let entry of item.entries; let i = index" (click)="scrollToReply(entry)">
-                                {{entry}} <span *ngIf="i !== item.entries.length">| </span>
-                            </a>
-                        </h5>
-                    </div>
-                    <div class="col-6 flex justify-content-center">
-                        <button [id]="item.idReply" type="button" class="btn btn-primary btn-lg" (click)="createReply($event)">Reply</button> 
-                    </div>
+<div class="card my-3 mx-3" *ngFor="let item of repliesData" [id]="item.idReply">
+    <div class="row">
+      <div class="col-md-4">
+        <img class="cardImage" [src]="(item.img)?item.img:''" alt="" />
+    </div>
+      <div class="col-md-8">
+        <div class="card-body">
+            <p class="card-text" [innerHTML]="item.content"></p>
+            <div class="card-text row">
+                <div class="col-md-8">
+                    <h5>Nº of replies: 
+                        <span>{{(item.entries.length > 0) ? item.entries.length : 'No one has replied to this post yet'}}</span>
+                        <br>
+                    </h5>
+                    <a *ngFor="let entry of item.entries; let i = index" class="idlink" (click)="scrollToReply(entry)">
+                        {{entry}}</a>
+                </div>
+                <div class="col-md-4 align-self-end text-end">
+                    <p>{{(item.uid) ? item.uid : "Anon"}}</p>
+                    <button type="button" class="btn btn-primary btn-lg" (click)="createReply($event)">Reply</button>
                 </div>
             </div>
         </div>
+      </div>
     </div>
 </div>

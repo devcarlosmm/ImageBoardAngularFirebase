@@ -7,37 +7,31 @@
       <span class="visually-hidden">Loading...</span>
     </div>
 </div>
-<div class="grid" *ngIf="!loading">
-    <div class="col-12 md:col-8 md:col-offset-2 detail-post-background">
-        <div class="grid">
-            <div class="col-12 md:col-4">
-                <img class="imagen-post" [src]="(detailPost.img)?detailPost.img:'assets/showcase/images/card.png'" alt="" />
-            </div>
-            <div class="col-12 md:col-8">
-                <p>{{ detailPost.title }}</p>
-                <p class="capitalize" [innerHTML]="detailPost.content"></p>
-            </div>
-        </div>
-        <div class="grid">
-            <div class="col-12 md:col-4">
-                <h4>{{(detailPost.uid) ? detailPost.uid : "Anon"}}</h4>
-            </div>
-            <div class="col-12 md:col-8">
-                <div class="grid">
-                    <div class="col-6">
-                        <h5>Replies: 
-                            <span>{{(repliesPost.length > 0) ? repliesPost.length : 'No one has replied to this post yet'}}</span>
-                            <br>
-                            <a *ngFor="let entry of repliesPost; let i = index" (click)="scrollToReply(entry.idReply)">
-                                {{entry.idReply}} | 
-                            </a>
-                        </h5>
-                    </div>
-                    <div class="col-6 flex justify-content-center">
-                        <button type="button" class="btn btn-primary btn-lg" (click)="createReply()" [id]="">Reply</button>                    </div>
-                    </div>
-            </div>
-        </div>
+<div class="card my-3" *ngIf="!loading">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img class="cardImage" [src]="(detailPost.img)?detailPost.img:'assets/showcase/images/card.png'" alt="" />
     </div>
-</div>
-<app-reply-post [repliesData]="repliesPost" (newReplySubmitted)="reloadReplies()"></app-reply-post>
+      <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title">{{detailPost.title}}</h5>
+            <p class="card-text" [innerHTML]="detailPost.content"></p>
+            <div class="card-text row">
+                <div class="col-md-8">
+                    <h5>Nº of replies: 
+                        <span>{{(repliesPost.length > 0) ? repliesPost.length : 'No one has replied to this post yet'}}</span>
+                        <br>
+                    </h5>
+                    <a *ngFor="let entry of repliesPost; let i = index" class="idlink" (click)="scrollToReply(entry.idReply)">
+                        {{entry.idReply}}</a>
+                </div>
+                <div class="col-md-4 align-self-end text-end">
+                    <p>{{(detailPost.uid) ? detailPost.uid : "Anon"}}</p>
+                    <button type="button" class="btn btn-primary btn-lg" (click)="createReply()" [id]="">Reply</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<app-reply-post [repliesData]="repliesPost" (newReplySubmitted)="reloadReplies()" *ngIf="!loading"></app-reply-post>

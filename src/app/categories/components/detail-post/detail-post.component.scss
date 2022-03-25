@@ -1,15 +1,32 @@
-.detail-post-background {
-    background-color: yellow;
-    border-radius: 5px;
-    padding: 15px;
+.card{
+    background-color: var(--fondo-medio);
+    border-radius: 0.75rem;
+    border-width: 0.25rem;
+    border-color: var(--medio-claro);
 }
 
-.imagen-post {
+.cardImage{
+    padding: 0.5rem 0.5rem;
     width: 100%;
-    height: auto;
+    -o-object-fit: contain;
+    object-fit: contain;
 }
 
-a{
-    color:yellowgreen;
-    cursor: pointer;
+.card-text{
+    color: var(--claro-claro);
+}
+
+.card-title{
+    color: var(--claro-oscuro);
+}
+
+.idlink{
+    font-size: 0.75rem;
+    color:var(--medio-medio);
+    cursor:pointer;
+    text-decoration: none;
+}
+
+.idlink:hover{
+    color:var(--medio-claro);
 }
