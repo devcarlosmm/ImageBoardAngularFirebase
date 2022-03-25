@@ -1,10 +1,33 @@
-.card-img-top, .card-title{
+@import "../../../../utilities/variables";
+
+.card-img-top {
+    margin-top: 0.75rem;
+    width: 100%;
+    height: 15vw;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.post-card{
     cursor: pointer;
 }
 
-.card-img-top {
-    margin-top: 10px;
-    width: 100%;
-    height: 15vw;
-    object-fit: contain;
+.card{
+    background-color: var(--fondo-medio);
+    border-radius: 0.75rem;
+    transition: 1s transform linear;
+    transition: 0.25s box-shadow linear;
+}
+
+.card-text{
+    color: var(--claro-claro);
+}
+
+.card-title{
+    color: var(--claro-oscuro);
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 5px 15px var(--medio-negro);
 }
