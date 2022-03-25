@@ -1,10 +1,8 @@
 import {
   Component,
-  EventEmitter,
   Inject,
   Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs';
@@ -12,7 +10,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { Reply } from 'src/app/interfaces/reply.interface';
 import { ReplyService } from 'src/app/services/reply.service';
 import { Router } from '@angular/router';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form-reply',
@@ -21,8 +19,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class FormReplyComponent implements OnInit {
   @Input('visible') visible: boolean = false;
-  @Output() newReplySubmitted = new EventEmitter<boolean>();
-  @Output() closedModal = new EventEmitter<boolean>();
   replyForm: FormGroup;
   imgData!: any;
   textAreaDiv?: any;
@@ -35,6 +31,7 @@ export class FormReplyComponent implements OnInit {
     private router: Router,
     private replyService: ReplyService,
     private authService: AuthService,
+    public dialog:MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: {id: string}
   ) {
     this.replyForm = this.fb.group({
@@ -54,7 +51,7 @@ export class FormReplyComponent implements OnInit {
     this.postId = this.router.url.split("/")[3];
   }
 
-  submitReply(data: Reply) {
+  async submitReply(data: Reply) {
     this.visible = false;
     // Recuperamos el estado del loggin (true/false)
     this.authService.getState().subscribe((data) => {
@@ -89,11 +86,11 @@ export class FormReplyComponent implements OnInit {
       date: new Date(),
     };
     console.log('Reply obj', reply);
-    this.replyService.submitReply(reply, this.imgData).then(() => {
-      this.newReplySubmitted.emit(true);
+    await this.replyService.submitReply(reply, this.imgData)
+    .then(() => {
+      this.dialog.closeAll();
     });
     this.replyForm.reset();
-    this.closeModal();
   }
 
   processIMG(event: Event) {
@@ -102,11 +99,6 @@ export class FormReplyComponent implements OnInit {
       file: imgFile,
       name: imgFile.name,
     };
-  }
-
-  closeModal() {
-    /*  this.fullOnModal.hide(); */
-    this.closedModal.emit(true);
   }
 
   resetForm() {

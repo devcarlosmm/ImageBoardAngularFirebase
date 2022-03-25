@@ -54,12 +54,9 @@ export class CategoryPageComponent implements OnInit {
 
   createPost() {
     const dialogRef = this.dialog.open(FormPostComponent);
-  }
-
-  reloadPosts(reload: boolean) {
-    if (reload) {
+    dialogRef.afterClosed().subscribe(() =>{
       this.retrievePosts();
-    }
+    });
   }
 
   unsubscribeOnChange(): void {

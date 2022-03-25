@@ -10,23 +10,24 @@ import { FormReplyComponent } from '../form-reply/form-reply.component';
 })
 export class ReplyPostComponent {
   @Input() repliesData!: Reply[];
-  @Output() newReplySubmitted = new EventEmitter<boolean>();
-  @Output() closedModal = new EventEmitter<boolean>();
+  @Output() newReplySubmitted = new EventEmitter();
   replyID:string = "";
 
   constructor(public dialog:MatDialog) {}
 
   createReply(event:Event){
-    console.log(event);
     const dialogRef = this.dialog.open(FormReplyComponent, {
       data: {
         id: ((<HTMLElement>event.target).id !== null) ? (<HTMLElement>event.target).id : ""
       }
     });
+    dialogRef.afterClosed().subscribe(() => {
+      this.reloadReplies();
+    })
   }
 
   reloadReplies(){
-    this.newReplySubmitted.emit(true);
+    this.newReplySubmitted.emit();
   }
 
   scrollToReply(replyID:string){

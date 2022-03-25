@@ -10,6 +10,7 @@ import { map } from 'rxjs';
 import { Post } from 'src/app/interfaces/post.interface';
 import { CategoryService } from '../../../services/category.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'dialog-post',
@@ -18,8 +19,6 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 })
 export class FormPostComponent{
   @Input('visible') visible: boolean = false;
-  @Output() newPostSubmitted = new EventEmitter<boolean>();
-  @Output() closedModal = new EventEmitter<boolean>();
   postForm: FormGroup;
   imgData!: any;
   captcha: boolean = false;
@@ -33,6 +32,7 @@ export class FormPostComponent{
     private router: Router,
     private categoryService: CategoryService,
     private authService: AuthService,
+    public dialog:MatDialog
   ) {
 
     this.postForm = this.fb.group({
@@ -47,7 +47,7 @@ export class FormPostComponent{
     this.postForm.get("category")?.setValue(this.router.url.split("/")[2]);
   }
 
-  submitPost(data: Post) {
+  async submitPost(data: Post) {
     this.visible = false;
     this.captcha = false;
     // Recuperamos el estado del loggin (true/false)
@@ -79,8 +79,9 @@ export class FormPostComponent{
       uid: this.userObj.uid,
       date: new Date(),
     };
-    this.categoryService.submitPost(post, this.imgData).then(() => {
-      this.newPostSubmitted.emit(true);
+    await this.categoryService.submitPost(post, this.imgData)
+    .then(() => {
+      this.dialog.closeAll();
     });
     this.resetForm();
   }

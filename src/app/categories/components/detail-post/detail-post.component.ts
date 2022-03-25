@@ -39,6 +39,9 @@ export class DetailPostComponent{
 
   createReply(){
     const dialogRef = this.dialog.open(FormReplyComponent);
+    dialogRef.afterClosed().subscribe(() =>{
+      this.retrieveData();
+    });
   }
 
   retrieveData(){
@@ -47,26 +50,24 @@ export class DetailPostComponent{
       .then((data) => {
         this.detailPost = data;
         console.log('OP', this.detailPost);
-        this.replyService
-          .getRepliesPost(this.postId)
-          .then((data) => {
-            this.repliesPost = data;
-            console.log('RP', this.repliesPost);
-            this.loading = false;
-          })
-          .catch((error) => {
-            console.log('Error al recibir replies:', error);
-          });
+        this.reloadReplies();
       })
       .catch((error) => {
         console.log('Errollll: ', error);
       });
   }
 
-  reloadPost(reload:boolean){
-    if(reload){
-      this.retrieveData();
-    }
+  reloadReplies(){
+    this.replyService
+      .getRepliesPost(this.postId)
+      .then((data) => {
+        this.repliesPost = data;
+        console.log('RP', this.repliesPost);
+        this.loading = false;
+      })
+      .catch((error) => {
+        console.log('Error al recibir replies:', error);
+      });
   }
 
   scrollToReply(replyID:string){
