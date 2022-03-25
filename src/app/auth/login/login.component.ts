@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Register } from 'src/app/interfaces/register.interface';
+import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -26,13 +27,13 @@ export class LoginComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
-  login() {
+  async login() {
     let mensaje: Register = {
       message: '',
       status: '',
       codigo: 0,
     };
-    this.auth
+    await this.auth
       .loginUser(this.form.value.email, this.form.value.password)
       .then((userCredential) => {
         // Signed in
@@ -43,9 +44,14 @@ export class LoginComponent implements OnInit {
           status: 'success',
           codigo: 200,
         };
-        alert(
-          `<h1 class="${mensaje.status}">Usuario "${mensaje.message}" logueado con exito</h1>`
-        );
+        Swal.fire({
+          title: 'Exito ',
+          text: 'Usuario ' + mensaje.message + ' logueado con exito',
+          icon: 'success',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
         this.navegar();
       })
       .catch((error: any) => {
@@ -59,10 +65,14 @@ export class LoginComponent implements OnInit {
           status: errorCode,
           codigo: 400,
         };
-        alert(
-          `<h1 class="warning">Error ${mensaje.codigo}: ${mensaje.status}</h1>
-            <h2 >${mensaje.message}</h2>`
-        );
+        Swal.fire({
+          title: 'Error ' + mensaje.codigo,
+          text: 'Error de email o contraseña',
+          icon: 'warning',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
       });
   }
 

@@ -23,10 +23,10 @@ export class NavbarComponent implements OnInit {
 
     // Recuperamos el estado del loggin (true/false)
     this.auth.getState().subscribe((data) => {
+      console.log('cago en la leche', data);
       this.isLoggedin = data;
       console.log(this.isLoggedin);
     });
-
     // Recuperamos los datos que necesitamos para el navegador
     this.auth
       .getInformacion()
@@ -38,6 +38,7 @@ export class NavbarComponent implements OnInit {
         catchError((err) => err)
       )
       .subscribe((data) => {
+        console.log('Aqui entramos');
         this.subject$ = data as navbarInfo;
       });
   }
@@ -45,8 +46,8 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {}
 
   // LOG OUT
-  logOut() {
-    this.auth.logOut();
+  async logOut() {
+    await this.auth.logOut();
     this.route.navigateByUrl('auth/login');
   }
 }

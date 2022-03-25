@@ -40,8 +40,8 @@ export class CategoryService {
   //
   constructor(private fs: Firestore) {}
 
-  randomIntegerID(min:number, max:number){
-    return Math.floor(Math.random() * (max-min) + min);
+  randomIntegerID(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min) + min);
   }
 
   async getPostsByCategory(category: string): Promise<Post[]> {
@@ -106,7 +106,12 @@ export class CategoryService {
     const metadata = {
       contentType: 'image/png',
     };
-    const storageRef = ref(this.storage, `img/${post.category}/${new Date().valueOf() + this.randomIntegerID(1,100)}/${post.img}`);
+    const storageRef = ref(
+      this.storage,
+      `img/${post.category}/${
+        new Date().valueOf() + this.randomIntegerID(1, 100)
+      }/${post.img}`
+    );
     await uploadBytes(storageRef, img.file, metadata).then(async (snapshot) => {
       await getDownloadURL(snapshot.ref).then((value) => {
         post.img = value.split('&token')[0];
@@ -233,27 +238,31 @@ export class CategoryService {
   async borrarPost(pUid: string) {
     const post = doc(this.db, 'post', pUid);
     const postSnap = await getDoc(post);
-    const postImage = postSnap.get("img");
+    const postImage = postSnap.get('img');
     const postImageRef = ref(this.storage, postImage);
 
-    await deleteObject(postImageRef).then(() => {
-      console.log("Deleted post image");
-    }).catch((err) => {
-      console.log("Error in deleting image post",err);
-    });
+    await deleteObject(postImageRef)
+      .then(() => {
+        console.log('Deleted post image');
+      })
+      .catch((err) => {
+        console.log('Error in deleting image post', err);
+      });
     await deleteDoc(post);
 
     const replyRef = collection(this.db, 'reply');
     const q = query(replyRef, where('idPost', '==', pUid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(async (doc) => {
-      if(doc.get("img")){
-        let replyImageRef = ref(this.storage, doc.get("img"));
-        deleteObject(replyImageRef).then(() => {
-          console.log("Deleted image!");
-        }).catch(err => {
-          console.log("Image error",err);
-        })
+      if (doc.get('img')) {
+        let replyImageRef = ref(this.storage, doc.get('img'));
+        deleteObject(replyImageRef)
+          .then(() => {
+            console.log('Deleted image!');
+          })
+          .catch((err) => {
+            console.log('Image error', err);
+          });
       }
       await deleteDoc(doc.ref);
     });
@@ -262,14 +271,23 @@ export class CategoryService {
   async borrarReply(rUid: string) {
     const reply = doc(this.db, 'reply', rUid);
     const replySnap = await getDoc(reply);
-    const replyImage = replySnap.get("img");
-    const replyImageRef = ref(this.storage, replyImage);
+    const replyImage = replySnap.get('img');
+    console.log(replyImage);
+    if (replyImage != '') {
+      console.log('tenemos imagen');
+      const replyImageRef = ref(this.storage, replyImage);
+      console.log(rUid, replyImageRef);
+      await deleteObject(replyImageRef)
+        .then(() => {
+          console.log('Deleted post image');
+        })
+        .catch((err) => {
+          console.log('Error in deleting image post', err);
+        });
+    } else {
+      console.log('no tenemos imagen');
+    }
 
-    await deleteObject(replyImageRef).then(() => {
-      console.log("Deleted post image");
-    }).catch((err) => {
-      console.log("Error in deleting image post",err);
-    });
     await deleteDoc(reply);
   }
 }

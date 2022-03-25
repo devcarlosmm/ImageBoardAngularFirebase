@@ -28,6 +28,7 @@ import { authState } from 'rxfire/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +59,7 @@ export class AuthService {
     const user = this.auth.currentUser;
     const userCollection = collection(this.db, 'nombreUsuario');
     const q = query(userCollection, where('uid', '==', user!.uid));
-    const querySnapshot = await getDocs(q); 
+    const querySnapshot = await getDocs(q);
 
     await deleteDoc(querySnapshot.docs[0].ref);
 
@@ -139,6 +140,8 @@ export class AuthService {
         console.log('Habemus papam', this.userLoged);
       } else {
         console.log('No papam', this.userLoged);
+        this.setState(false);
+        this.setInformacion(undefined);
       }
     });
   }
@@ -180,10 +183,24 @@ export class AuthService {
       .then(() => {
         this.setState(false);
         this.setInformacion(undefined);
-        alert('cerraste sesion con exito');
+        Swal.fire({
+          title: 'Desconectado',
+          text: 'Cerraste sesion con exito.',
+          icon: 'success',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
       })
       .catch((error) => {
-        alert('Error al cerrar sesion');
+        Swal.fire({
+          title: 'Error',
+          text: 'Error al cerrar sesion.',
+          icon: 'warning',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
       });
   }
 
