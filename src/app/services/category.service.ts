@@ -64,7 +64,6 @@ export class CategoryService {
 
     if (postList.length === 0) {
       return postList;
-      //throw new Error("Category doesn't have any posts");
     }
 
     postList.sort((a, b) => {

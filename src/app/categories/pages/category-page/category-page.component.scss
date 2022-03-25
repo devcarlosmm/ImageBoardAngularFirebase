@@ -1,5 +1,10 @@
 @import "../../../../utilities/variables";
 
+.container{
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
 .card-img-top {
     margin-top: 0.75rem;
     width: 100%;
@@ -17,6 +22,7 @@
     border-radius: 0.75rem;
     transition: 1s transform linear;
     transition: 0.25s box-shadow linear;
+    margin-bottom: 3vh;
 }
 
 .card-text{
