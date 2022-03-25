@@ -2,14 +2,9 @@
 @import "./utilities/variables";
 html,
 body {
-  height: 100%;
   background-color: var(--fondo-negro);
-}
-body {
-  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
 .btn-primary {
   color: var(--fondo-medio);
   background-color: var(--medio-claro);
@@ -20,4 +15,20 @@ body {
   background-color: var(--medio-oscuro);
   border-color: var(--medio-negro);
 }
+.btn-primary:active {
+  color: var(--claro-claro);
+  background-color: var(--medio-oscuro);
+  border-color: var(--medio-negro);
+}
+.btn-primary:focus {
+  color: var(--claro-claro);
+  background-color: var(--medio-oscuro);
+  border-color: var(--medio-negro);
+}
+.btn-primary:disabled {
+  color: var(--claro-claro);
+  background-color: var(--medio-oscuro);
+  border-color: var(--medio-negro);
+}
+
 @import "~@angular/material/prebuilt-themes/purple-green.css";
