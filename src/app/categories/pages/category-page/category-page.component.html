@@ -16,7 +16,9 @@
           alt="Base image for creating post"
           style="cursor: default"/>
         <div class="card-body">
-          <h5 class="card-title" (click)="createPost()">CREATE POST</h5>
+          <h5 class="card-title" (click)="createPost()">
+            <b>CREATE POST</b>
+          </h5>
           <p class="card-text">Share your own thoughts with the community!</p>
         </div>
         <div class="card-footer text-center">
@@ -40,7 +42,7 @@
           alt="Post image"/>
         <div class="card-body">
           <h5 class="card-title">
-            {{ post.title | shortContent: 15 }}
+            <b>{{ post.title | shortContent: 15 }}</b>
           </h5>
           <p
             class="card-text"
