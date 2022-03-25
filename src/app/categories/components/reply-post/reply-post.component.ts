@@ -33,5 +33,6 @@ export class ReplyPostComponent {
   scrollToReply(replyID:string){
     let reply = document.getElementById(replyID);
     reply!.scrollIntoView({behavior: "smooth"}); 
+    reply?.classList.add("clickedCard");
   }
 }

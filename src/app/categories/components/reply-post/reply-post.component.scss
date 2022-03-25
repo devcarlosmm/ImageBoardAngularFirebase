@@ -1,16 +1,36 @@
-.detail-reply-background {
-    background-color: rgb(39, 64, 206);
-    border-radius: 25px;
-    padding: 15px;
-    margin-top: 2vh;
+.card{
+    background-color: var(--fondo-claro);
+    border-radius: 0.75rem;
+    border-width: 0.25rem;
+    border-color: var(--medio-oscuro);
 }
 
-.imagen-reply {
+.clickedCard{
+    background-color: red;
+}
+
+.cardImage{
+    padding: 0.5rem 0.5rem;
     width: 100%;
-    height: auto;
+    -o-object-fit: contain;
+    object-fit: contain;
 }
 
-a{
-    color:yellowgreen;
-    cursor: pointer;
+.card-text{
+    color: var(--claro-claro);
+}
+
+.card-title{
+    color: var(--claro-oscuro);
+}
+
+.idlink{
+    font-size: 0.75rem;
+    color:var(--claro-oscuro);
+    cursor:pointer;
+    text-decoration: none;
+}
+
+.idlink:hover{
+    color:var(--claro-medio);
 }
