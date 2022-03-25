@@ -71,40 +71,45 @@
           </ul>
         </li>
       </ul>
+      <!-- Boton de Usuario -->
       <div class="d-flex" *ngIf="isLoggedin; else elseBlock">
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            id="navbarDropdownMenuLink"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {{ subject$.displayName }}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li>
-              <a class="dropdown-item" [routerLink]="['/auth/perfil']"
-                >Perfil</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['/auth/archivo']"
-                >Archivo</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" (click)="logOut()">Log Out</a>
-            </li>
-          </ul>
-        </li>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              id="navbarDropdownMenuLink"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{ subject$.displayName }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li>
+                <a class="dropdown-item" [routerLink]="['/auth/perfil']"
+                  >Perfil</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/auth/archivo']"
+                  >Archivo</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="logOut()">Log Out</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
 
-      <ng-template #elseBlock
-        ><a class="btn btn-primary" [routerLink]="['/auth/login']"
-          >Loguearse</a
-        ></ng-template
-      >
+      <ng-template #elseBlock>
+        <div class="d-flex">
+          <a class="btn btn-primary" [routerLink]="['/auth/login']"
+            >Loguearse</a
+          >
+        </div>
+      </ng-template>
     </div>
   </div>
 </nav>

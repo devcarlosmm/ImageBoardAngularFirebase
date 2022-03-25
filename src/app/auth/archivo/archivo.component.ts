@@ -68,6 +68,10 @@ export class ArchivoComponent implements OnInit {
     const { value: formValues } = await Swal.fire({
       title: 'Editar Post',
       width: 600,
+      background: 'var(--fondo-medio)',
+      color: 'var(--claro-claro)',
+      confirmButtonColor: 'var(--medio-claro)',
+      confirmButtonText: 'Editar',
       html:
         '<input id="swal-input1" class="swal2-input" value="' +
         pItem.title +
@@ -77,6 +81,7 @@ export class ArchivoComponent implements OnInit {
         '</textarea>',
       showCancelButton: true,
       focusConfirm: false,
+
       preConfirm: () => {
         const inputElement = document.getElementById(
           'swal-input1'
@@ -102,6 +107,10 @@ export class ArchivoComponent implements OnInit {
     const { value: formValues } = await Swal.fire({
       title: 'Editar Reply',
       width: 600,
+      background: 'var(--fondo-medio)',
+      color: 'var(--claro-claro)',
+      confirmButtonColor: 'var(--medio-claro)',
+      confirmButtonText: 'Editar',
       html:
         '<input id="swal-input1" class="swal2-input" value="' +
         pItem.content +
@@ -150,13 +159,23 @@ export class ArchivoComponent implements OnInit {
       text: 'Si lo borras desaparecera el post y las respuestas',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, borralo!',
+      width: 600,
+      background: 'var(--fondo-medio)',
+      color: 'var(--claro-claro)',
+      confirmButtonColor: 'var(--medio-claro)',
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.borrarPost(post.id!);
-        Swal.fire('Borrado!', 'Tu post ha sido borrado.');
+        Swal.fire({
+          title: 'Borrado!',
+          text: 'Tu post ha sido borrado.',
+          icon: 'success',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
       }
     });
   }
@@ -168,13 +187,23 @@ export class ArchivoComponent implements OnInit {
       text: 'Si lo borras desaparecera tanto el comentario como su imagen',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, borralo!',
+      width: 600,
+      background: 'var(--fondo-medio)',
+      color: 'var(--claro-claro)',
+      confirmButtonColor: 'var(--medio-claro)',
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.borrarReply(reply.idReply);
-        Swal.fire('Borrado!', 'Tu comentario ha sido borrado.');
+        Swal.fire({
+          title: 'Borrado!',
+          text: 'Tu comentario ha sido borrado.',
+          icon: 'success',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
       }
     });
   }

@@ -9,4 +9,15 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.btn-primary {
+  color: var(--fondo-medio);
+  background-color: var(--medio-claro);
+  border-color: var(--medio-claro);
+}
+.btn-primary:hover {
+  color: var(--claro-claro);
+  background-color: var(--medio-oscuro);
+  border-color: var(--medio-negro);
+}
 @import "~@angular/material/prebuilt-themes/purple-green.css";
