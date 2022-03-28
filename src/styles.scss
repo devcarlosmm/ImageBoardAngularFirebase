@@ -31,4 +31,19 @@ body {
   border-color: var(--medio-negro);
 }
 
+.login {
+  background-color: var(--fondo-claro);
+  color: var(--claro-medio);
+  padding: 40px 20px;
+}
+.register {
+  background-color: var(--claro-medio);
+  color: var(--fondo-medio);
+  padding: 40px 20px;
+  text-align: center;
+}
+.margin-centrar {
+  margin-top: 20vh;
+}
+
 @import "~@angular/material/prebuilt-themes/purple-green.css";

@@ -1,44 +1,69 @@
-<div class="row justify-content-center">
-    <div class="col-10 col-md-4 login">
-        <form [formGroup]="form" (ngSubmit)="login()">
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" />
-            </div>
-            <p class="error" *ngIf="
-          form.controls['email'].errors?.['pattern'] &&
-          form.controls['email'].touched
-        ">
-                Email valido requerido
-            </p>
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" />
-            </div>
-            <p class="error" *ngIf="
-          form.controls['password'].errors?.['required'] &&
-          form.controls['password'].touched
-        ">
-                Password requerida
-            </p>
-            <p class="error" *ngIf="
-            form.controls['password'].errors?.['minlength'] &&
+<div class="container">
+  <div class="row justify-content-center margin-centrar">
+    <div class="col-12 col-md-8 col-lg-6 login">
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <div class="mb-3">
+          <label class="form-label"><b>Email</b></label>
+          <input
+            formControlName="email"
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+          />
+        </div>
+        <p
+          class="error"
+          *ngIf="
+                form.controls['email'].errors?.['pattern'] &&
+                form.controls['email'].touched
+                "
+        >
+          Email valido requerido
+        </p>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+          />
+        </div>
+        <p
+          class="error"
+          *ngIf="
+            form.controls['password'].errors?.['required'] &&
             form.controls['password'].touched
-          ">
-                Password minimo de 6 caracteres
-            </p>
-            <p class="error" *ngIf="!logueado">
-                Error, contraseña o email incorrectos
-            </p>
+            "
+        >
+          Password requerida
+        </p>
+        <p
+          class="error"
+          *ngIf="
+        form.controls['password'].errors?.['minlength'] &&
+        form.controls['password'].touched
+        "
+        >
+          Password minimo de 6 caracteres
+        </p>
+        <p class="error" *ngIf="!logueado">
+          Error, contraseña o email incorrectos
+        </p>
 
-            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
-        Login
-      </button>
-        </form>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+          Login
+        </button>
+      </form>
     </div>
-    <div class="col-10 col-md-2 register">
-        <h1>No estas registrado?</h1>
-        <a class="btn btn-primary" [routerLink]="['/auth/register']" routerLinkActive="router-link-active">Registrarse</a
-    >
+    <div class="col-12 col-md-4 col-lg-4 register">
+      <h2 class="mt-3">No estas registrado?</h2>
+      <a
+        class="btn btn-primary mt-3"
+        [routerLink]="['/auth/register']"
+        routerLinkActive="router-link-active"
+        >Registrarse</a
+      >
+    </div>
   </div>
 </div>
