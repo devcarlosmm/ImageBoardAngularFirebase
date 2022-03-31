@@ -79,6 +79,10 @@ export class ReplyService {
       username = "";
     });
 
+    replyList.sort((a, b) => {
+      return b.date.valueOf() - a.date.valueOf();
+    });
+
     return replyList as Reply[];
   }
 
