@@ -42,9 +42,25 @@ export class PerfilComponent implements OnInit {
     }
   }
   borrarCuenta() {
-    if (confirm('Estas seguro de querer borrar la cuenta?? ')) {
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: 'No podras revertir los cambios',
+      icon: 'warning',
+      showCancelButton: true,
+      background: 'var(--fondo-medio)',
+      color: 'var(--claro-claro)',
+      confirmButtonColor: 'var(--medio-claro)',
+      confirmButtonText: 'Si, borra mi cuenta',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.auth.borrarUsuario();
+        this.router.navigateByUrl('auth/register');
+      }
+    });
+
+    /*     if (confirm('Estas seguro de querer borrar la cuenta?? ')) {
       this.auth.borrarUsuario();
       this.router.navigateByUrl('auth/register');
-    }
+    } */
   }
 }

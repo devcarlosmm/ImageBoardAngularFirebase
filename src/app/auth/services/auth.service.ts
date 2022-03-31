@@ -69,13 +69,33 @@ export class AuthService {
         console.log('Cuenta borrada');
         this.setState(false);
         this.setInformacion(undefined);
-
-        alert('Cuenta borrada con exito. Bye bye!!');
+        Swal.fire({
+          title: 'Exito! ',
+          text: 'Cuenta borrada con exito. Bye bye!!',
+          icon: 'success',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
       })
       .catch((error) => {
-        // An error ocurred
-        // ...
+        let errorMensaje = '';
+        if (
+          error ==
+          'FirebaseError: Firebase: Error (auth/requires-recent-login).'
+        ) {
+          errorMensaje =
+            'Por favor, desconectate y vuelve a loguearte para poder realizar esta acción';
+        }
         console.log('Error: Cuenta no borrada', error);
+        Swal.fire({
+          title: 'Error ',
+          text: 'Error al borrar la cuenta. ' + errorMensaje,
+          icon: 'warning',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
       });
   }
 
