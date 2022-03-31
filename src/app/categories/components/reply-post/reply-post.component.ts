@@ -42,6 +42,9 @@ export class ReplyPostComponent {
       })
     });
     observer.observe(reply!);
-    reply!.scrollIntoView({behavior: "smooth"});   
+    reply!.scrollIntoView({
+      block:"center",
+      behavior: "smooth"
+    });   
   }
 }
