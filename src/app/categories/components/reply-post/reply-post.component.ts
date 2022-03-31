@@ -18,7 +18,7 @@ export class ReplyPostComponent {
   createReply(event:Event){
     const dialogRef = this.dialog.open(FormReplyComponent, {
       data: {
-        id: ((<HTMLElement>event.target).id !== null) ? (<HTMLElement>event.target).id : ""
+        id: (<HTMLElement>event.target).offsetParent?.id
       }
     });
     dialogRef.afterClosed().subscribe(() => {
