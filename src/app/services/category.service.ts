@@ -62,10 +62,6 @@ export class CategoryService {
       postList.push(post);
     });
 
-    if (postList.length === 0) {
-      return postList;
-    }
-
     postList.sort((a, b) => {
       return b.date.valueOf() - a.date.valueOf();
     });
