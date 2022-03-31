@@ -57,15 +57,15 @@ export class AuthService {
   // BORRAR USUARIO
   async borrarUsuario() {
     const user = this.auth.currentUser;
+    console.log('tenemos usuario', user);
     const userCollection = collection(this.db, 'nombreUsuario');
     const q = query(userCollection, where('uid', '==', user!.uid));
     const querySnapshot = await getDocs(q);
 
-    await deleteDoc(querySnapshot.docs[0].ref);
-
     deleteUser(user!)
-      .then(() => {
+      .then(async () => {
         // User deleted.
+        await deleteDoc(querySnapshot.docs[0].ref);
         console.log('Cuenta borrada');
         this.setState(false);
         this.setInformacion(undefined);
