@@ -26,6 +26,7 @@ import {
 } from '@angular/fire/storage';
 import { BehaviorSubject } from 'rxjs';
 import { Reply } from '../interfaces/reply.interface';
+import { arrayRemove } from 'firebase/firestore';
 @Injectable({
   providedIn: 'root',
 })
@@ -61,10 +62,6 @@ export class CategoryService {
       };
       postList.push(post);
     });
-
-    if (postList.length === 0) {
-      return postList;
-    }
 
     postList.sort((a, b) => {
       return b.date.valueOf() - a.date.valueOf();
@@ -277,6 +274,7 @@ export class CategoryService {
       console.log('tenemos imagen');
       const replyImageRef = ref(this.storage, replyImage);
       console.log(rUid, replyImageRef);
+
       await deleteObject(replyImageRef)
         .then(() => {
           console.log('Deleted post image');
@@ -287,7 +285,20 @@ export class CategoryService {
     } else {
       console.log('no tenemos imagen');
     }
-
+    this.borrarReplyEntry(rUid);
     await deleteDoc(reply);
+  }
+
+  // Borrar Reply en Reply-Entries
+  async borrarReplyEntry(pUid: string) {
+    const replyRef = collection(this.db, 'reply');
+    const q = query(replyRef, where('entries', 'array-contains', pUid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      console.log('doc', doc);
+      await updateDoc(doc.ref, {
+        entries: arrayRemove(pUid),
+      });
+    });
   }
 }
