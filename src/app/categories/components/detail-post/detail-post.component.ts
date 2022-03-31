@@ -72,6 +72,16 @@ export class DetailPostComponent{
 
   scrollToReply(replyID:string){
     let reply = document.getElementById(replyID);
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("popIntoView");
+          return;
+        }
+        entry.target.classList.remove("popIntoView");
+      })
+    });
+    observer.observe(reply!);
     reply!.scrollIntoView({behavior: "smooth"}); 
   }
 }

@@ -32,7 +32,16 @@ export class ReplyPostComponent {
 
   scrollToReply(replyID:string){
     let reply = document.getElementById(replyID);
-    reply!.scrollIntoView({behavior: "smooth"}); 
-    reply?.classList.add("clickedCard");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("popIntoView");
+          return;
+        }
+        entry.target.classList.remove("popIntoView");
+      })
+    });
+    observer.observe(reply!);
+    reply!.scrollIntoView({behavior: "smooth"});   
   }
 }

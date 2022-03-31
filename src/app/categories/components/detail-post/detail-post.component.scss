@@ -5,6 +5,19 @@
     border-color: var(--medio-claro);
 }
 
+@keyframes popUpIntoViewAnim {
+    0%{
+        transform: scale(1.05, 1.05);
+    }
+    100%{
+        transform: scale(1,1);
+    }
+}
+
+.popIntoView{
+    animation: popUpIntoViewAnim 3s 1;
+}
+
 .cardImage{
     padding: 0.5rem 0.5rem;
     width: 100%;
