@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CategoryService } from '../../services/category.service';
 import { navbarInfo } from 'src/app/interfaces/register.interface';
@@ -13,7 +13,7 @@ import { Reply } from 'src/app/interfaces/reply.interface';
   templateUrl: './archivo.component.html',
   styleUrls: ['./archivo.component.scss'],
 })
-export class ArchivoComponent implements OnInit {
+export class ArchivoComponent {
   form = new FormGroup({
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [
@@ -46,18 +46,20 @@ export class ArchivoComponent implements OnInit {
       )
       .subscribe((data) => {
         this.subject$ = data as navbarInfo;
-        this.categoryService.recuperarPostUser(this.subject$.uid);
-        this.categoryService.getUserPost().subscribe((data) => {
-          this.postsList$ = data as Post[];
-        });
-        this.categoryService.recuperarReplyUser(this.subject$.uid);
-        this.categoryService.getUserReply().subscribe((data) => {
-          this.replyList$ = data as Reply[];
-        });
+        this.retrieveData();
       });
   }
 
-  ngOnInit(): void {}
+  retrieveData(){
+    this.categoryService.recuperarPostUser(this.subject$.uid);
+    this.categoryService.getUserPost().subscribe((data) => {
+      this.postsList$ = data as Post[];
+    });
+    this.categoryService.recuperarReplyUser(this.subject$.uid);
+    this.categoryService.getUserReply().subscribe((data) => {
+      this.replyList$ = data as Reply[];
+    });
+  }
 
   editarPost(pPost: Post) {
     console.log(pPost, this.form.value);
@@ -133,23 +135,25 @@ export class ArchivoComponent implements OnInit {
   }
 
   // Set datos FORMVALUE POST
-  setFormPost(pItem: Post, pFormValues: string[]) {
+  async setFormPost(pItem: Post, pFormValues: string[]) {
     //TODO mirar si el contenido es igual al POST con if else
 
     //TODO si es diferente mandar datos para actualizar
     this.form.controls['title'].setValue(pFormValues[0]);
     this.form.controls['content'].setValue(pFormValues[1]);
     this.form.controls['id'].setValue(pItem.id);
-    this.categoryService.updatePost(this.form.value);
+    await this.categoryService.updatePost(this.form.value);
+    this.retrieveData();
   }
   // Set datos FORMVALUE REPLY
-  setFormReply(pItem: Reply, pFormValues: string[]) {
+  async setFormReply(pItem: Reply, pFormValues: string[]) {
     //TODO mirar si el contenido es igual al REPLY con if else
 
     //TODO si es diferente mandar datos para actualizar
     this.form.controls['content'].setValue(pFormValues[0]);
     this.form.controls['id'].setValue(pItem.idReply);
-    this.categoryService.updateReply(this.form.value);
+    await this.categoryService.updateReply(this.form.value);
+    this.retrieveData();
   }
 
   //TODO borrar POST
@@ -165,9 +169,10 @@ export class ArchivoComponent implements OnInit {
       background: 'var(--fondo-medio)',
       color: 'var(--claro-claro)',
       confirmButtonColor: 'var(--medio-claro)',
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        this.categoryService.borrarPost(post.id!);
+        await this.categoryService.borrarPost(post.id!);
+        this.retrieveData();
         Swal.fire({
           title: 'Borrado!',
           text: 'Tu post ha sido borrado.',
@@ -193,9 +198,10 @@ export class ArchivoComponent implements OnInit {
       background: 'var(--fondo-medio)',
       color: 'var(--claro-claro)',
       confirmButtonColor: 'var(--medio-claro)',
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        this.categoryService.borrarReply(reply.idReply);
+        await this.categoryService.borrarReply(reply.idReply);
+        this.retrieveData();
         Swal.fire({
           title: 'Borrado!',
           text: 'Tu comentario ha sido borrado.',
