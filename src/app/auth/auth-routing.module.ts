@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ArchivoComponent } from './archivo/archivo.component';
+import { UserRoutesGuard } from './guards/user-routes.guard';
 
 const routes: Routes = [
   {
@@ -19,10 +20,14 @@ const routes: Routes = [
       },
       {
         path: 'perfil',
+        canActivate: [UserRoutesGuard],
+        canLoad: [UserRoutesGuard],
         component: PerfilComponent,
       },
       {
         path: 'archivo',
+        canActivate: [UserRoutesGuard],
+        canLoad: [UserRoutesGuard],
         component: ArchivoComponent,
       },
       {

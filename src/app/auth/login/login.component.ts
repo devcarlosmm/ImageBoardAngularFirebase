@@ -77,6 +77,8 @@ export class LoginComponent implements OnInit {
   }
 
   navegar() {
-    this.router.navigateByUrl('/');
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
 }
