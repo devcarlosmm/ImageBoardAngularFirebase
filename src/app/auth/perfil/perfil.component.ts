@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-perfil',
@@ -21,9 +22,23 @@ export class PerfilComponent implements OnInit {
       this.passwordForm.value.password == this.passwordForm.value.confPassword
     ) {
       this.auth.cambiarContraseña(this.passwordForm.value.password);
-      alert('Contraseña cambiada con exito');
+      Swal.fire({
+        title: 'Exito! ',
+        text: 'Contraseña cambiada con exito',
+        icon: 'success',
+        background: 'var(--fondo-medio)',
+        color: 'var(--claro-claro)',
+        confirmButtonColor: 'var(--medio-claro)',
+      });
     } else {
-      alert('Error: Contraseñas diferentes');
+      Swal.fire({
+        title: 'Error ',
+        text: 'Error, las contraseñas no coinciden',
+        icon: 'warning',
+        background: 'var(--fondo-medio)',
+        color: 'var(--claro-claro)',
+        confirmButtonColor: 'var(--medio-claro)',
+      });
     }
   }
   borrarCuenta() {

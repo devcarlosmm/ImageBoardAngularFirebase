@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { animales, adjetivos } from '../animales-adjetivos';
 import { Firestore } from '@angular/fire/firestore';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -52,9 +53,14 @@ export class RegisterComponent implements OnInit {
           status: 'success',
           codigo: 200,
         };
-        alert(
-          `<h1 class="${mensaje.status}">Usuario "${mensaje.message}" registrado con exito</h1>`
-        );
+        Swal.fire({
+          title: 'Exito! ',
+          text: 'Usuario ' + mensaje.message + ' creado con exito',
+          icon: 'success',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
         await this.comprobarNombreGenerado().then(async (data) => {
           let nombreUsuario = data;
           console.log('nombre usuario', nombreUsuario, userUid);
@@ -73,10 +79,14 @@ export class RegisterComponent implements OnInit {
           status: errorCode,
           codigo: 400,
         };
-        alert(
-          `<h1 class="warning">Error ${mensaje.codigo}: ${mensaje.status}</h1>
-            <h2 >${mensaje.message}</h2>`
-        );
+        Swal.fire({
+          title: 'Error ' + mensaje.codigo,
+          text: 'Error al crear la cuenta, el email ya existe en nuestra base de datos.',
+          icon: 'warning',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
       });
   }
 
