@@ -93,7 +93,6 @@ export class ArchivoComponent {
       },
     });
     if (formValues) {
-      Swal.fire(JSON.stringify(formValues));
       this.setFormPost(pItem, formValues);
     }
   }
@@ -123,7 +122,6 @@ export class ArchivoComponent {
       },
     });
     if (formValues) {
-      Swal.fire(JSON.stringify(formValues));
       this.setFormReply(pItem, formValues);
     }
   }
