@@ -75,10 +75,9 @@ export class DetailPostComponent{
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if(entry.isIntersecting){
-          entry.target.classList.add("popIntoView");
+          entry.target.classList.toggle("popIntoView");
           return;
         }
-        entry.target.classList.remove("popIntoView");
       })
     });
     observer.observe(reply!);
