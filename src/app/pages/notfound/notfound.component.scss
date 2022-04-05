@@ -1,19 +1,18 @@
-.grid--fondo {
-    background-color: blue;
-    .notfound--title {
-        font-size: 25vw;
-        margin: 2px;
-    }
-    .notfound--descripcion {
-        font-size: 5vw;
-        margin: 2px;
-    }
-    .boton--margin {
-        margin-top: 3vh;
-        margin-bottom: 3vh;
-    }
-}
-
-.errorBackground{
-    background-color: var(--fondo-claro);
+.errorBackground {
+  background-color: var(--fondo-claro);
+  padding: 5%vw;
+  .notfound--title {
+    font-size: 25vw;
+    color: var(--claro-claro);
+    margin: 2px;
+  }
+  .notfound--descripcion {
+    font-size: 5vw;
+    margin: 2px;
+    color: var(--claro-medio);
+  }
+  .boton--margin {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+  }
 }
