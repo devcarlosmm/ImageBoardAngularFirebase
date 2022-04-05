@@ -126,14 +126,12 @@ export class CategoryService {
 
   // Recuperar POSTS PERFIL USUARIO
   async recuperarPostUser(pUid: string) {
-    console.log('Mandao', pUid);
     const postsCollection = collection(this.db, 'post');
     const q = query(postsCollection, where('uid', '==', pUid));
     const querySnapshot = await getDocs(q);
     let postList: Post[] = [];
 
     querySnapshot.docs.forEach((doc) => {
-      console.log('Esto es docs', doc);
       const post: Post = {
         id: doc.id,
         category: doc.data()['category'] as Post['category'],
@@ -142,13 +140,8 @@ export class CategoryService {
         title: doc.data()['title'] as Post['title'],
         date: doc.data()['date'].toDate() as Post['date'],
       };
-      console.log(post, doc);
       postList.push(post);
     });
-
-    if (postList.length === 0) {
-      //throw new Error("Category doesn't have any posts");
-    }
 
     postList.sort((a, b) => {
       return b.date.valueOf() - a.date.valueOf();
@@ -159,14 +152,12 @@ export class CategoryService {
 
   // Recuperar REPLIES PERFIL USUARIO
   async recuperarReplyUser(pUid: string) {
-    console.log('Mandao', pUid);
     const postsCollection = collection(this.db, 'reply');
     const q = query(postsCollection, where('uid', '==', pUid));
     const querySnapshot = await getDocs(q);
     let replyList: Reply[] = [];
 
     querySnapshot.docs.forEach((doc) => {
-      console.log('Esto es docs', doc);
       const reply: Reply = {
         idReply: doc.id,
         content: doc.data()['content'] as Reply['content'],
@@ -176,13 +167,8 @@ export class CategoryService {
         idPost: doc.data()['idPost'] as Reply['idPost'],
         entries: doc.data()['entries'] as Reply['entries'],
       };
-      console.log(reply, doc);
       replyList.push(reply);
     });
-
-    if (replyList.length === 0) {
-      //throw new Error("Category doesn't have any posts");
-    }
 
     replyList.sort((a, b) => {
       return b.date.valueOf() - a.date.valueOf();
@@ -193,7 +179,6 @@ export class CategoryService {
 
   // UPDATEAR POST DE USER
   async updatePost(data: any) {
-    console.log('tenemos data', data);
 
     const postRef = doc(this.db, 'post', data.id);
 
@@ -205,7 +190,6 @@ export class CategoryService {
 
   // UPDATEAR REPLY DE USER
   async updateReply(data: any) {
-    console.log('tenemos data', data);
 
     const postRef = doc(this.db, 'reply', data.id);
 
@@ -240,10 +224,8 @@ export class CategoryService {
 
     await deleteObject(postImageRef)
       .then(() => {
-        console.log('Deleted post image');
       })
       .catch((err) => {
-        console.log('Error in deleting image post', err);
       });
     await deleteDoc(post);
 
@@ -255,10 +237,8 @@ export class CategoryService {
         let replyImageRef = ref(this.storage, doc.get('img'));
         deleteObject(replyImageRef)
           .then(() => {
-            console.log('Deleted image!');
           })
           .catch((err) => {
-            console.log('Image error', err);
           });
       }
       await deleteDoc(doc.ref);
@@ -269,21 +249,15 @@ export class CategoryService {
     const reply = doc(this.db, 'reply', rUid);
     const replySnap = await getDoc(reply);
     const replyImage = replySnap.get('img');
-    console.log(replyImage);
     if (replyImage != '') {
-      console.log('tenemos imagen');
       const replyImageRef = ref(this.storage, replyImage);
-      console.log(rUid, replyImageRef);
 
       await deleteObject(replyImageRef)
         .then(() => {
-          console.log('Deleted post image');
         })
         .catch((err) => {
-          console.log('Error in deleting image post', err);
         });
     } else {
-      console.log('no tenemos imagen');
     }
     this.borrarReplyEntry(rUid);
     await deleteDoc(reply);
@@ -295,7 +269,6 @@ export class CategoryService {
     const q = query(replyRef, where('entries', 'array-contains', pUid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(async (doc) => {
-      console.log('doc', doc);
       await updateDoc(doc.ref, {
         entries: arrayRemove(pUid),
       });

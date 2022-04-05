@@ -23,22 +23,18 @@ export class NavbarComponent implements OnInit {
 
     // Recuperamos el estado del loggin (true/false)
     this.auth.getState().subscribe((data) => {
-      console.log('cago en la leche', data);
       this.isLoggedin = data;
-      console.log(this.isLoggedin);
     });
     // Recuperamos los datos que necesitamos para el navegador
     this.auth
       .getInformacion()
       .pipe(
         map(({ uid, displayName }) => {
-          console.log('data recibida', uid, displayName);
           return { displayName, uid };
         }),
         catchError((err) => err)
       )
       .subscribe((data) => {
-        console.log('Aqui entramos');
         this.subject$ = data as navbarInfo;
       });
   }

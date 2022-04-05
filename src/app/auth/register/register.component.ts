@@ -40,7 +40,6 @@ export class RegisterComponent implements OnInit {
       status: '',
       codigo: 0,
     };
-    console.log(this.form.value.email, this.form.value.password);
     this.auth
       .registerUser(this.form.value.email, this.form.value.password)
       .then(async (userCredential) => {
@@ -63,7 +62,6 @@ export class RegisterComponent implements OnInit {
         });
         await this.comprobarNombreGenerado().then(async (data) => {
           let nombreUsuario = data;
-          console.log('nombre usuario', nombreUsuario, userUid);
           await this.auth.actualizarPerfil(nombreUsuario);
           await this.auth.actualizarNombreUsuarioDB(nombreUsuario, userUid);
         });
@@ -111,7 +109,6 @@ export class RegisterComponent implements OnInit {
 
     let numero = Math.floor(Math.random() * (999 + 1));
     let nombreUsuario = animal + adjetivo + numero;
-    console.log(nombreUsuario);
     return nombreUsuario;
   }
 
@@ -122,18 +119,16 @@ export class RegisterComponent implements OnInit {
       if (usuarioExiste != false) {
         let nombreUsuario: string = this.generarNombreRandom();
       }
-      console.log(nombreUsuario);
       await this.auth
         .getUsuarioNombre(nombreUsuario)
         .then((data) => {
-          console.log('Data recibida', data);
           if (data == true) {
             usuarioExiste = true;
           } else {
             usuarioExiste = false;
           }
         })
-        .catch((error) => console.log('Error recibido', error));
+        .catch((error) => error);
       usuarioExiste = false;
     } while (usuarioExiste != false);
     return nombreUsuario;

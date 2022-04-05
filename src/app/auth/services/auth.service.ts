@@ -16,12 +16,10 @@ import {
   addDoc,
   collection,
   deleteDoc,
-  doc,
   Firestore,
   getDocs,
   getFirestore,
   query,
-  setDoc,
   where,
 } from '@angular/fire/firestore';
 import { authState } from 'rxfire/auth';
@@ -45,7 +43,6 @@ export class AuthService {
   ]);
   constructor(private fs: Firestore) {
     this.userLoged = authState(this.auth);
-    console.log('userLoged', this.userLoged);
   }
 
   // CREAR USUARIO
@@ -56,7 +53,6 @@ export class AuthService {
   // BORRAR USUARIO
   async borrarUsuario() {
     const user = this.auth.currentUser;
-    console.log('tenemos usuario', user);
     const userCollection = collection(this.db, 'nombreUsuario');
     const q = query(userCollection, where('uid', '==', user!.uid));
     const querySnapshot = await getDocs(q);
@@ -65,7 +61,6 @@ export class AuthService {
       .then(async () => {
         // User deleted.
         await deleteDoc(querySnapshot.docs[0].ref);
-        console.log('Cuenta borrada');
         this.setState(false);
         this.setInformacion(undefined);
         Swal.fire({
@@ -86,7 +81,6 @@ export class AuthService {
           errorMensaje =
             'Por favor, desconectate y vuelve a loguearte para poder realizar esta acción';
         }
-        console.log('Error: Cuenta no borrada', error);
         Swal.fire({
           title: 'Error ',
           text: 'Error al borrar la cuenta. ' + errorMensaje,
@@ -121,7 +115,6 @@ export class AuthService {
 
   // Actualizar perfil de usuario
   actualizarPerfil(pNombreUsuario: string) {
-    console.log('Actualizar', pNombreUsuario);
     updateProfile(this.auth.currentUser!, { displayName: pNombreUsuario });
   }
 
@@ -138,7 +131,6 @@ export class AuthService {
       // this value to authenticate with your backend server, if
       // you have one. Use User.getToken() instead.
       const uid = user.uid;
-      console.log(displayName);
     }
   }
 
@@ -147,7 +139,6 @@ export class AuthService {
       nombreDeUsuario: pNombreUsuario,
       uid: pUid,
     });
-    console.log(docRef);
   }
 
   // USER LOGGED
@@ -157,9 +148,7 @@ export class AuthService {
         this.setState(true);
         this.setInformacion(user);
         localStorage.setItem("user", JSON.stringify(user.refreshToken));
-        console.log('Habemus papam', this.userLoged);
       } else {
-        console.log('No papam', this.userLoged);
         this.setState(false);
         this.setInformacion(undefined);
       }
@@ -176,23 +165,20 @@ export class AuthService {
 
   // Obtener el observador del usuario actual
   get currentUser(): Observable<User | null> | undefined {
-    /* console.log('getter', this.userLoged); */
     return this.userLoged;
   }
 
   // CAMBIAR CONTRASEÑA
   cambiarContraseña(pContraseña: string) {
     const user = this.auth.currentUser;
-    console.log('Pues probamos', user);
     updatePassword(user!, pContraseña)
       .then(() => {
         // Update successful.
-        console.log('Contraseña cambiada correctamente');
       })
       .catch((error) => {
         // An error ocurred
         // ...
-        console.log('Error al cambiar contraseña');
+        error;
       });
   }
 

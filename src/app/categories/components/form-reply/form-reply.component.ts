@@ -42,9 +42,6 @@ export class FormReplyComponent implements OnInit {
       uid: [''],
       entries: [[]],
     });
-    if(data !== null){
-      console.log("This is the data id on constructor", data.id);
-    }
   }
   ngOnInit(): void {
     this.replyForm.get("postID")?.setValue(this.router.url.split("/")[3]);
@@ -56,14 +53,12 @@ export class FormReplyComponent implements OnInit {
     // Recuperamos el estado del loggin (true/false)
     this.authService.getState().subscribe((data) => {
       this.isLoggedin = data;
-      console.log(this.isLoggedin);
     });
     if (this.isLoggedin) {
       this.authService
         .getInformacion()
         .pipe(
           map(({ uid, displayName }) => {
-            console.log('data recibida', uid, displayName);
             return { displayName, uid };
           })
         )
@@ -85,7 +80,6 @@ export class FormReplyComponent implements OnInit {
       idReply: (this.data !== null) ? this.data.id: "",
       date: new Date(),
     };
-    console.log('Reply obj', reply);
     await this.replyService.submitReply(reply, this.imgData)
     .then(() => {
       this.dialog.closeAll();

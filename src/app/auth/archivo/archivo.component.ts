@@ -39,7 +39,6 @@ export class ArchivoComponent {
       .getInformacion()
       .pipe(
         map(({ uid, displayName }) => {
-          console.log('data recibida', uid, displayName);
           return { displayName, uid };
         }),
         catchError((err) => err)
@@ -59,10 +58,6 @@ export class ArchivoComponent {
     this.categoryService.getUserReply().subscribe((data) => {
       this.replyList$ = data as Reply[];
     });
-  }
-
-  editarPost(pPost: Post) {
-    console.log(pPost, this.form.value);
   }
 
   // Editar POST
@@ -94,7 +89,6 @@ export class ArchivoComponent {
 
         const inputValue = inputElement.value;
         const textAreaValue = areaElement.value;
-        console.log(inputValue, textAreaValue);
         return [inputValue, textAreaValue];
       },
     });

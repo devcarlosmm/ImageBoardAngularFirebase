@@ -1,8 +1,6 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  Input
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -53,14 +51,12 @@ export class FormPostComponent{
     // Recuperamos el estado del loggin (true/false)
     this.authService.getState().subscribe((data) => {
       this.isLoggedin = data;
-      console.log(this.isLoggedin);
     });
     if (this.isLoggedin) {
       this.authService
         .getInformacion()
         .pipe(
           map(({ uid, displayName }) => {
-            console.log('data recibida', uid, displayName);
             return { displayName, uid };
           })
         )

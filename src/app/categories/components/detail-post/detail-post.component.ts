@@ -49,11 +49,9 @@ export class DetailPostComponent{
       .getDetailPost(this.postId)
       .then((data) => {
         this.detailPost = data;
-        console.log('OP', this.detailPost);
         this.reloadReplies();
       })
       .catch((error) => {
-        console.log('Errollll: ', error);
       });
   }
 
@@ -62,11 +60,9 @@ export class DetailPostComponent{
       .getRepliesPost(this.postId)
       .then((data) => {
         this.repliesPost = data;
-        console.log('RP', this.repliesPost);
         this.loading = false;
       })
       .catch((error) => {
-        console.log('Error al recibir replies:', error);
       });
   }
 

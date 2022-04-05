@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import {
   addDoc,
   collection,
-  doc,
   Firestore,
   getDocs,
   getFirestore,
@@ -80,7 +79,7 @@ export class ReplyService {
     });
 
     replyList.sort((a, b) => {
-      return b.date.valueOf() - a.date.valueOf();
+      return a.date.valueOf() - b.date.valueOf();
     });
 
     return replyList as Reply[];
