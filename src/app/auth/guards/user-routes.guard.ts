@@ -7,6 +7,7 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class UserRoutesGuard implements CanActivate, CanLoad {
+
   constructor(private router:Router, private authService:AuthService){
 
   }
@@ -14,25 +15,20 @@ export class UserRoutesGuard implements CanActivate, CanLoad {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      this.authService.getState().subscribe(logged => {
-        if(!logged){
-          return this.router.navigate(["auth/login"]).then(() => false);;
-        }else{
-          return true;
-        }
-      });
-      return true;
+      if(this.authService.isUserLoggedLS()){
+        return true;
+      }else{
+        return this.router.navigateByUrl("auth/login");
+      }
   }
+
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      this.authService.getState().subscribe(logged => {
-        if(!logged){
-          return this.router.navigate(["auth/login"]).then(() => false);;
-        }else{
-          return true;
-        }
-      });
-      return true;
+      if(this.authService.isUserLoggedLS()){
+        return true;
+      }else{
+        return this.router.navigateByUrl("auth/login");
+      }
   }
 }

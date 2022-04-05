@@ -38,7 +38,6 @@ export class AuthService {
   db = getFirestore(this.firebaseApp);
   auth = getAuth();
   userLoged: Observable<User | null> | undefined;
-
   isLoggin$ = new BehaviorSubject<boolean>(false);
 
   informacionUsuario: BehaviorSubject<any> = new BehaviorSubject([
@@ -157,6 +156,7 @@ export class AuthService {
       if (user) {
         this.setState(true);
         this.setInformacion(user);
+        localStorage.setItem("user", JSON.stringify(user.refreshToken));
         console.log('Habemus papam', this.userLoged);
       } else {
         console.log('No papam', this.userLoged);
@@ -164,6 +164,14 @@ export class AuthService {
         this.setInformacion(undefined);
       }
     });
+  }
+
+  isUserLoggedLS():boolean {
+    if(localStorage.getItem("user")){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   // Obtener el observador del usuario actual
@@ -203,6 +211,7 @@ export class AuthService {
       .then(() => {
         this.setState(false);
         this.setInformacion(undefined);
+        localStorage.removeItem("user");
         Swal.fire({
           title: 'Desconectado',
           text: 'Cerraste sesion con exito.',
@@ -231,5 +240,19 @@ export class AuthService {
   // GET INFORMACION USUARIO
   getInformacion() {
     return this.informacionUsuario.asObservable();
+  }
+
+  async checkLoggedIn(){
+    let isLogged:boolean = false;
+
+    await this.auth.onAuthStateChanged(user => {
+      if(user){
+        isLogged = true;
+      }else{
+        isLogged = false;
+      }
+    });
+
+    return isLogged;
   }
 }
