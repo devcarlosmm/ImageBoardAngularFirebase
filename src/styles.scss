@@ -46,4 +46,11 @@ body {
   margin-top: 20vh;
 }
 
+// Modified Angular Material
+.mat-dialog-container {
+  background-color: var(--fondo-claro) !important;
+}
+.mat-dialog-content {
+  max-height: 80vh;
+}
 @import "~@angular/material/prebuilt-themes/purple-green.css";

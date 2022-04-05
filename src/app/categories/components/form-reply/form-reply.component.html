@@ -1,34 +1,56 @@
 <h2 mat-dialog-title>Reply Form</h2>
 <mat-dialog-content>
-  <form [formGroup]="replyForm" (ngSubmit)="submitReply(replyForm.value)" class="form-group">
+  <form
+    [formGroup]="replyForm"
+    (ngSubmit)="submitReply(replyForm.value)"
+    class="form-group"
+  >
     <div class="field">
       <label for="content">Reply content</label>
       <div class="toolbar w-11">
         <i class="fa-solid fa-bold" (click)="formatText('bold')"></i>
         <i class="fa-solid fa-italic" (click)="formatText('italic')"></i>
       </div>
-      <div id="content" name="content" class="inputfield w-11 form-control" contenteditable="true" (keyup)="copyContent($event)">
-      </div>
+      <div
+        id="content"
+        name="content"
+        class="inputfield w-11 form-control content-with"
+        contenteditable="true"
+        (keyup)="copyContent($event)"
+      ></div>
       <textarea style="display: none" formControlName="content"></textarea>
     </div>
-      <br>
+    <br />
     <div class="field">
       <label for="img">Post image</label>
-      <br>
-      <input type="file" class="inputfield w-11" accept="image/*" formControlName="img" (change)="processIMG($event)" />
-      <button type="button" [disabled]="!replyForm.get('img')?.dirty" (click)="clearImg()"
-        class="btn btn-danger btn-sm">
-        <i class="fa-solid fa-square-xmark"></i>
-      </button>
+      <br />
+      <input
+        type="file"
+        class="inputfield w-11"
+        accept="image/*"
+        formControlName="img"
+        (change)="processIMG($event)"
+      />
     </div>
-    <hr>
-    <button type="submit" class="btn btn-primary" [disabled]="replyForm.invalid">
-      <i class="fa-solid fa-upload"></i>
-      Submit
-    </button>
-    <button type="button" class="btn btn-danger" [mat-dialog-close]>
-      <i class="fa-solid fa-xmark"></i>
-      Close form
-    </button>
+    <hr />
+
+    <div class="row d-flex justify-content-evenly text-center">
+      <div class="col-12 col-md-4 mb-3 mb-sm-0">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="replyForm.invalid"
+        >
+          <i class="fa-solid fa-upload"></i>
+          Submit
+        </button>
+      </div>
+      <div class="col-12 col-md-4">
+        <button type="button" class="btn btn-danger" [mat-dialog-close]>
+          <i class="fa-solid fa-xmark"></i>
+          Close
+        </button>
+      </div>
+    </div>
   </form>
 </mat-dialog-content>

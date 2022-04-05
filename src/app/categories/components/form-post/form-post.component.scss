@@ -1,15 +1,32 @@
-.form-control{
-    background: #1e1e1e;
-    color: white;
+.form-control {
+  background: #1e1e1e;
+  color: white;
+  background-color: var(--fondo-medio);
+  border: 1px solid var(--fondo-oscuro);
+}
+.toolbar {
+  border: solid 1px #383838;
+  background-color: var(--claro-oscuro);
+  padding: 5px;
+  color: var(--fondo-negro);
+  i {
+    cursor: pointer;
+    padding: 5px;
+  }
+}
+.content-with {
+  max-width: 50vw;
+  width: 50vw;
+  height: auto;
 }
 
-.toolbar{
-    border:solid 1px #383838;
-    background-color: #485157;
-    padding: 5px;
-
-    i{
-        cursor: pointer;
-        padding: 5px;
-    }
+@media (max-width: 500px) {
+  .content-with {
+    max-width: 100vw;
+    width: 100%;
+    height: auto;
+  }
+  input.inputfield {
+    font-size: 2.5vw;
+  }
 }

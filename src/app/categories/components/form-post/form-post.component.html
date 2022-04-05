@@ -1,14 +1,19 @@
 <h2 mat-dialog-title>Post Form</h2>
 <mat-dialog-content>
-  <form [formGroup]="postForm" (ngSubmit)="submitPost(postForm.value)" class="form-group">
+  <form
+    [formGroup]="postForm"
+    (ngSubmit)="submitPost(postForm.value)"
+    class="form-group"
+  >
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" formControlName="title" id="floatingTitleInput"
-        placeholder="Post Title" />
+      <input
+        type="text"
+        class="form-control"
+        formControlName="title"
+        id="floatingTitleInput"
+        placeholder="Post Title"
+      />
       <label for="floatingTitleInput">Post Title</label>
-      <button type="button" class="btn btn-danger btn-sm" (click)="clearTitle()"
-        [disabled]="!postForm.get('title')?.dirty">
-        <i class="fa-solid fa-square-xmark"></i>
-      </button>
     </div>
     <div class="field">
       <label for="content">Post content</label>
@@ -16,28 +21,46 @@
         <i class="fa-solid fa-bold" (click)="formatText('bold')"></i>
         <i class="fa-solid fa-italic" (click)="formatText('italic')"></i>
       </div>
-      <div id="content" name="content" class="inputfield w-11 form-control" contenteditable="true" (keyup)="copyContent($event)">
-      </div>
+      <div
+        id="content"
+        name="content"
+        class="inputfield w-11 form-control content-with"
+        contenteditable="true"
+        (keyup)="copyContent($event)"
+      ></div>
       <textarea style="display: none" formControlName="content"></textarea>
     </div>
-      <br>
+    <br />
     <div class="field">
       <label for="img">Post image</label>
-      <br>
-      <input type="file" class="inputfield w-11" accept="image/*" formControlName="img" (change)="processIMG($event)" />
-      <button type="button" [disabled]="!postForm.get('img')?.dirty" (click)="clearImg()"
-        class="btn btn-danger btn-sm">
-        <i class="fa-solid fa-square-xmark"></i>
-      </button>
+      <br />
+      <input
+        type="file"
+        class="inputfield w-11"
+        accept="image/*"
+        formControlName="img"
+        (change)="processIMG($event)"
+      />
     </div>
-    <hr>
-    <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">
-      <i class="fa-solid fa-upload"></i>
-      Submit
-    </button>
-    <button type="button" class="btn btn-danger" [mat-dialog-close]>
-      <i class="fa-solid fa-xmark"></i>
-      Close form
-    </button>
+    <hr />
+
+    <div class="row d-flex justify-content-evenly text-center">
+      <div class="col-12 col-md-4 mb-3 mb-sm-0">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="postForm.invalid"
+        >
+          <i class="fa-solid fa-upload"></i>
+          Submit
+        </button>
+      </div>
+      <div class="col-12 col-md-4">
+        <button type="button" class="btn btn-danger" [mat-dialog-close]>
+          <i class="fa-solid fa-xmark"></i>
+          Close
+        </button>
+      </div>
+    </div>
   </form>
 </mat-dialog-content>
