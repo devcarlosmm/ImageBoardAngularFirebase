@@ -30,6 +30,8 @@ export class ArchivoComponent {
   postsList$: Post[] = [];
   replyList$: Reply[] = [];
   error: string = '';
+  loading:boolean = true;
+
   constructor(
     private auth: AuthService,
     private categoryService: CategoryService
@@ -43,19 +45,20 @@ export class ArchivoComponent {
         }),
         catchError((err) => err)
       )
-      .subscribe((data) => {
+      .subscribe(async (data) => {
         this.subject$ = data as navbarInfo;
-        this.retrieveData();
+        await this.retrieveData();
+        this.loading = false;
       });
   }
 
-  retrieveData(){
+  async retrieveData(){
     this.categoryService.recuperarPostUser(this.subject$.uid);
-    this.categoryService.getUserPost().subscribe((data) => {
+    await this.categoryService.getUserPost().subscribe((data) => {
       this.postsList$ = data as Post[];
     });
     this.categoryService.recuperarReplyUser(this.subject$.uid);
-    this.categoryService.getUserReply().subscribe((data) => {
+    await this.categoryService.getUserReply().subscribe((data) => {
       this.replyList$ = data as Reply[];
     });
   }

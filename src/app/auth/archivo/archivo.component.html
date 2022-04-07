@@ -7,7 +7,15 @@
       </h2>
     </div>
   </div>
-  <div class="row mt-5 mb-3">
+  <div class="text-center mt-3" *ngIf="loading">
+    <div
+      class="spinner-border text-warning"
+      role="status"
+      style="width: 10rem; height: 10rem">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="row mt-5 mb-3" *ngIf="!loading">
     <!-- POSTS -->
     <div class="col-12 col-sm-6">
       <h3 class="post-label">Posts</h3>
@@ -50,7 +58,7 @@
 
     <!--  -->
     <!-- REPLIES -->
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-6" *ngIf="!loading">
       <h3 class="reply-label">Replies</h3>
       <div *ngIf="replyList$.length > 0; else elseReplyBlock">
         <div class="row" *ngFor="let item of replyList$">
