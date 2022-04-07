@@ -23,7 +23,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { authState } from 'rxfire/auth';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
@@ -62,7 +62,7 @@ export class AuthService {
         // User deleted.
         await deleteDoc(querySnapshot.docs[0].ref);
         this.setState(false);
-        this.setInformacion(undefined);
+        this.setInformacion(EMPTY);
         Swal.fire({
           title: 'Exito! ',
           text: 'Cuenta borrada con exito. Bye bye!!',
@@ -149,7 +149,7 @@ export class AuthService {
         this.setInformacion(user);
       } else {
         this.setState(false);
-        this.setInformacion(undefined);
+        this.setInformacion(EMPTY);
       }
     });
   }
@@ -199,7 +199,7 @@ export class AuthService {
     signOut(this.auth)
       .then(() => {
         this.setState(false);
-        this.setInformacion(undefined);
+        this.setInformacion(EMPTY);
         localStorage.removeItem("user");
         Swal.fire({
           title: 'Desconectado',
