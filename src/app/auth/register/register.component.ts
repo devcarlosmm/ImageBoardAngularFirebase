@@ -67,7 +67,14 @@ export class RegisterComponent implements OnInit {
           await this.auth.actualizarNombreUsuarioDB(nombreUsuario, userUid);
         });
         this.auth.sendConfirmationEmail();
-
+        Swal.fire({
+          title: 'Se ha enviado un correo',
+          text: 'Por favor confirma tu cuenta.',
+          icon: 'success',
+          background: 'var(--fondo-medio)',
+          color: 'var(--claro-claro)',
+          confirmButtonColor: 'var(--medio-claro)',
+        });
         this.navegar();
       })
       .catch((error: any) => {
