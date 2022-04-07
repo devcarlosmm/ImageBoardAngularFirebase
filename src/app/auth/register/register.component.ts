@@ -74,8 +74,11 @@ export class RegisterComponent implements OnInit {
           background: 'var(--fondo-medio)',
           color: 'var(--claro-claro)',
           confirmButtonColor: 'var(--medio-claro)',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.navegar();
+          }
         });
-        this.navegar();
       })
       .catch((error: any) => {
         const errorCode = error.code;
