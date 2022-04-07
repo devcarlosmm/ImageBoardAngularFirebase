@@ -52,6 +52,7 @@ export class DetailPostComponent{
         this.reloadReplies();
       })
       .catch((error) => {
+        console.log("Error retrieving post data", error);
       });
   }
 
@@ -63,6 +64,7 @@ export class DetailPostComponent{
         this.loading = false;
       })
       .catch((error) => {
+        console.log("Error loading reply data", error);
       });
   }
 

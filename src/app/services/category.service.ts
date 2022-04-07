@@ -226,6 +226,7 @@ export class CategoryService {
       .then(() => {
       })
       .catch((err) => {
+        console.log("No image detected", err);
       });
     await deleteDoc(post);
 
@@ -239,6 +240,7 @@ export class CategoryService {
           .then(() => {
           })
           .catch((err) => {
+            console.log("No image for the reply detected", err);
           });
       }
       await deleteDoc(doc.ref);
@@ -256,6 +258,7 @@ export class CategoryService {
         .then(() => {
         })
         .catch((err) => {
+          console.log("Error while deleting the image of the reply",err);
         });
     } else {
     }
