@@ -46,6 +46,7 @@ export class RegisterComponent implements OnInit {
         // Signed in
         const user = userCredential.user;
         const userUid = user.uid;
+        this.auth.setUserLS(user);
         // ...
         mensaje = {
           message: user.email!,
@@ -65,6 +66,7 @@ export class RegisterComponent implements OnInit {
           await this.auth.actualizarPerfil(nombreUsuario);
           await this.auth.actualizarNombreUsuarioDB(nombreUsuario, userUid);
         });
+        this.auth.sendConfirmationEmail();
 
         this.navegar();
       })

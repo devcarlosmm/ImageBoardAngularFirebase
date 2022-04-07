@@ -11,6 +11,7 @@ import {
   User,
   deleteUser,
   updatePassword,
+  sendEmailVerification,
 } from '@angular/fire/auth';
 import {
   addDoc,
@@ -154,14 +155,14 @@ export class AuthService {
     });
   }
 
-  setUserLS(user:User){
-    localStorage.setItem("user", JSON.stringify(user.refreshToken));
+  setUserLS(user: User) {
+    localStorage.setItem('user', JSON.stringify(user.refreshToken));
   }
 
-  isUserLoggedLS():boolean {
-    if(localStorage.getItem("user")){
+  isUserLoggedLS(): boolean {
+    if (localStorage.getItem('user')) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -200,7 +201,7 @@ export class AuthService {
       .then(() => {
         this.setState(false);
         this.setInformacion(EMPTY);
-        localStorage.removeItem("user");
+        localStorage.removeItem('user');
         Swal.fire({
           title: 'Desconectado',
           text: 'Cerraste sesion con exito.',
@@ -231,17 +232,27 @@ export class AuthService {
     return this.informacionUsuario.asObservable();
   }
 
-  async checkLoggedIn(){
-    let isLogged:boolean = false;
+  async checkLoggedIn() {
+    let isLogged: boolean = false;
 
-    await this.auth.onAuthStateChanged(user => {
-      if(user){
+    await this.auth.onAuthStateChanged((user) => {
+      if (user) {
         isLogged = true;
-      }else{
+      } else {
         isLogged = false;
       }
     });
 
     return isLogged;
+  }
+
+  // ENVIAR CORREO DE CONFIRMACION
+  sendConfirmationEmail() {
+    console.log(this.auth.currentUser!);
+    /*     sendEmailVerification(this.auth.currentUser!)
+      .then(() => {
+        // Email verification sent!
+        // ...
+      }); */
   }
 }
