@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        this.auth.setUserLS(user);
         // ...
         mensaje = {
           message: user.email!,

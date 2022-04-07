@@ -147,12 +147,15 @@ export class AuthService {
       if (user) {
         this.setState(true);
         this.setInformacion(user);
-        localStorage.setItem("user", JSON.stringify(user.refreshToken));
       } else {
         this.setState(false);
         this.setInformacion(undefined);
       }
     });
+  }
+
+  setUserLS(user:User){
+    localStorage.setItem("user", JSON.stringify(user.refreshToken));
   }
 
   isUserLoggedLS():boolean {
