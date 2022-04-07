@@ -248,11 +248,17 @@ export class AuthService {
 
   // ENVIAR CORREO DE CONFIRMACION
   sendConfirmationEmail() {
-    console.log(this.auth.currentUser!);
-    /*     sendEmailVerification(this.auth.currentUser!)
-      .then(() => {
-        // Email verification sent!
-        // ...
-      }); */
+    sendEmailVerification(this.auth.currentUser!).then(() => {
+      // Email verification sent!
+      // ...
+      Swal.fire({
+        title: 'Se ha enviado un correo',
+        text: 'Por favor confirma tu cuenta.',
+        icon: 'success',
+        background: 'var(--fondo-medio)',
+        color: 'var(--claro-claro)',
+        confirmButtonColor: 'var(--medio-claro)',
+      });
+    });
   }
 }
